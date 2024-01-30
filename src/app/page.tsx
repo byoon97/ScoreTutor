@@ -4,6 +4,7 @@ import GameBar from "@/components/NavBar/GameBar";
 import Nav from "@/components/NavBar/Nav";
 import Content from "@/components/Content/Index";
 import Picks from "@/components/Picks/Index";
+import Footer from "@/components/Footer/Index";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <FreePlay />
       <Content />
       <Picks />
+      <Footer />
     </div>
   );
 }

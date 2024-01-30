@@ -7,14 +7,14 @@ type Props = {};
 
 export default function Nav({}: Props) {
   return (
-    <div className="sticky top-0 bg-white z-10">
+    <div className="sticky top-0 bg-black z-10 text-white -mx-2 px-4 shadow-xl py-2">
       <div className="flex flex-row justify-between">
         <div className="flex flex-row items-center">
-          <RxHamburgerMenu size="35px" />
-          <Image src="/logo.png" alt="logo" width="90" height="90" />
+          <RxHamburgerMenu size={25} fontSize={"1.5em"} />
+          <Image src="/image.png" alt="logo" width="100" height="100" />
         </div>
         <div className="flex flex-row items-center">
-          <CgProfile size="35px" />
+          <CgProfile size={"1em"} fontSize={"1.5em"} />
         </div>
       </div>
     </div>

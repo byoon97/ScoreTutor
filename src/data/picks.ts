@@ -14,7 +14,7 @@ export const picks:GamePick[] = [
         homeTeam: '@ KC Chiefs',
         awayTeamLogo: 'https://assets.sportsbook.fanduel.com/images/team/nfl/san_francisco_49ers.png',
         homeTeamLogo: 'https://assets.sportsbook.fanduel.com/images/team/nfl/kansas_city_chiefs.png',
-        logo: './sportsLogos/NFL.png',
+        logo: '/sportsLogos/NFL.png',
     },
     { 
         when: 'Jan 29 2024, 7:30 pm EST',
@@ -22,7 +22,7 @@ export const picks:GamePick[] = [
         homeTeam: '@ BKN Nets',
         awayTeamLogo: 'https://assets.sportsbook.fanduel.com/images/team/nba/utah_jazz.png',
         homeTeamLogo: 'https://assets.sportsbook.fanduel.com/images/team/nba/brooklyn_nets.png',
-        logo: './sportsLogos/NBA.png',
+        logo: '/sportsLogos/NBA.png',
     },
     { 
         when: 'Jan 29 2024, 7:00 pm EST',
@@ -30,7 +30,7 @@ export const picks:GamePick[] = [
         homeTeam: '@ CLE Cavaliers',
         awayTeamLogo: 'https://assets.sportsbook.fanduel.com/images/team/nba/los_angeles_clippers.png',
         homeTeamLogo: 'https://assets.sportsbook.fanduel.com/images/team/nba/cleveland_cavaliers.png',
-        logo: './sportsLogos/NFL.png',
+        logo: '/sportsLogos/NBA.png',
     },
     { 
         when: 'Jan 29 2024, 7:30 pm EST',
@@ -38,6 +38,6 @@ export const picks:GamePick[] = [
         homeTeam: '@ DEN Nuggets',
         awayTeamLogo: 'https://assets.sportsbook.fanduel.com/images/team/nba/milwaukee_bucks.png',
         homeTeamLogo: 'https://assets.sportsbook.fanduel.com/images/team/nba/denver_nuggets.png',
-        logo: './sportsLogos/NFL.png',
+        logo: '/sportsLogos/NBA.png',
     },
 ]

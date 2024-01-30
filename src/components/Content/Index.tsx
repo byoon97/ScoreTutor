@@ -3,15 +3,14 @@ import Image from "next/image";
 
 const YourComponent: React.FC = () => {
   return (
-    <div className="flex flex-row justify-between font-Inter text-sm">
-      <div className="flex flex-col w-1/2">
-        <div className="rounded-lg border-[1px] mt-2 mx-2 relative overflow-hidden h-36">
+    <div className="flex flex-row justify-between font-Inter text-sm mt-1">
+      <div className="flex flex-col w-1/2 ">
+        <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-36 shadow-lg">
           <Image
             src="/freeplay/SB.webp"
             alt={"superbowl"}
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            fill
+            style={{ objectFit: "cover", objectPosition: "center" }}
           />
         </div>
         <div className=" bg-white text-black text-left p-2 cursor-pointer leading-4">
@@ -20,13 +19,12 @@ const YourComponent: React.FC = () => {
       </div>
 
       <div className="flex flex-col w-1/2">
-        <div className="rounded-lg border-[1px] mt-2 mx-2 relative overflow-hidden h-36">
+        <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-36 shadow-lg">
           <Image
             src="/freeplay/clippers.jpeg"
             alt={"superbowl"}
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            fill
+            style={{ objectFit: "cover", objectPosition: "center" }}
           />
         </div>
         <div className=" bg-white text-black text-LEFT p-2 cursor-pointer leading-4">
