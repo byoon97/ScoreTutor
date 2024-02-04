@@ -12,8 +12,6 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY as string;
     const apiHost = process.env.NEXT_PUBLIC_API_HOST as string;
 
-    console.log('Base URL:', baseUrl);
-
     const response = await axios.get(baseUrl, {
       headers: {
         'X-RapidAPI-Key': apiKey,
@@ -24,10 +22,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     if (response) {
       const inputArray: InputObject[] = response.data.events
       const mappedArray: OutputObject[] = mapObjects(inputArray);
-      console.log(mappedArray);
-
-
-      return NextResponse.json({message: mappedArray})
+      return NextResponse.json(mappedArray)
     }
   } catch (err) {
     console.error('Error:', err);
