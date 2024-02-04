@@ -7,7 +7,7 @@ const FreePlay: React.FC = () => {
       {" "}
       <div className="cursor-pointer font-bold rounded-lg border-[1px] mx-2 h-52 relative overflow-hidden shadow-lg">
         {/* The next/image component */}
-        <div className="relative h-full">
+        <div className="h-full">
           <Image
             src="/freeplay/mavsmagic.jpeg"
             alt="Free Play Image"
