@@ -30,9 +30,9 @@ export async function GET() {
       const mappedArray: OutputObject[] = mapObjects(inputArray);
 
 
-      return NextResponse.json(mappedArray)
+      return NextResponse.json({message : 'No active games'})
     }
   } catch (err) {
-    console.error('Error:', err);
+    throw new Error('Failed to fetch or process data');
   }
 }

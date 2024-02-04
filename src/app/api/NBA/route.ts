@@ -32,6 +32,6 @@ export async function GET() {
       return Response.json(mappedArray)
     }
   } catch (err) {
-    console.error('Error:', err);
+    throw new Error('Failed to fetch or process data');
   }
 }
