@@ -41,7 +41,7 @@ const Dropdown: FC<DropdownProps> = ({
   };
 
   return (
-    <div className="relative border-[1px] rounded-md h-full font-sans flex flex-row mr-4">
+    <div className="relative border-[1px] rounded-md h-full font-sans flex flex-row flex-shrink-0">
       <div className="flex flex-col items-center relative">
         <div className="flex flex-row items-center justify-center h-14 mr-2">
           <Image
