@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import { InputObject, OutputObject, mapObjects } from './../../../functions/eventsMapper';
 
 
-export async function GET() {
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const today = new Date();
     const isoDateString = today.toISOString().split('T')[0];
   

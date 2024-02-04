@@ -3,7 +3,7 @@ import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
   const today = new Date();
   const utcHour = today.getUTCHours();
   const isoDateString = today.toISOString().split('T')[0];
