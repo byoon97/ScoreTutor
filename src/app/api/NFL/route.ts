@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { InputObject, OutputObject, mapObjects } from './../../../functions/eventsMapper';
 
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(request: Request) {
     const today = new Date();
     const isoDateString = today.toISOString().split('T')[0];
   
@@ -25,10 +25,10 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
       const mappedArray: OutputObject[] = mapObjects(inputArray);
   
   
-      return res.json(mappedArray)
+      return NextResponse.json(mappedArray)
       }
     } catch (err) {
-      console.error('Error:', err);
+      return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
     }
   }
   

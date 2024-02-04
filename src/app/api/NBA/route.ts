@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { InputObject, OutputObject, mapObjects } from './../../../functions/eventsMapper';
+import { NextResponse } from 'next/server';
 
-export default async function GET(req: NextApiRequest, res: NextApiResponse) {
+export default async function GET(request: Request) {
   const today = new Date();
   const utcHour = today.getUTCHours();
   const isoDateString = today.toISOString().split('T')[0];
@@ -29,10 +29,10 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse) {
       const mappedArray: OutputObject[] = mapObjects(inputArray);
 
       // Use `res.json` instead of `Response.json`
-      res.json(mappedArray);
+      return NextResponse.json(mappedArray)
     }
   } catch (err) {
     console.error(err); // Log the error for debugging purposes
-    res.status(500).json({ error: 'Failed to fetch or process data' });
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(request: Request) {
   const today = new Date();
   const utcHour = today.getUTCHours();
   const isoDateString = today.toISOString().split('T')[0];
@@ -29,9 +29,10 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
       const inputArray: InputObject[] = response.data.events
       const mappedArray: OutputObject[] = mapObjects(inputArray);
 
-      return !mappedArray.length ? NextResponse.json({message : 'Currently no games'}) : res.json(mappedArray)
+      return !mappedArray.length ? NextResponse.json({message : 'Currently no games'}) : NextResponse.json(mappedArray)
     }
   } catch (err) {
-    console.error('Error:', err);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+
   }
 }
