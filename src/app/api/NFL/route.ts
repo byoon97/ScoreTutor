@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import { InputObject, OutputObject, mapObjects } from './../../../functions/eventsMapper';
 
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET() {
     const today = new Date();
     const isoDateString = today.toISOString().split('T')[0];
   
@@ -28,7 +28,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
       return res.json(mappedArray)
       }
     } catch (err) {
-      console.error('Error:', err);
+      throw new Error('Failed to fetch or process data');
     }
   }
   

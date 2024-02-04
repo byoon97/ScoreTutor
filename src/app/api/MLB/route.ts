@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import axios from 'axios';
 import { InputObject, OutputObject, mapObjects } from './../../../functions/eventsMapper';
+import axios from 'axios';
+import { NextResponse } from 'next/server';
 
 export default async function GET(req: NextApiRequest, res: NextApiResponse) {
   const today = new Date();
@@ -34,5 +34,6 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse) {
   } catch (err) {
     console.error(err); // Log the error for debugging purposes
     res.status(500).json({ error: 'Failed to fetch or process data' });
+
   }
 }
