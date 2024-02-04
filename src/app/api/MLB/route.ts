@@ -1,9 +1,8 @@
-import { InputObject, OutputObject, mapObjects } from './../../../functions/eventsMapper';
-import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { NextResponse } from 'next/server';
+import axios from 'axios';
+import { InputObject, OutputObject, mapObjects } from './../../../functions/eventsMapper';
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const today = new Date();
   const utcHour = today.getUTCHours();
   const isoDateString = today.toISOString().split('T')[0];
@@ -15,7 +14,6 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-
     const apiKey = process.env.NEXT_PUBLIC_API_KEY as string;
     const apiHost = process.env.NEXT_PUBLIC_API_HOST as string;
 
@@ -30,10 +28,11 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
       const inputArray: InputObject[] = response.data.events
       const mappedArray: OutputObject[] = mapObjects(inputArray);
 
-
-      return NextResponse.json(mappedArray)
+      // Use `res.json` instead of `Response.json`
+      res.json(mappedArray);
     }
   } catch (err) {
-    console.error('Error:', err);
+    console.error(err); // Log the error for debugging purposes
+    res.status(500).json({ error: 'Failed to fetch or process data' });
   }
 }

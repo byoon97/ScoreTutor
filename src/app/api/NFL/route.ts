@@ -25,7 +25,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
       const mappedArray: OutputObject[] = mapObjects(inputArray);
   
   
-      return NextResponse.json(mappedArray)
+      return res.json(mappedArray)
       }
     } catch (err) {
       console.error('Error:', err);
