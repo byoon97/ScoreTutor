@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
 import { InputObject, OutputObject, mapObjects } from './../../../functions/eventsMapper';
 
-
 export async function GET(request: Request) {
     const today = new Date();
     const isoDateString = today.toISOString().split('T')[0];
