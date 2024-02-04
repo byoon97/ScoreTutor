@@ -3,7 +3,7 @@ import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET() {
   const today = new Date();
   const utcHour = today.getUTCHours();
   const isoDateString = today.toISOString().split('T')[0];
@@ -32,6 +32,6 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
       return !mappedArray.length ? NextResponse.json({message : 'Currently no games'}) : res.json(mappedArray)
     }
   } catch (err) {
-    console.error('Error:', err);
+    throw new Error('Failed to fetch or process data');
   }
 }
