@@ -1,8 +1,9 @@
 import { InputObject, OutputObject, mapObjects } from './../../../functions/eventsMapper';
 import axios from 'axios';
-import { NextResponse } from 'next/server';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export async function GET() {
+
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
   const today = new Date();
   const utcHour = today.getUTCHours();
   const isoDateString = today.toISOString().split('T')[0];
