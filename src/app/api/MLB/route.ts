@@ -14,7 +14,6 @@ export async function GET() {
   }
 
   try {
-
     const apiKey = process.env.NEXT_PUBLIC_API_KEY as string;
     const apiHost = process.env.NEXT_PUBLIC_API_HOST as string;
 
@@ -29,10 +28,12 @@ export async function GET() {
       const inputArray: InputObject[] = response.data.events
       const mappedArray: OutputObject[] = mapObjects(inputArray);
 
-
-      return NextResponse.json({message : 'No active games'})
+      // Use `res.json` instead of `Response.json`
+      res.json(mappedArray);
     }
   } catch (err) {
-    throw new Error('Failed to fetch or process data');
+    console.error(err); // Log the error for debugging purposes
+    res.status(500).json({ error: 'Failed to fetch or process data' });
+
   }
 }

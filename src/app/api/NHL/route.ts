@@ -29,7 +29,7 @@ export async function GET() {
       const inputArray: InputObject[] = response.data.events
       const mappedArray: OutputObject[] = mapObjects(inputArray);
 
-      return !mappedArray.length ? NextResponse.json({message : 'Currently no games'}) : Response.json(mappedArray)
+      return !mappedArray.length ? NextResponse.json({message : 'Currently no games'}) : res.json(mappedArray)
     }
   } catch (err) {
     throw new Error('Failed to fetch or process data');

@@ -25,7 +25,7 @@ export async function GET() {
       const mappedArray: OutputObject[] = mapObjects(inputArray);
   
   
-      return NextResponse.json(mappedArray)
+      return res.json(mappedArray)
       }
     } catch (err) {
       throw new Error('Failed to fetch or process data');
