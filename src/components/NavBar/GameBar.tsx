@@ -1,7 +1,7 @@
 "use client";
 import React, { FC, useState, useRef } from "react";
 import Dropdown from "./GameBarComps/DropDown";
-import GameCarousel from "./GameBarComps/Carousel";
+// import GameCarousel from "./GameBarComps/Carousel";
 import useSWR from "swr";
 
 const dropdownOptions = [
@@ -96,7 +96,7 @@ const GameBar: React.FC<GameBarProps> = () => {
         setSelectedOption={setSelectedOption}
         DropdownOptions={dropdownOptions}
       />
-      <GameCarousel gameData={data} />
+      {/* <GameCarousel gameData={data} /> */}
     </div>
   ) : null;
 };
