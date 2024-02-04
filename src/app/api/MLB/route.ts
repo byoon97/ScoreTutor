@@ -1,9 +1,8 @@
 import { InputObject, OutputObject, mapObjects } from './../../../functions/eventsMapper';
 import axios from 'axios';
-import { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET() {
   const today = new Date();
   const utcHour = today.getUTCHours();
   const isoDateString = today.toISOString().split('T')[0];
@@ -31,9 +30,9 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
       const mappedArray: OutputObject[] = mapObjects(inputArray);
 
 
-      return NextResponse.json(mappedArray)
+      return NextResponse.json({message : 'No active games'})
     }
   } catch (err) {
-    console.error('Error:', err);
+    throw new Error('Failed to fetch or process data');
   }
 }
