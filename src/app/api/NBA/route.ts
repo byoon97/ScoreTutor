@@ -35,6 +35,6 @@ export async function GET(request: Request) {
     }
   } catch (err) {
     console.error(err); // Log the error for debugging purposes
-    return NextResponse.json({ error: 'Internal Server Error', msg: err, urlData }, { status: 500 })
+    return NextResponse.json({ error: 'Internal Server Error', msg: err, data:urlData }, { status: 500 })
   }
 }
