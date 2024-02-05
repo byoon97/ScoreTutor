@@ -7,6 +7,7 @@ import Content from "@/components/Content/Index";
 import Picks from "@/components/Picks/Index";
 import Footer from "@/components/Footer/Index";
 
+
 const Home: FC = async () => {
   return (
     <div className="bg-white text-black px-2">
