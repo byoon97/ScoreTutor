@@ -6,6 +6,7 @@ export async function GET(request: Request) {
   const today = new Date();
   const utcHour = today.getUTCHours();
   const isoDateString = today.toISOString().split('T')[0];
+  let urlData
 
   let baseUrl = process.env.NEXT_PUBLIC_BASE_URL + `/4/events/${isoDateString}?affiliate_ids=19` as string;
 
@@ -24,15 +25,16 @@ export async function GET(request: Request) {
       },
     });
 
+    urlData = {apiKey, apiHost, baseUrl}
+
     if (response) {
       const inputArray: InputObject[] = response.data.events
       const mappedArray: OutputObject[] = mapObjects(inputArray);
 
-      // Use `res.json` instead of `Response.json`
       return NextResponse.json(mappedArray)
     }
   } catch (err) {
     console.error(err); // Log the error for debugging purposes
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal Server Error', msg: err, urlData }, { status: 500 })
   }
 }

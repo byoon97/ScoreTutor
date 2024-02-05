@@ -87,7 +87,7 @@ const GameBar: React.FC<GameBarProps> = () => {
     mlbData,
   ]);
 
-  return data ? (
+  return (
     <div className="w-full items-center mt-2 h-22 flex flex-row h-24">
       <Dropdown
         isOpen={isOpen}
@@ -96,9 +96,9 @@ const GameBar: React.FC<GameBarProps> = () => {
         setSelectedOption={setSelectedOption}
         DropdownOptions={dropdownOptions}
       />
-      <GameCarousel gameData={data} />
+      {data ? <GameCarousel gameData={data} /> : null}
     </div>
-  ) : null;
+  );
 };
 
 export default GameBar;
