@@ -5,11 +5,11 @@ const FreePlay: React.FC = () => {
   return (
     <div className="mt-4">
       {" "}
-      <div className="cursor-pointer font-bold rounded-lg border-[1px] mx-2 h-52 relative overflow-hidden shadow-lg">
+      <div className="cursor-pointer w-screen font-bold rounded-lg border-[1px] h-52 relative overflow-hidden shadow-lg">
         {/* The next/image component */}
         <div className="h-full">
           <Image
-            src="/freeplay/mavsmagic.jpeg"
+            src="/freeplay/knicksgrizz.jpeg"
             alt="Free Play Image"
             style={{ objectFit: "cover", objectPosition: "center" }}
             fill

@@ -10,16 +10,25 @@ import HomeCarousel from "@/components/HomeCarousel/Index";
 
 const Home: FC = async () => {
   return (
-    <div className="bg-white text-black px-2">
+    <div className="bg-white text-black flex flex-col">
       <Nav />
       <GameBar />
 
-      <div className="md:hidden">
-        <AboutUs />
-        <FreePlay />
+      <div className="md:hidden flex items-center flex-col">
+        {" "}
+        <div className="px-2 h-full w-full">
+          <HomeCarousel />
+        </div>
+        <Content />
+        <div>hello</div>
       </div>
 
-      <div className="hidden lg:mb-2 lg:flex lg:mx-32 lg:flex-row lg:items-center lg:justify-center lg:h-full lg:my-4">
+      <div className="hidden lg:hidden md:flex md:flex-col md:w-screen md:justify-between">
+        <HomeCarousel />
+        <Content />
+      </div>
+
+      <div className="hidden md:hidden lg:flex md:flex-row lg:my-8 lg:items-center lg:justify-center lg:h-full md:mb-16 xl:mx-40">
         <HomeCarousel />
         <Content />
       </div>
