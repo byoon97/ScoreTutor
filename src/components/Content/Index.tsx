@@ -15,20 +15,20 @@ const Content: React.FC = () => {
             />
           </div>
           <div className=" bg-white text-black text-left p-2 cursor-pointer leading-4">
-            FIND OUT WHO WE&apos;RE TAKING FOR SUPER BOWL LVIII HERE{" "}
+            FIND OUT WHO WE&apos;RE TAKING FOR SUPER BOWL LVIII BY CLICKING HERE{" "}
           </div>
         </div>
         <div className="flex flex-col">
           <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-44 shadow-lg">
             <Image
-              src="/freeplay/SB.webp"
+              src="/freeplay/TK.webp"
               alt={"superbowl"}
               fill
               style={{ objectFit: "cover", objectPosition: "center" }}
             />
           </div>
           <div className=" bg-white text-black text-left p-2 cursor-pointer leading-4">
-            FIND OUT WHO WE&apos;RE TAKING FOR SUPER BOWL LVIII HERE{" "}
+            CHECK OUT OUR PLAYER PROPS FOR SUPER BOWL LVIII
           </div>
         </div>
       </div>
@@ -37,27 +37,27 @@ const Content: React.FC = () => {
         <div className="flex flex-col">
           <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-44 shadow-lg">
             <Image
-              src="/freeplay/SB.webp"
+              src="/freeplay/clippers.jpeg"
               alt={"superbowl"}
               fill
               style={{ objectFit: "cover", objectPosition: "center" }}
             />
           </div>
           <div className=" bg-white text-black text-left p-2 cursor-pointer leading-4">
-            FIND OUT WHO WE&apos;RE TAKING FOR SUPER BOWL LVIII HERE{" "}
+            CHECK OUT OUR FAVORITE PREIUM PLAY BY CLICKING HERE
           </div>
         </div>
-        <div className="flex flex-col">
-          <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-44 shadow-lg">
+        <div className="flex flex-col ">
+          <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-44 shadow-lg bg-black flex justify-center items-center">
             <Image
-              src="/freeplay/SB.webp"
+              src="/Image.png"
               alt={"superbowl"}
-              fill
-              style={{ objectFit: "cover", objectPosition: "center" }}
+              width={200}
+              height={200}
             />
           </div>
           <div className=" bg-white text-black text-left p-2 cursor-pointer leading-4">
-            FIND OUT WHO WE&apos;RE TAKING FOR SUPER BOWL LVIII HERE{" "}
+            CLICK HERE TO FIND OUT HOW TO BEAT THE BOOKS
           </div>
         </div>
       </div>

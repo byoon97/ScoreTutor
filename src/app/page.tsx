@@ -20,7 +20,6 @@ const Home: FC = async () => {
           <HomeCarousel />
         </div>
         <Content />
-        <div>hello</div>
       </div>
 
       <div className="hidden lg:hidden md:flex md:flex-col md:w-screen md:justify-between">
