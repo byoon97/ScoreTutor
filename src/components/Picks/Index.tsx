@@ -9,7 +9,7 @@ const Picks: React.FC = () => {
         <LeftColumn />
       </div>
       {/* Medium View */}
-      <div className="hidden md:flex md:flex-row">
+      <div className="hidden md:flex md:flex-row lg:mx-52 lg:my-2">
         <LeftColumn />
         <RightColumn />
       </div>

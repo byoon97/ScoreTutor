@@ -14,6 +14,21 @@ const RightColumn: FC = () => {
           <span className="italic text-[#77D2EF]"> some sort of link</span>
         </div>
       </div>
+      <div className="flex flex-col text-[14px] bg-white rounded-lg shadow-lg p-4 mt-4">
+        <div className="font-bold font-inter text-left mb-2">
+          Track how we are doing
+        </div>
+        <div className="text-[12px]">
+          Click{" "}
+          <a
+            href="https://docs.google.com/spreadsheets/d/1rb1YqlT5f30iefWDUiyLoGrlSNdelwDIUISSZX_8Nk8/edit#gid=1161341563"
+            className="text-[#77D2EF]"
+          >
+            here
+          </a>{" "}
+          to view our betting history{" "}
+        </div>
+      </div>
       <div className="bg-[#5D5C61] rounded-lg text-white font-mono p-4 mt-4">
         <div className="flex flex-col font-inter mb-2 text-[13px]">
           <div className="flex flex-row items-center mb-1">
