@@ -7,7 +7,7 @@ export async function GET(request: Request) {
     const isoDateString = today.toISOString().split('T')[0];
   
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL + `/2/events/2024-02-11?affiliate_ids=19` as string;
+      let baseUrl = process.env.NEXT_PUBLIC_BASE_URL + `/2/events/${isoDateString}?affiliate_ids=19` as string;
       const apiKey = process.env.NEXT_PUBLIC_API_KEY as string;
       const apiHost = process.env.NEXT_PUBLIC_API_HOST as string;
   
