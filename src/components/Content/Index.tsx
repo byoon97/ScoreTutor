@@ -5,8 +5,8 @@ const Content: React.FC = () => {
   return (
     <div className="flex flex-row items-center justify-center font-Inter text-sm mt-2 lg:flex-col lg:mt-6">
       <div className="flex flex-col lg:flex-row">
-        <div className="flex flex-col">
-          <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-44 shadow-lg">
+        <div className="flex flex-col h-52">
+          <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-[95%] shadow-lg">
             <Image
               src="/freeplay/SB.webp"
               alt={"superbowl"}
@@ -18,8 +18,8 @@ const Content: React.FC = () => {
             FIND OUT WHO WE&apos;RE TAKING FOR SUPER BOWL LVIII BY CLICKING HERE{" "}
           </div>
         </div>
-        <div className="flex flex-col">
-          <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-44 shadow-lg">
+        <div className="flex flex-col h-52">
+          <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-[95%] shadow-lg">
             <Image
               src="/freeplay/TK.webp"
               alt={"superbowl"}
@@ -34,8 +34,8 @@ const Content: React.FC = () => {
       </div>
 
       <div className="flex flex-col lg:flex-row">
-        <div className="flex flex-col">
-          <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-44 shadow-lg">
+        <div className="flex flex-col h-52">
+          <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-[95%] shadow-lg">
             <Image
               src="/freeplay/clippers.jpeg"
               alt={"superbowl"}
@@ -47,8 +47,8 @@ const Content: React.FC = () => {
             CHECK OUT OUR FAVORITE PREIUM PLAY BY CLICKING HERE
           </div>
         </div>
-        <div className="flex flex-col ">
-          <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-44 shadow-lg bg-black flex justify-center items-center">
+        <div className="flex flex-col h-52">
+          <div className="rounded-lg border-[1px] mx-2 relative overflow-hidden h-[95%] shadow-lg bg-black flex justify-center items-center">
             <Image
               src="/Image.png"
               alt={"superbowl"}
