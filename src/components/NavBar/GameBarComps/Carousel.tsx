@@ -31,20 +31,6 @@ const GameCarousel: React.FC<GameCarouselProps> = ({ gameData }) => {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const swipeableRef = useRef<HTMLDivElement | null>(null);
 
-  const scrollLeft = (): void => {
-    carouselRef.current?.scrollBy({
-      left: -300, // Adjust the value based on your card width
-      behavior: "smooth",
-    });
-  };
-
-  const scrollRight = (): void => {
-    carouselRef.current?.scrollBy({
-      left: 300, // Adjust the value based on your card width
-      behavior: "smooth",
-    });
-  };
-
   const handlers = useSwipeable({
     onSwipedLeft: () => {
       if (swipeableRef.current) {
@@ -63,20 +49,6 @@ const GameCarousel: React.FC<GameCarouselProps> = ({ gameData }) => {
       ref={carouselRef}
       className="h-full flex items-center overflow-x-hidden overflow-y-hidden justify-center whitespace-nowrap space-x-4 px-4"
     >
-      {/* <div className="flex flex-row">
-        <button
-          onClick={scrollLeft}
-          className="hover:bg-gray-300 focus:outline-none"
-        >
-          <IoIosArrowBack size={24} className="text-black" />
-        </button>
-        <button
-          onClick={scrollRight}
-          className="hover:bg-gray-300 focus:outline-none"
-        >
-          <IoIosArrowForward size={24} className="text-black" />
-        </button>
-      </div> */}
       <div
         ref={(el) => {
           swipeableRef.current = el;

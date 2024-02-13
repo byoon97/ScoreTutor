@@ -19,7 +19,7 @@ interface GameBarProps {}
 
 const GameBar: React.FC<GameBarProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(dropdownOptions[1]);
+  const [selectedOption, setSelectedOption] = useState(dropdownOptions[0]);
   const [data, setData] = useState();
 
   const {

@@ -54,10 +54,11 @@ const RightColumn: FC = () => {
 
         <div className="font-inter text-[10px]">
           <span>
-            Click here to join!{" "}
+            Click&nbsp;
             <a className="text-[#77D2EF]" href="http://t.me/mkabets">
-              http://t.me/mkabets
+              here&nbsp;
             </a>
+            to join!
           </span>
         </div>
       </div>
@@ -88,10 +89,11 @@ const RightColumn: FC = () => {
 
         <div className="font-inter text-[10px]">
           <span>
-            Click here to join!{" "}
-            <a className="text-[#77D2EF]" href="http://t.me/mkabets">
-              http://t.me/mkabets
+            Click&nbsp;
+            <a className="text-[#77D2EF]" href="https://discord.gg/WQRuxsJx3B">
+              here&nbsp;
             </a>
+            to join!{" "}
           </span>
         </div>
       </div>
