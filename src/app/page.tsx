@@ -10,7 +10,7 @@ import HomeCarousel from "@/components/HomeCarousel/Index";
 
 const Home: FC = async () => {
   return (
-    <div className="bg-white text-black flex flex-col w-screen mx-auto px-2">
+    <div className="bg-white text-black flex flex-col px-2">
       <Nav />
       <GameBar />
 
@@ -27,7 +27,7 @@ const Home: FC = async () => {
         <Content />
       </div>
 
-      <div className="hidden md:hidden lg:flex md:flex-row lg:my-8 lg:items-center lg:justify-center lg:h-full md:mb-16 2xl:mx-40">
+      <div className="hidden md:hidden lg:flex md:flex-row lg:my-8 lg:items-center lg:justify-center md:mb-16 lg:mx-20 2xl:mx-40">
         <HomeCarousel />
         <Content />
       </div>
@@ -38,3 +38,4 @@ const Home: FC = async () => {
 };
 
 export default Home;
+                                     
