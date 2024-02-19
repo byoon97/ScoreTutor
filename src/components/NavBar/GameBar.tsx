@@ -3,6 +3,7 @@ import React, { FC, useState, useRef } from "react";
 import Dropdown from "./GameBarComps/DropDown";
 import GameCarousel from "./GameBarComps/Carousel";
 import useSWR from "swr";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const dropdownOptions = [
   { label: "NBA", imageSrc: "/sportsLogos/NBA.png" },
@@ -21,6 +22,7 @@ const GameBar: React.FC<GameBarProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(dropdownOptions[0]);
   const [data, setData] = useState();
+  const { user } = useUser();
 
   const {
     data: nbaData,
@@ -65,11 +67,13 @@ const GameBar: React.FC<GameBarProps> = () => {
       else setData(nhlData);
     }
 
-    if (selectedOption.label === "MLB") {
-      if (mlbLoading) console.log("...loading mlb games");
-      else if (mlbError) console.error(mlbError);
-      else setData(mlbData);
-    }
+    // if (selectedOption.label === "MLB") {
+    //   if (mlbLoading) console.log("...loading mlb games");
+    //   else if (mlbError) console.error(mlbError);
+    //   else setData(mlbData);
+    // }
+
+    if (user) console.log(user);
   }, [
     selectedOption,
     data,
@@ -85,6 +89,7 @@ const GameBar: React.FC<GameBarProps> = () => {
     mlbLoading,
     mlbError,
     mlbData,
+    user,
   ]);
 
   return (

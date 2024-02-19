@@ -1,35 +1,28 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import {prisma} from "../../../../../lib/prisma"
+import type { NextApiHandler } from 'next';
+import { prisma } from '../../../../../lib/prisma';
+import { NextResponse } from 'next/server';
+import { Role } from "@prisma/client";
 
-export const post = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { email, secret, firstName, lastName, phoneNumber } = req.body;
-  
-    // Check if the secret matches
-    if (secret !== process.env.AUTH0_HOOK_SECRET) {
-      console.error('Unauthorized attempt to call hook');
-      return res.status(403).json({ error: 'Unauthorized' });
-    }
-  
+export const POST: NextApiHandler = async (req, res) => {
+    let passedValue = await new Response(req.body).text();
+    let { email, secret } = JSON.parse(passedValue);
+
+  if (secret !== process.env.AUTH0_HOOK_SECRET) {
+    return NextResponse.json({ message: `You must provide the secret 🤫` });
+  }
+
+  if (email) {
     try {
-      // Adjust the Prisma operation to include firstName, lastName, and phoneNumber
-      const user = await prisma.user.upsert({
-        where: { email },
-        update: {
-          firstName, // Assuming these fields exist in your Prisma User model
-          lastName,
-          phoneNumber,
-        },
-        create: {
-          email,
-          firstName,
-          lastName,
-          phoneNumber, // Ensure these fields are correctly defined in your Prisma schema
-        },
+      await prisma.user.create({
+        data: { email, role: Role.ADMIN},
       });
-  
-      return res.status(200).json({ message: 'User processed successfully', user });
+      return NextResponse.json({ 
+        status: 200,
+        message: `User with email: ${email} has been created successfully!`,
+      });
     } catch (error) {
       console.error('Failed to process user:', error);
-      return res.status(500).json({ error: 'Internal server error' });
+      return NextResponse.json({ error: 'Internal server error' });
     }
-  };
+  }
+};

@@ -6,9 +6,15 @@ builder.prismaObject('User', {
   fields: (t) => ({
     id: t.exposeID('id'),
     email: t.exposeString('email'),
-    firstName: t.exposeString('firstName'),
-    lastName: t.exposeString('lastName'),
-    password: t.exposeString('password'),
+    firstName: t.exposeString('firstName' , {
+      nullable: true
+    }),
+    lastName: t.exposeString('lastName' , {
+      nullable: true
+    }),
+    phoneNumber: t.exposeString('phoneNumber', {
+      nullable: true
+    }),
     role: t.expose('role', { type: Role, }),
     membership: t.relation('membership')
   })
@@ -18,22 +24,26 @@ const Role = builder.enumType('Role', {
   values: ['USER', 'ADMIN'] as const,
 })
 
-builder.mutationField("createUser", (t) =>
+builder.mutationField("updateUser", (t) =>
   t.prismaField({
     type: 'User',
     args: {
       email: t.arg.string({ required: true }),
       firstName: t.arg.string({ required: true }),
       lastName: t.arg.string({ required: true }),
-      password: t.arg.string({ required: true})
+      phoneNumber: t.arg.string({ required: true})
     },
     resolve: async (query, _parent, args, ctx) => {
-      const { email, firstName, lastName, password } = args
-      return prisma.user.create({
-        ...query,
+      const { email, firstName, lastName, phoneNumber } = args
+      return prisma.user.update({
+        where: {
+          email: email,
+        },
+       
         data: {
-          email, firstName, lastName, password
-        }
+          email, firstName, lastName, phoneNumber
+        },
+        ...query,
       })
     }
   })

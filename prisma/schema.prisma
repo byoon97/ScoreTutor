@@ -1,8 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
+}
+
+generator pothos {
+  provider = "prisma-pothos-types"
 }
 
 datasource db {
@@ -10,29 +11,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-generator pothos {
-  provider = "prisma-pothos-types"
-}
-
 model User {
-  id            Int          @id @default(autoincrement())
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  email         String       @unique
-  firstName     String
-  lastName      String
-  phoneNumber   String?
-  role          Role         @default(USER)
-  membership    Membership?
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  email       String      @unique
+  firstName   String?
+  lastName    String?
+  role        Role        @default(USER)
+  phoneNumber String?
+  membership  Membership?
 }
 
 model Membership {
-  id            Int          @id @default(autoincrement())
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  expiresAt     DateTime?
-  user          User         @relation(fields: [userId], references: [id])
-  userId        Int          @unique
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  expiresAt DateTime?
+  userId    Int       @unique
+  user      User      @relation(fields: [userId], references: [id])
 }
 
 enum Role {
