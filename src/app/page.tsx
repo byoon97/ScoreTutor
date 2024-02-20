@@ -1,18 +1,49 @@
+"use client";
 import React, { FC } from "react";
-import AboutUs from "@/components/AboutUs/Index";
-import FreePlay from "@/components/FreePlay/Index";
 import GameBar from "@/components/NavBar/GameBar";
 import Nav from "@/components/NavBar/Nav";
 import Content from "@/components/Content/Index";
 import Picks from "@/components/Picks/Index";
 import Footer from "@/components/Footer/Index";
 import HomeCarousel from "@/components/HomeCarousel/Index";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { gql, useQuery } from "@apollo/client";
+import RegisterModal from "@/components/RegisterModal";
 
-const Home: FC = async () => {
+const GET_USER_QUERY = gql`
+  query GetUserByEmail($email: String!) {
+    getUserByEmail(email: $email) {
+      email
+      firstName
+      lastName
+      phoneNumber
+    }
+  }
+`;
+
+const Home: FC = () => {
+  const { user } = useUser();
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const { loading, error, data } = useQuery(GET_USER_QUERY, {
+    variables: { email: user?.email },
+  });
+
+  React.useEffect(() => {
+    console.log(user);
+    let loggedIn = !data?.getUserByEmail?.firstName;
+    setIsOpen(loggedIn && user !== undefined);
+  }, []);
+
   return (
     <div className="bg-white text-black flex flex-col px-2">
       <Nav />
       <GameBar />
+
+      <RegisterModal
+        setIsOpen={setIsOpen}
+        modalIsOpen={modalIsOpen}
+        email={data?.getUserByEmail?.email}
+      />
 
       <div className="md:hidden flex items-center flex-col">
         {" "}
@@ -38,4 +69,3 @@ const Home: FC = async () => {
 };
 
 export default Home;
-                                     

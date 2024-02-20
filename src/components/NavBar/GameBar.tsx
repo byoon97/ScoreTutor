@@ -22,7 +22,6 @@ const GameBar: React.FC<GameBarProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(dropdownOptions[0]);
   const [data, setData] = useState();
-  const { user } = useUser();
 
   const {
     data: nbaData,
@@ -42,11 +41,11 @@ const GameBar: React.FC<GameBarProps> = () => {
     isLoading: nhlLoading,
   } = useSWR("/api/NHL", fetcher);
 
-  const {
-    data: mlbData,
-    error: mlbError,
-    isLoading: mlbLoading,
-  } = useSWR("/api/MLB", fetcher);
+  // const {
+  //   data: mlbData,
+  //   error: mlbError,
+  //   isLoading: mlbLoading,
+  // } = useSWR("/api/MLB", fetcher);
 
   React.useEffect(() => {
     if (selectedOption.label === "NBA") {
@@ -72,8 +71,6 @@ const GameBar: React.FC<GameBarProps> = () => {
     //   else if (mlbError) console.error(mlbError);
     //   else setData(mlbData);
     // }
-
-    if (user) console.log(user);
   }, [
     selectedOption,
     data,
@@ -86,10 +83,9 @@ const GameBar: React.FC<GameBarProps> = () => {
     nhlLoading,
     nhlError,
     nhlData,
-    mlbLoading,
-    mlbError,
-    mlbData,
-    user,
+    // mlbLoading,
+    // mlbError,
+    // mlbData,
   ]);
 
   return (

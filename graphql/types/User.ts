@@ -28,7 +28,7 @@ builder.mutationField("updateUser", (t) =>
   t.prismaField({
     type: 'User',
     args: {
-      email: t.arg.string({ required: true }),
+      email: t.arg.string({ required: true}),
       firstName: t.arg.string({ required: true }),
       lastName: t.arg.string({ required: true }),
       phoneNumber: t.arg.string({ required: true})
@@ -41,7 +41,7 @@ builder.mutationField("updateUser", (t) =>
         },
        
         data: {
-          email, firstName, lastName, phoneNumber
+          firstName, lastName, phoneNumber
         },
         ...query,
       })
@@ -49,17 +49,17 @@ builder.mutationField("updateUser", (t) =>
   })
 )
 
-builder.queryField("getUserByID", (t) => 
+builder.queryField("getUserByEmail", (t) => 
   t.prismaField({
     type: 'User',
     args : {
-      id: t.arg.int({ required: true }),
+      email: t.arg.string({ required: true }),
     },
     resolve: (_query, _parent, args, _ctx, _info) => {
-      const { id } = args;
+      const { email } = args;
       return prisma.user.findUnique({
         where: {
-          id
+          email
         }
       }) as Promise<User>; 
     }

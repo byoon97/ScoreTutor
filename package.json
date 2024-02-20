@@ -11,6 +11,7 @@
   "dependencies": {
     "@apollo/client": "^3.9.4",
     "@apollo/experimental-nextjs-app-support": "^0.8.0",
+    "@auth0/auth0-react": "^2.2.4",
     "@auth0/nextjs-auth0": "^3.5.0",
     "@pothos/core": "^3.41.0",
     "@pothos/plugin-prisma": "^3.64.0",
@@ -24,6 +25,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.0.1",
+    "react-modal": "^3.16.1",
     "react-slick": "^0.30.1",
     "react-swipeable": "^7.0.1",
     "slick-carousel": "^1.8.1",
@@ -34,6 +36,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-modal": "^3.16.3",
     "@types/react-slick": "^0.23.13",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",

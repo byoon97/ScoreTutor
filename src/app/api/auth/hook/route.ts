@@ -12,9 +12,18 @@ export const POST: NextApiHandler = async (req, res) => {
   }
 
   if (email) {
+    const foundUser = await prisma.user.findUnique({
+        where: {
+            email: email
+        }
+    })
+
+    if (foundUser) {
+        return NextResponse.json({message: 'User found, redirecting'}, {status: 200})
+    } else {
     try {
       await prisma.user.create({
-        data: { email, role: Role.ADMIN},
+        data: { email, role: Role.USER },
       });
       return NextResponse.json({ 
         status: 200,
@@ -24,5 +33,7 @@ export const POST: NextApiHandler = async (req, res) => {
       console.error('Failed to process user:', error);
       return NextResponse.json({ error: 'Internal server error' });
     }
+    }
+
   }
 };
