@@ -36,7 +36,6 @@ const Home: FC = () => {
 
   return (
     <div className="bg-white text-black flex flex-col px-2">
-      <Nav />
       <GameBar />
 
       <RegisterModal
@@ -63,7 +62,6 @@ const Home: FC = () => {
         <Content />
       </div>
       <Picks />
-      <Footer />
     </div>
   );
 };

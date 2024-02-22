@@ -5,8 +5,10 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { CgProfile } from "react-icons/cg";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
+import { Span } from "next/dist/trace";
 
 export default function Nav() {
+  const [openMenu, setOpenMenu] = React.useState(false);
   const { user } = useUser();
 
   return (
@@ -16,24 +18,34 @@ export default function Nav() {
           <RxHamburgerMenu size={25} fontSize={"1.5em"} />
           <Image src="/image.png" alt="logo" width="100" height="100" />
         </div>
-        <div className="flex flex-row items-center">
-          {user ? (
-            <Link
-              href="/api/auth/logout"
-              className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
-            >
-              <CgProfile size={"1em"} fontSize={"1.5em"} />{" "}
-            </Link>
-          ) : (
-            <Link
-              href="/api/auth/login"
-              className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
-            >
-              Login
-            </Link>
-          )}
+        <div
+          className="flex flex-row items-center"
+          onClick={() => setOpenMenu(!openMenu)}
+        >
+          <CgProfile size={"1em"} fontSize={"1.5em"} />
         </div>
       </div>
+      {openMenu ? (
+        <div className="flex flex-col font-inter text-sm -mx-4 pt-2">
+          <div className="py-2 pl-4 border-t-[1px] border-[#31383D] text-[#656667]">
+            {user ? (
+              <Link href="/api/auth/logout">
+                <span>Sign Out</span>
+              </Link>
+            ) : (
+              <Link href="/api/auth/login">
+                <span>Log In</span>
+              </Link>
+            )}
+          </div>
+
+          <Link href="/join">
+            <div className="pt-2 pb-1 pl-4 border-t-[1px] border-[#31383D] text-[#77D2EF]">
+              Become a Member
+            </div>
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 }
