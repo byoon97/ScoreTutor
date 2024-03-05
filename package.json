@@ -9,26 +9,45 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.9.4",
+    "@apollo/experimental-nextjs-app-support": "^0.8.0",
+    "@auth0/auth0-react": "^2.2.4",
+    "@auth0/nextjs-auth0": "^3.5.0",
+    "@pothos/core": "^3.41.0",
+    "@pothos/plugin-prisma": "^3.64.0",
+    "@prisma/client": "^5.9.1",
     "axios": "^1.6.7",
+    "bcrypt": "^5.1.1",
+    "graphql": "^16.8.1",
+    "graphql-scalars": "^1.22.4",
+    "graphql-yoga": "^5.1.1",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.0.1",
+    "react-modal": "^3.16.1",
     "react-slick": "^0.30.1",
     "react-swipeable": "^7.0.1",
     "slick-carousel": "^1.8.1",
     "swr": "^2.2.4"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-modal": "^3.16.3",
     "@types/react-slick": "^0.23.13",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "postcss": "^8",
+    "prisma": "^5.9.1",
     "tailwindcss": "^3.3.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
+  },
+  "prisma": {
+    "seed": "ts-node --transpile-only ./prisma/seed.ts"
   }
 }

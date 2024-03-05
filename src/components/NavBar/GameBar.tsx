@@ -3,6 +3,7 @@ import React, { FC, useState, useRef } from "react";
 import Dropdown from "./GameBarComps/DropDown";
 import GameCarousel from "./GameBarComps/Carousel";
 import useSWR from "swr";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const dropdownOptions = [
   { label: "NBA", imageSrc: "/sportsLogos/NBA.png" },
@@ -40,11 +41,11 @@ const GameBar: React.FC<GameBarProps> = () => {
     isLoading: nhlLoading,
   } = useSWR("/api/NHL", fetcher);
 
-  const {
-    data: mlbData,
-    error: mlbError,
-    isLoading: mlbLoading,
-  } = useSWR("/api/MLB", fetcher);
+  // const {
+  //   data: mlbData,
+  //   error: mlbError,
+  //   isLoading: mlbLoading,
+  // } = useSWR("/api/MLB", fetcher);
 
   React.useEffect(() => {
     if (selectedOption.label === "NBA") {
@@ -65,11 +66,11 @@ const GameBar: React.FC<GameBarProps> = () => {
       else setData(nhlData);
     }
 
-    if (selectedOption.label === "MLB") {
-      if (mlbLoading) console.log("...loading mlb games");
-      else if (mlbError) console.error(mlbError);
-      else setData(mlbData);
-    }
+    // if (selectedOption.label === "MLB") {
+    //   if (mlbLoading) console.log("...loading mlb games");
+    //   else if (mlbError) console.error(mlbError);
+    //   else setData(mlbData);
+    // }
   }, [
     selectedOption,
     data,
@@ -82,9 +83,9 @@ const GameBar: React.FC<GameBarProps> = () => {
     nhlLoading,
     nhlError,
     nhlData,
-    mlbLoading,
-    mlbError,
-    mlbData,
+    // mlbLoading,
+    // mlbError,
+    // mlbData,
   ]);
 
   return (
