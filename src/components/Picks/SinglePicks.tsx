@@ -1,9 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import React, { FC } from "react";
 import { picks } from "@/data/picks";
 import Image from "next/image";
+import Link from "next/link";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const SinglePicks: FC = () => {
+  const { user } = useUser();
+
   return (
     <div className="flex flex-col mt-2">
       {picks.map((pick, idx) => (
@@ -41,9 +46,15 @@ const SinglePicks: FC = () => {
             </div>
           </div>
 
-          <button className="text-center rounded-lg bg-[#77D2EF] mt-3 h-10 shadow-lg text-black font-inter">
-            Join Now
-          </button>
+          {user ? (
+            <button className="text-center rounded-lg bg-[#77D2EF] mt-3 h-10 shadow-lg text-black font-inter">
+              <Link href="/picks"> Get Pick </Link>
+            </button>
+          ) : (
+            <button className="text-center rounded-lg bg-[#77D2EF] mt-3 h-10 shadow-lg text-black font-inter">
+              <Link href="/join"> Join Now </Link>
+            </button>
+          )}
         </div>
       ))}
     </div>

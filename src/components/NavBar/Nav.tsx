@@ -12,7 +12,7 @@ export default function Nav() {
   const { user } = useUser();
 
   return (
-    <div className="sticky top-0 bg-black z-10 text-white -mx-2 px-4 shadow-xl py-2">
+    <div className="sticky top-0 bg-black z-10 text-white px-4 shadow-xl py-2">
       <div className="flex flex-row justify-between">
         <div className="flex flex-row items-center">
           <RxHamburgerMenu size={25} fontSize={"1.5em"} />
