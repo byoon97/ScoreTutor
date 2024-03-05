@@ -10,9 +10,10 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { gql, useQuery } from "@apollo/client";
 import RegisterModal from "@/components/RegisterModal";
 
-const GET_USER_QUERY = gql`
+export const GET_USER_QUERY = gql`
   query GetUserByEmail($email: String!) {
     getUserByEmail(email: $email) {
+      id
       email
       firstName
       lastName
@@ -26,18 +27,22 @@ const Home: FC = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const { loading, error, data } = useQuery(GET_USER_QUERY, {
     variables: { email: user?.email },
+    skip: !user,
   });
 
   React.useEffect(() => {
-    console.log(user);
-    let loggedIn = !data?.getUserByEmail?.firstName;
-    setIsOpen(loggedIn && user !== undefined);
-  }, []);
+    if (!user) {
+      setIsOpen(false);
+    } else if (data?.getUserByEmail?.firstName) {
+      setIsOpen(false);
+    } else {
+      setIsOpen(true);
+    }
+  }, [user, data, loading, error]);
 
   return (
     <div className="bg-white text-black flex flex-col px-2">
-      <Nav />
-      <GameBar />
+      {/* <GameBar /> */}
 
       <RegisterModal
         setIsOpen={setIsOpen}
@@ -63,7 +68,6 @@ const Home: FC = () => {
         <Content />
       </div>
       <Picks />
-      <Footer />
     </div>
   );
 };

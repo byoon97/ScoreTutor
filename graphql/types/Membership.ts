@@ -24,7 +24,12 @@ builder.mutationField("createMembership", (t) =>
         return await prisma.membership.create({
           ...query,
           data: {
-            expiresAt, userId
+            expiresAt,
+            user: {
+              connect: {
+                id: userId, // Correctly link the user by ID
+              },
+            },
           },
         });
       },

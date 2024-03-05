@@ -10,8 +10,11 @@ const RightColumn: FC = () => {
           We are currently 9-1 in our last NBA Plays 🔥🤑💰💸
         </div>
         <div className="text-[12px]">
-          Click here to gain access to all of our premium plays
-          <span className="italic text-[#77D2EF]"> some sort of link</span>
+          Click{" "}
+          <a href="/join" className="text-[#77D2EF]">
+            here{" "}
+          </a>{" "}
+          to gain access to all of our premium plays
         </div>
       </div>
       <div className="flex flex-col text-[14px] bg-white rounded-lg shadow-lg p-4 mt-4">
