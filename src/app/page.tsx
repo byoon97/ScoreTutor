@@ -10,7 +10,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { gql, useQuery } from "@apollo/client";
 import RegisterModal from "@/components/RegisterModal";
 
-export const GET_USER_QUERY = gql`
+const GET_USER_QUERY = gql`
   query GetUserByEmail($email: String!) {
     getUserByEmail(email: $email) {
       id
