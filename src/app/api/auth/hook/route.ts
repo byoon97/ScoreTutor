@@ -1,9 +1,9 @@
 import type { NextApiHandler } from 'next';
 import { prisma } from '../../../../../lib/prisma';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { Role } from "@prisma/client";
 
-export const POST: NextApiHandler = async (req, res) => {
+export const POST = async (req:NextRequest, res:NextResponse) => {
     let passedValue = await new Response(req.body).text();
     let { email, secret } = JSON.parse(passedValue);
 
