@@ -7,7 +7,7 @@ import { IoLogoReddit } from "react-icons/io";
 
 const Footer: React.FC = () => {
   return (
-    <div className="bg-black w-screen px-4">
+    <div className="bg-black px-4 pt-2">
       <div className="flex flex-col h-52 px-2 py-6 lg:mx-64">
         <Image src={"/image.png"} alt="logo" width={150} height={150} />
         <div className="text-xs text-[#595959] text-left flex flex-col mt-4 px-2">

@@ -1,14 +1,14 @@
 "use client";
 import React, { FC } from "react";
-import GameBar from "@/components/NavBar/GameBar";
-import Nav from "@/components/NavBar/Nav";
-import Content from "@/components/Content/Index";
-import Picks from "@/components/Picks/Index";
-import Footer from "@/components/Footer/Index";
-import HomeCarousel from "@/components/HomeCarousel/Index";
+import GameBar from "@/components/Global/NavBar/GameBar";
+import Nav from "@/components/Global/NavBar/Nav";
+import Content from "@/components/HomeComps/Content/Index";
+import Picks from "@/components/HomeComps/Picks/Index";
+import Footer from "@/components/Global/Footer/Index";
+import HomeCarousel from "@/components/HomeComps/HomeCarousel/Index";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { gql, useQuery } from "@apollo/client";
-import RegisterModal from "@/components/RegisterModal";
+import RegisterModal from "@/components/HomeComps/Content/RegisterModal";
 
 const GET_USER_QUERY = gql`
   query GetUserByEmail($email: String!) {
@@ -42,7 +42,7 @@ const Home: FC = () => {
 
   return (
     <div className="bg-white text-black flex flex-col px-2">
-      {/* <GameBar /> */}
+      <GameBar />
 
       <RegisterModal
         setIsOpen={setIsOpen}
@@ -63,7 +63,7 @@ const Home: FC = () => {
         <Content />
       </div>
 
-      <div className="hidden md:hidden lg:flex md:flex-row lg:my-8 lg:items-center lg:justify-center md:mb-16 lg:mx-20 2xl:mx-40">
+      <div className="hidden md:hidden lg:flex md:flex-row lg:my-8 lg:items-center lg:justify-center md:mb-16 lg:mx-4 2xl:mx-40">
         <HomeCarousel />
         <Content />
       </div>
