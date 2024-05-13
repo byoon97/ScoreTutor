@@ -15,6 +15,14 @@ builder.prismaObject('Pick', {
     })
   })
 
+  builder.queryField("getPicks", (t) =>
+  t.prismaField({
+    type: ['Pick'],
+    resolve: (query, _parent, _args, _ctx, _info) =>
+      prisma.pick.findMany({ ...query })
+  })
+)
+
 
 builder.mutationField("createPick", (t) =>
     t.prismaField({

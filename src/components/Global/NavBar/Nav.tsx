@@ -15,7 +15,7 @@ import { gql, useQuery } from "@apollo/client";
 const menuItemContainer = "flex flex-row items-center p-4 cursor-pointer";
 const menuItem = "font-thin pl-2";
 
-export const GET_USER_QUERY = gql`
+const GET_USER_QUERY = gql`
   query GetUserByEmail($email: String!) {
     getUserByEmail(email: $email) {
       id
