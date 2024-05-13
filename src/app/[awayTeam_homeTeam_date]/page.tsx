@@ -25,8 +25,7 @@ export default function Page({}: Props) {
 
   return (
     <div className="bg-white text-black pb-2 border-[1px] border-black">
-      {/* 
-      HEADER */}
+      {/* HEADER */}
       <div className="bg-[#1E2021] text-white py-1 px-2 text-xs h-8 flex items-center">
         {state.currentGame?.when}
       </div>

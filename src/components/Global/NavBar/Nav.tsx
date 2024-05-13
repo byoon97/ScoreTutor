@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CgProfile } from "react-icons/cg";
 import { useUser } from "@auth0/nextjs-auth0/client";
@@ -10,14 +10,35 @@ import { MdCardMembership } from "react-icons/md";
 import { CiBoxList } from "react-icons/ci";
 import { CiCalendar } from "react-icons/ci";
 import { FcAbout } from "react-icons/fc";
+import { gql, useQuery } from "@apollo/client";
 
 const menuItemContainer = "flex flex-row items-center p-4 cursor-pointer";
 const menuItem = "font-thin pl-2";
+
+export const GET_USER_QUERY = gql`
+  query GetUserByEmail($email: String!) {
+    getUserByEmail(email: $email) {
+      id
+      email
+      firstName
+      lastName
+      phoneNumber
+    }
+  }
+`;
 
 export default function Nav() {
   const [openMenu, setOpenMenu] = React.useState(false);
   const [openHamMenu, setOpenHamMenu] = React.useState(false);
   const { user } = useUser();
+  const { loading, error, data } = useQuery(GET_USER_QUERY, {
+    variables: { email: user?.email },
+    skip: !user?.email,
+  });
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <div className="sticky top-0 bg-black z-10 text-white px-4 shadow-xl py-2">
@@ -46,13 +67,17 @@ export default function Nav() {
               <div className={menuItem}>Sign In</div>
             </div>
           </Link>
-          <Link href="/profile">
-            {" "}
-            <div className={menuItemContainer}>
-              <CgProfile size={20} />
-              <div className={menuItem}>Profile</div>
-            </div>
-          </Link>
+          {data ? (
+            <Link
+              href={`/profile/${data?.getUserByEmail?.firstName}_${data?.getUserByEmail?.lastName}_${data?.getUserByEmail?.id}`}
+            >
+              {" "}
+              <div className={menuItemContainer}>
+                <CgProfile size={20} />
+                <div className={menuItem}>Profile</div>
+              </div>
+            </Link>
+          ) : null}
 
           <Link href="/join">
             {" "}

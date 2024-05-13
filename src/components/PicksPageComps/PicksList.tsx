@@ -29,7 +29,15 @@ export default function PicksList({}: Props) {
 
   return (
     <div className="flex flex-col p-4 bg-white text-black pt-4">
-      <div className="border-t-[1px] border-[#595959] py-3 mx-16"></div>
+      <div className="border-t-[1px] border-[#595959] py-1 mx-16"></div>
+      <div className="flex justify-center items-center">
+        <Link href={"/addPick"}>
+          {" "}
+          <button className="border-[1px] px-2 py-1 rounded-lg border-black text-[13px]">
+            Add Pick
+          </button>
+        </Link>
+      </div>
       <div className="lg:hidden">
         {picks.map((pick) => {
           const generateLink = () => {
@@ -46,7 +54,12 @@ export default function PicksList({}: Props) {
           };
 
           return (
-            <div key={pick.id} onClick={() => addGame(pick)}>
+            // change to flex wrap or grid later on medium screens
+            <div
+              key={pick.id}
+              onClick={() => addGame(pick)}
+              className="md:w-[397px]"
+            >
               <Link href={generateLink()}>
                 <SinglePick pick={pick as GamePick} />
               </Link>

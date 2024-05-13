@@ -21,6 +21,8 @@ async function seed() {
                   firstName: user.firstName,
                   lastName: user.lastName,
                   role: user.role,
+                  bankroll: 1000,
+                  unitSize: 100
               }
           });
 
