@@ -15,6 +15,12 @@ builder.prismaObject('User', {
     phoneNumber: t.exposeString('phoneNumber', {
       nullable: true
     }),
+    bankroll: t.exposeInt('bankroll', {
+      nullable: true
+    }),
+    unitSize: t.exposeInt('unitSize', {
+      nullable: true
+    }),
     role: t.expose('role', { type: Role, }),
     membership: t.relation('membership')
   })
@@ -31,17 +37,19 @@ builder.mutationField("updateUser", (t) =>
       email: t.arg.string({ required: true}),
       firstName: t.arg.string({ required: true }),
       lastName: t.arg.string({ required: true }),
-      phoneNumber: t.arg.string({ required: true})
+      phoneNumber: t.arg.string({ required: true}),
+      unitSize: t.arg.int({required: true}),
+      bankroll: t.arg.int({required: true})
     },
     resolve: async (query, _parent, args, ctx) => {
-      const { email, firstName, lastName, phoneNumber } = args
+      const { email, firstName, lastName, phoneNumber, unitSize, bankroll } = args
       return prisma.user.update({
         where: {
           email: email,
         },
        
         data: {
-          firstName, lastName, phoneNumber
+          firstName, lastName, phoneNumber, unitSize, bankroll
         },
         ...query,
       })

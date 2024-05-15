@@ -55,8 +55,8 @@ export const POST = async(request:any) => {
   const session = await stripe.checkout.sessions.create({
     line_items: stripeItems,
     mode: "payment",
-    success_url: `http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: 'http://localhost:3000/join'
+    success_url: `/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: '/join'
   })
 
   console.log(session)

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Pick" ALTER COLUMN "startTime" SET DATA TYPE TEXT;

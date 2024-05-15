@@ -1,14 +1,12 @@
 "use client";
 import React, { FC } from "react";
-import GameBar from "@/components/NavBar/GameBar";
-import Nav from "@/components/NavBar/Nav";
-import Content from "@/components/Content/Index";
-import Picks from "@/components/Picks/Index";
-import Footer from "@/components/Footer/Index";
-import HomeCarousel from "@/components/HomeCarousel/Index";
+import GameBar from "@/components/Global/NavBar/GameBar";
+import Content from "@/components/HomeComps/Content/Index";
+import Picks from "@/components/HomeComps/Picks/Index";
+import HomeCarousel from "@/components/HomeComps/HomeCarousel/Index";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { gql, useQuery } from "@apollo/client";
-import RegisterModal from "@/components/RegisterModal";
+import RegisterModal from "@/components/HomeComps/Content/RegisterModal";
 
 const GET_USER_QUERY = gql`
   query GetUserByEmail($email: String!) {
@@ -27,7 +25,7 @@ const Home: FC = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const { loading, error, data } = useQuery(GET_USER_QUERY, {
     variables: { email: user?.email },
-    skip: !user,
+    skip: !user?.email,
   });
 
   React.useEffect(() => {
@@ -38,17 +36,21 @@ const Home: FC = () => {
     } else {
       setIsOpen(true);
     }
+
+    console.log(user?.email, error, data);
   }, [user, data, loading, error]);
 
   return (
     <div className="bg-white text-black flex flex-col px-2">
       {/* <GameBar /> */}
 
-      <RegisterModal
-        setIsOpen={setIsOpen}
-        modalIsOpen={modalIsOpen}
-        email={data?.getUserByEmail?.email}
-      />
+      {setIsOpen ? (
+        <RegisterModal
+          setIsOpen={setIsOpen}
+          modalIsOpen={modalIsOpen}
+          email={data?.getUserByEmail?.email}
+        />
+      ) : null}
 
       <div className="md:hidden flex items-center flex-col">
         {" "}
@@ -63,7 +65,7 @@ const Home: FC = () => {
         <Content />
       </div>
 
-      <div className="hidden md:hidden lg:flex md:flex-row lg:my-8 lg:items-center lg:justify-center md:mb-16 lg:mx-20 2xl:mx-40">
+      <div className="hidden md:hidden lg:flex md:flex-row lg:my-8 lg:items-center lg:justify-center md:mb-16 lg:mx-4 2xl:mx-40">
         <HomeCarousel />
         <Content />
       </div>

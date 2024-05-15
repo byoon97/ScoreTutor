@@ -28,7 +28,7 @@ export default function Page({}: Props) {
 
   const checkout = async () => {
     console.log(user);
-    await fetch("http://localhost:3000/api/checkout", {
+    await fetch("/api/checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export default function Page({}: Props) {
           <div className="text-[#77D2EF] text-5xl font-bold mt-4">
             ScoreTutor VIP
           </div>
-          <div className="flex flex-row my-6 rounded-lg text-[10px] justify-evenly font-thin h-6 w-full md:w-auto md:w-5/6 xl:w-3/4">
+          <div className="flex flex-row my-6 rounded-lg text-[10px] justify-evenly font-thin h-6 w-full md:w-5/6 xl:w-3/4">
             <div
               onClick={() => setMem({ name: "Month", price: 250 })}
               className={`flex items-center justify-center w-full h-full rounded-l-lg ${
@@ -142,7 +142,7 @@ export default function Page({}: Props) {
         ) : (
           <Link href="/api/auth/login">
             {" "}
-            <div className="bg-[#3367AD] h-14 mt-4 rounded-lg font-thin w-80">
+            <div className="bg-[#3367AD] h-14 mt-4 rounded-lg font-thin w-80 flex items-center justify-center">
               Sign In to get Premium
             </div>
           </Link>

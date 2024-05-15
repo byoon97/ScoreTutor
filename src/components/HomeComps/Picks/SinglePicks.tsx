@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { FC } from "react";
-import { picks } from "@/data/picks";
+import { picks } from "../../../../public/data/picks";
 import Image from "next/image";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";

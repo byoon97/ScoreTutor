@@ -13,6 +13,8 @@ type Credentials = {
   firstName: string;
   lastName: string;
   phoneNumber: string;
+  unitSize: number;
+  bankroll: number;
 };
 
 const UPDATE_USER_MUTATION = gql`
@@ -21,16 +23,22 @@ const UPDATE_USER_MUTATION = gql`
     $firstName: String!
     $lastName: String!
     $phoneNumber: String!
+    $unitSize: Int!
+    $bankroll: Int!
   ) {
     updateUser(
       email: $email
       firstName: $firstName
       lastName: $lastName
       phoneNumber: $phoneNumber
+      unitSize: $unitSize
+      bankroll: $bankroll
     ) {
       firstName
       lastName
       phoneNumber
+      unitSize
+      bankroll
     }
   }
 `;
@@ -55,22 +63,32 @@ export default function RegisterModal({
     firstName: "",
     lastName: "",
     phoneNumber: "",
+    bankroll: 0,
+    unitSize: 0,
   });
 
   const [updateUser, { data, loading, error }] =
     useMutation(UPDATE_USER_MUTATION);
 
   async function closeModal() {
-    await updateUser({
-      variables: {
-        email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        phoneNumber: user.phoneNumber,
-      },
-    });
-    setIsOpen(false);
+    try {
+      let updatedUser = await updateUser({
+        variables: {
+          email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phoneNumber: user.phoneNumber,
+          unitSize: user.unitSize,
+          bankroll: user.bankroll,
+        },
+      });
+      console.log(updatedUser);
+      setIsOpen(false);
+    } catch (err) {
+      console.error(error);
+    }
   }
+
   return (
     <div>
       <Modal
@@ -98,9 +116,8 @@ export default function RegisterModal({
                   value={user.firstName}
                   onChange={(e) =>
                     setUser({
+                      ...user,
                       firstName: e.target.value,
-                      lastName: user.lastName,
-                      phoneNumber: user.phoneNumber,
                     })
                   }
                   required
@@ -119,19 +136,47 @@ export default function RegisterModal({
                   value={user.lastName}
                   onChange={(e) =>
                     setUser({
-                      firstName: user.firstName,
+                      ...user,
                       lastName: e.target.value,
-                      phoneNumber: user.phoneNumber,
                     })
                   }
                   required
                 />
               </div>
               <div className="w-full md:w-full px-3 mb-6">
-                <label
-                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                  htmlFor="phoneNumber"
-                >
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Unit Size
+                </label>
+                <input
+                  className="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none"
+                  value={user.unitSize}
+                  onChange={(e) =>
+                    setUser({
+                      ...user,
+                      unitSize: Number(e.target.value),
+                    })
+                  }
+                  required
+                />
+              </div>
+              <div className="w-full md:w-full px-3 mb-6">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Bankroll
+                </label>
+                <input
+                  className="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none"
+                  value={user.bankroll}
+                  onChange={(e) =>
+                    setUser({
+                      ...user,
+                      bankroll: Number(e.target.value),
+                    })
+                  }
+                  required
+                />
+              </div>
+              <div className="w-full md:w-full px-3 mb-6">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Phone Number
                 </label>
                 <input
@@ -143,6 +188,8 @@ export default function RegisterModal({
                       firstName: user.firstName,
                       lastName: user.lastName,
                       phoneNumber: e.target.value,
+                      unitSize: user.unitSize,
+                      bankroll: user.bankroll,
                     })
                   }
                   required
