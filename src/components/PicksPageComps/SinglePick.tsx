@@ -57,11 +57,11 @@ const SinglePick: React.FC<SinglePickProps> = (game) => {
       </div>
       <div className="py-1 text-xs">
         <div className="flex flex-row">
-          <span>{game.pick}</span> &nbsp;
+          <span>Pick: {game.pick}</span> &nbsp;
         </div>
       </div>
       <div className="text-[12px] font-bold">Units Wagered: {game.unit}</div>
-      <div className="text-[12px]">Pick: {game.startTime}</div>
+      <div className="text-[12px]">Time: {game.startTime}</div>
       <div className="text-[12px]">Result: {game.result}</div>
     </div>
   );

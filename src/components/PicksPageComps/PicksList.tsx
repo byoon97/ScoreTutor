@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { GamePick, picks } from "../../../public/data/picks";
 import Image from "next/image";
 import Link from "next/link";
-import { Game, useGlobalState } from "@/app/context/store";
+import { useGlobalState } from "@/app/context/store";
 import SinglePick from "./SinglePick";
 import PickPreviewMD from "./PickPreviewMD";
 import { gql, useQuery } from "@apollo/client";
@@ -12,6 +12,7 @@ import { gql, useQuery } from "@apollo/client";
 const GET_PICKS_QUERY = gql`
   query GetPicks {
     getPicks {
+      createdAt
       homeTeam
       awayTeam
       homeTeamLogo
@@ -33,14 +34,16 @@ export type SinglePickProps = {
   unit: number;
   startTime: string;
   result: string;
+  createdAt: string;
 };
 
 type Props = {};
 
 export default function PicksList({}: Props) {
   const { state, dispatch } = useGlobalState();
+  const [slate, setSlate] = React.useState([]);
 
-  const addGame = (newGame: Game) => {
+  const addGame = (newGame: SinglePickProps) => {
     dispatch({ type: "SET_GAME", payload: newGame });
   };
 
@@ -48,16 +51,25 @@ export default function PicksList({}: Props) {
 
   const getDate = () => {
     const currentDate = new Date();
-    const formattedDate = `${
-      currentDate.getMonth() + 1
-    }/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+    const formattedMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const formattedDay = String(currentDate.getDate()).padStart(2, "0");
+    const formattedDate = `${formattedMonth}-${formattedDay}-${currentDate.getFullYear()}`;
+    const dateCheck = `${currentDate.getFullYear()}-${formattedMonth}-${formattedDay}`;
 
-    return formattedDate;
+    return { formattedDate, dateCheck };
   };
 
   useEffect(() => {
     if (!loading) {
-      console.log(data, error);
+      data.getPicks.forEach((game: SinglePickProps) => {
+        console.log(game.createdAt, getDate().dateCheck);
+      });
+      setSlate(
+        data.getPicks.filter(
+          (pick: SinglePickProps) => pick.createdAt == getDate().dateCheck
+        )
+      );
+      console.log(slate);
     } else {
       console.log(loading);
     }
@@ -77,14 +89,14 @@ export default function PicksList({}: Props) {
       <div className="flex items-center, justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:hidden">
           {!loading &&
-            data.getPicks.map((pick: SinglePickProps) => {
+            slate.map((pick: SinglePickProps) => {
               const generateLink = () => {
                 let link;
                 const awayTeam = pick.awayTeam.replace(/\s/g, "_");
                 const homeTeam = pick.homeTeam
                   .replace(/\s/g, "_")
                   .replace("@", "%40");
-                const date = getDate().replace(/\//g, "-");
+                const date = getDate().formattedDate.replace(/\//g, "-");
 
                 link = `${awayTeam}_${homeTeam}_${date}`;
 
@@ -106,26 +118,33 @@ export default function PicksList({}: Props) {
             })}
         </div>
       </div>
-      <div className="hidden lg:flex lg:flex-row">
+      <div className="hidden lg:flex lg:flex-row lg:m-6">
         <div className="mr-4">
           {" "}
-          {picks.map((pick) => {
+          {slate.map((pick: SinglePickProps) => {
             return (
-              <div key={pick.id} onClick={() => addGame(pick)}>
-                <SinglePick
-                  pick={""}
-                  unit={0}
-                  startTime={""}
-                  result={""}
-                  {...pick}
-                />
+              <div
+                key={data.getPicks.indexOf(pick)}
+                onClick={() => addGame(pick)}
+              >
+                <SinglePick {...pick} />
               </div>
             );
           })}
         </div>
 
         <div className="hidden lg:flex">
-          <PickPreviewMD />
+          <PickPreviewMD
+            homeTeam={""}
+            awayTeam={""}
+            homeTeamLogo={""}
+            awayTeamLogo={""}
+            pick={""}
+            unit={0}
+            startTime={""}
+            result={""}
+            createdAt={""}
+          />
         </div>
       </div>
     </div>

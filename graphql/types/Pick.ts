@@ -4,6 +4,9 @@ import { builder } from "../builder";
 builder.prismaObject('Pick', {
     fields: (t) => ({
       id: t.exposeID('id'),
+      createdAt: t.expose("createdAt", {
+        type: "Date",
+    }),
       startTime: t.exposeString('startTime'),
       homeTeam: t.exposeString('homeTeam'),
       awayTeam: t.exposeString('awayTeam'),

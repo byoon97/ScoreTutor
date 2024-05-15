@@ -61,7 +61,10 @@ export default function Nav() {
       </div>{" "}
       {openHamMenu && (
         <div className="absolute w-56 bg-black text-white z-10 -mx-4">
-          <Link href="/api/auth/login">
+          <Link
+            href="/api/auth/login"
+            onClick={() => setOpenHamMenu(!openHamMenu)}
+          >
             <div className={menuItemContainer}>
               <FaSignInAlt size={20} />
               <div className={menuItem}>Sign In</div>
@@ -69,6 +72,7 @@ export default function Nav() {
           </Link>
           {data ? (
             <Link
+              onClick={() => setOpenHamMenu(!openHamMenu)}
               href={`/profile/${data?.getUserByEmail?.firstName}_${data?.getUserByEmail?.lastName}_${data?.getUserByEmail?.id}`}
             >
               {" "}
@@ -79,7 +83,7 @@ export default function Nav() {
             </Link>
           ) : null}
 
-          <Link href="/join">
+          <Link href="/join" onClick={() => setOpenHamMenu(!openHamMenu)}>
             {" "}
             <div className={menuItemContainer}>
               <MdCardMembership size={20} />
@@ -88,7 +92,7 @@ export default function Nav() {
           </Link>
 
           <div className="border-b-[1px] border-[#5A5A5A]"></div>
-          <Link href="/picks">
+          <Link href="/picks" onClick={() => setOpenHamMenu(!openHamMenu)}>
             {" "}
             <div className={menuItemContainer}>
               <CiBoxList size={20} />
@@ -96,7 +100,7 @@ export default function Nav() {
             </div>
           </Link>
 
-          <Link href="/calendar">
+          <Link href="/calendar" onClick={() => setOpenHamMenu(!openHamMenu)}>
             {" "}
             <div className={menuItemContainer}>
               <CiCalendar size={20} />
@@ -105,7 +109,7 @@ export default function Nav() {
           </Link>
 
           <div className="border-b-[1px] border-[#5A5A5A]"></div>
-          <Link href="/about">
+          <Link href="/about" onClick={() => setOpenHamMenu(!openHamMenu)}>
             {" "}
             <div className={menuItemContainer}>
               <FcAbout size={20} />
@@ -120,17 +124,23 @@ export default function Nav() {
         <div className="flex flex-col font-inter text-sm pt-2">
           <div className="py-2 pl-4 border-t-[1px] border-[#31383D] text-[#656667]">
             {user ? (
-              <Link href="/api/auth/logout">
+              <Link
+                href="/api/auth/logout"
+                onClick={() => setOpenHamMenu(!openHamMenu)}
+              >
                 <span>Sign Out</span>
               </Link>
             ) : (
-              <Link href="/api/auth/login">
+              <Link
+                href="/api/auth/login"
+                onClick={() => setOpenHamMenu(!openHamMenu)}
+              >
                 <span>Log In</span>
               </Link>
             )}
           </div>
 
-          <Link href="/join">
+          <Link href="/join" onClick={() => setOpenHamMenu(!openHamMenu)}>
             <div className="pt-2 pb-1 pl-4 border-t-[1px] border-[#31383D] text-[#77D2EF]">
               Become a Member
             </div>
