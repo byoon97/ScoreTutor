@@ -19,6 +19,7 @@ const CreatePickMutation = gql`
     $unit: Float!
     $startTime: String!
     $result: String!
+    $leagueLogo: String!
   ) {
     createPick(
       homeTeam: $homeTeam
@@ -29,6 +30,7 @@ const CreatePickMutation = gql`
       unit: $unit
       startTime: $startTime
       result: $result
+      leagueLogo: $leagueLogo
     ) {
       homeTeam
       awayTeam
@@ -38,6 +40,7 @@ const CreatePickMutation = gql`
       unit
       startTime
       result
+      leagueLogo
     }
   }
 `;
@@ -56,6 +59,29 @@ const TeamBySport: { [key in Sports]: Team[] } = {
   NFL: NFLlogos,
 };
 
+const leagueLogosArray = [
+  {
+    league: "NBA",
+    logo: "/sportsLogos/NBA.png",
+  },
+  {
+    league: "MLB",
+    logo: "/sportsLogos/MLB.png",
+  },
+  {
+    league: "NFL",
+    logo: "/sportsLogos/NFL.png",
+  },
+  {
+    league: "NHL",
+    logo: "/sportsLogos/NHL.png",
+  },
+  {
+    league: "NCAAB",
+    logo: "/sportsLogos/NCAA.png",
+  },
+];
+
 const Form: React.FC = () => {
   const [selectedSport, setSelectedSport] = React.useState<Sports | null>(null);
   const [homeTeam, setHomeTeam] = React.useState<string | null>(null);
@@ -65,6 +91,7 @@ const Form: React.FC = () => {
   const [unit, setUnits] = React.useState<number | null>(null);
   const [pick, setPick] = React.useState<string>("");
   const [startTime, setStartTime] = React.useState<string>("");
+  const [leagueLogo, setLeagueLogo] = React.useState<string>("");
 
   const [createPick, { data, loading, error }] =
     useMutation(CreatePickMutation);
@@ -76,6 +103,18 @@ const Form: React.FC = () => {
     setAwayTeam(null);
     setHomeTeamLogo(null);
     setAwayTeamLogo(null);
+
+    const leagueLogo = leagueLogosArray.find(
+      (league) => league.league === sport
+    )?.logo;
+
+    if (leagueLogo) {
+      console.log(leagueLogo);
+      setLeagueLogo(leagueLogo);
+    } else {
+      console.log("No matching league found for:", sport);
+      setLeagueLogo("/path/to/default/logo.png");
+    }
   };
 
   const handleHomeTeamChange = (
@@ -119,6 +158,7 @@ const Form: React.FC = () => {
       unit,
       startTime,
       result: "Incomplete",
+      leagueLogo,
     };
 
     try {
