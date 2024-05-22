@@ -28,17 +28,17 @@ const Home: FC = () => {
     skip: !user?.email,
   });
 
-  React.useEffect(() => {
-    if (!user) {
-      setIsOpen(false);
-    } else if (data?.getUserByEmail?.firstName) {
-      setIsOpen(false);
-    } else {
-      setIsOpen(true);
-    }
+  // React.useEffect(() => {
+  //   if (!user) {
+  //     setIsOpen(false);
+  //   } else if (data?.getUserByEmail?.firstName) {
+  //     setIsOpen(false);
+  //   } else {
+  //     setIsOpen(true);
+  //   }
 
-    console.log(user?.email, error, data);
-  }, [user, data, loading, error]);
+  //   console.log(user?.email, error, data);
+  // }, [user, data, loading, error]);
 
   return (
     <div className="bg-white text-black flex flex-col px-2">

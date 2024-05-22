@@ -49,7 +49,15 @@ export default function Nav() {
             fontSize={"1.5em"}
             onClick={() => setOpenHamMenu(!openHamMenu)}
           />
-          <Image src="/image.png" alt="logo" width="100" height="100" />
+          <Link href="/">
+            <Image
+              src="/image.png"
+              alt="logo"
+              width="100"
+              height="100"
+              className="pointer"
+            />
+          </Link>
         </div>
 
         <div

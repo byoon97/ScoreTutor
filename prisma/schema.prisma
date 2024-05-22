@@ -52,6 +52,7 @@ model Pick {
   pick    String
   unit    Float
   result  String
+  leagueLogo  String?
 }
 
 enum Role {

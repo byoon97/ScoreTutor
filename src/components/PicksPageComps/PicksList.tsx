@@ -8,6 +8,7 @@ import { useGlobalState } from "@/app/context/store";
 import SinglePick from "./SinglePick";
 import PickPreviewMD from "./PickPreviewMD";
 import { gql, useQuery } from "@apollo/client";
+import { getDate } from "@/functions/getDate";
 
 const GET_PICKS_QUERY = gql`
   query GetPicks {
@@ -21,6 +22,7 @@ const GET_PICKS_QUERY = gql`
       unit
       startTime
       result
+      leagueLogo
     }
   }
 `;
@@ -35,6 +37,7 @@ export type SinglePickProps = {
   startTime: string;
   result: string;
   createdAt: string;
+  leagueLogo: string;
 };
 
 type Props = {};
@@ -48,16 +51,6 @@ export default function PicksList({}: Props) {
   };
 
   const { loading, error, data } = useQuery(GET_PICKS_QUERY);
-
-  const getDate = () => {
-    const currentDate = new Date();
-    const formattedMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
-    const formattedDay = String(currentDate.getDate()).padStart(2, "0");
-    const formattedDate = `${formattedMonth}-${formattedDay}-${currentDate.getFullYear()}`;
-    const dateCheck = `${currentDate.getFullYear()}-${formattedMonth}-${formattedDay}`;
-
-    return { formattedDate, dateCheck };
-  };
 
   useEffect(() => {
     if (!loading) {
@@ -144,6 +137,7 @@ export default function PicksList({}: Props) {
             startTime={""}
             result={""}
             createdAt={""}
+            leagueLogo={""}
           />
         </div>
       </div>
