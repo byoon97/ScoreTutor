@@ -48,7 +48,7 @@ export default function Page({}: Props) {
 
   return (
     <div className="bg-[#202121] flex flex-col px-4 py-8">
-      <div className="flex flex-col md:flex-row items-center justify-center md:flex-row lg:mx-30 lg:pb-16">
+      <div className="flex flex-col md:flex-row items-center justify-center lg:mx-30 lg:pb-16">
         <div className="lg:mx-12">
           <div className="font-bold text-3xl text-left flex flex-col tracking-wide">
             <span className="text-6xl">Unlimited Picks</span>

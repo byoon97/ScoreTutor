@@ -3,42 +3,21 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CgProfile } from "react-icons/cg";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
 import { FaSignInAlt } from "react-icons/fa";
 import { MdCardMembership } from "react-icons/md";
 import { CiBoxList } from "react-icons/ci";
 import { CiCalendar } from "react-icons/ci";
 import { FcAbout } from "react-icons/fc";
-import { gql, useQuery } from "@apollo/client";
+import { useUser } from "@/app/context/UserContext/userStore";
 
 const menuItemContainer = "flex flex-row items-center p-4 cursor-pointer";
 const menuItem = "font-thin pl-2";
 
-const GET_USER_QUERY = gql`
-  query GetUserByEmail($email: String!) {
-    getUserByEmail(email: $email) {
-      id
-      email
-      firstName
-      lastName
-      phoneNumber
-    }
-  }
-`;
-
 export default function Nav() {
   const [openMenu, setOpenMenu] = React.useState(false);
   const [openHamMenu, setOpenHamMenu] = React.useState(false);
-  const { user } = useUser();
-  const { loading, error, data } = useQuery(GET_USER_QUERY, {
-    variables: { email: user?.email },
-    skip: !user?.email,
-  });
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const { user, isLoading, error, isSignedIn } = useUser();
 
   return (
     <div className="sticky top-0 bg-black z-10 text-white px-4 shadow-xl py-2">
@@ -69,19 +48,32 @@ export default function Nav() {
       </div>{" "}
       {openHamMenu && (
         <div className="absolute w-56 bg-black text-white z-10 -mx-4">
-          <Link
-            href="/api/auth/login"
-            onClick={() => setOpenHamMenu(!openHamMenu)}
-          >
-            <div className={menuItemContainer}>
-              <FaSignInAlt size={20} />
-              <div className={menuItem}>Sign In</div>
-            </div>
-          </Link>
-          {data ? (
+          {!isSignedIn ? (
+            <Link
+              href="/api/auth/login"
+              onClick={() => setOpenHamMenu(!openHamMenu)}
+            >
+              <div className={menuItemContainer}>
+                <FaSignInAlt size={20} />
+                <div className={menuItem}>Sign In</div>
+              </div>
+            </Link>
+          ) : (
+            <Link
+              href="/api/auth/logout"
+              onClick={() => setOpenHamMenu(!openHamMenu)}
+            >
+              <div className={menuItemContainer}>
+                <FaSignInAlt size={20} />
+                <div className={menuItem}>Sign Out</div>
+              </div>
+            </Link>
+          )}
+
+          {isSignedIn ? (
             <Link
               onClick={() => setOpenHamMenu(!openHamMenu)}
-              href={`/profile/${data?.getUserByEmail?.firstName}_${data?.getUserByEmail?.lastName}_${data?.getUserByEmail?.id}`}
+              href={`/profile/${user?.firstName}_${user?.lastName}`}
             >
               {" "}
               <div className={menuItemContainer}>
@@ -131,7 +123,7 @@ export default function Nav() {
       {openMenu ? (
         <div className="flex flex-col font-inter text-sm pt-2">
           <div className="py-2 pl-4 border-t-[1px] border-[#31383D] text-[#656667]">
-            {user ? (
+            {isSignedIn ? (
               <Link
                 href="/api/auth/logout"
                 onClick={() => setOpenHamMenu(!openHamMenu)}

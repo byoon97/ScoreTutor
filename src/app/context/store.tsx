@@ -1,6 +1,7 @@
 "use client";
 import React, { createContext, useContext, useReducer, ReactNode } from "react";
 import { SinglePickProps } from "@/components/PicksPageComps/PicksList";
+
 // Define the shape of a game object
 
 // Adjust GlobalState to hold a singular game object
