@@ -1,12 +1,15 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import toast, { Toaster } from "react-hot-toast";
 import { InputObject, OutputObject } from "@/functions/eventsMapper";
+import { Pick, event } from "@/types";
 
 type LinesProps = {
   time: string;
-  event: any;
+  event: event;
+  setBetSlip: React.Dispatch<React.SetStateAction<Pick[]>>;
 };
 
 const CreatePickMutation = gql`
@@ -19,7 +22,7 @@ const CreatePickMutation = gql`
     $unit: Float!
     $startTime: String!
     $result: String!
-    $leagueLogo: String!
+    $eventId: String!
   ) {
     createPick(
       homeTeam: $homeTeam
@@ -30,7 +33,7 @@ const CreatePickMutation = gql`
       unit: $unit
       startTime: $startTime
       result: $result
-      leagueLogo: $leagueLogo
+      eventId: $eventId
     ) {
       homeTeam
       awayTeam
@@ -40,7 +43,7 @@ const CreatePickMutation = gql`
       unit
       startTime
       result
-      leagueLogo
+      eventId
     }
   }
 `;
@@ -49,44 +52,26 @@ const lineContainer =
   "flex p-2 m-0.5 justify-center text-center flex-col gap-2 bg-[#242424] h-12 text-white";
 const oddsBox = "text-xs box-border h-full w-full relative";
 
-const Lines: React.FC<LinesProps> = ({ time, event }) => {
+const Lines: React.FC<LinesProps> = ({ time, event, setBetSlip }) => {
+  const [data, setData] = React.useState<Pick>({
+    homeTeam: event.teams[1].name,
+    homeTeamLogo: event.teams[1].teamLogo,
+    awayTeam: event.teams[0].name,
+    awayTeamLogo: event.teams[0].teamLogo,
+    pick: "",
+    unit: 0,
+    startTime: time,
+    result: "Incomplete",
+    eventId: event.eventid,
+  });
+
   const [createPick, { data: createdPick, loading, error }] =
     useMutation(CreatePickMutation);
 
-  //   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //     event.preventDefault();
-  //     createPickFunction();
-  //   };
+  const handleAdd = (ele: Pick) => {
+    setBetSlip((prevBetSlip) => [...prevBetSlip, ele]);
+  };
 
-  //   const createPickFunction = async () => {
-  //     const variables = {
-  //       homeTeam,
-  //       awayTeam,
-  //       homeTeamLogo,
-  //       awayTeamLogo,
-  //       pick,
-  //       unit,
-  //       startTime,
-  //       result: "Incomplete",
-  //       leagueLogo,
-  //     };
-
-  //     try {
-  //       console.log("variables", variables);
-  //       createPick({ variables })
-  //         .then((response) => {
-  //           console.log("Pick Created:", response.data.createPick);
-  //         })
-  //         .catch((err) => {
-  //           console.error("Error creating pick:", err);
-  //         });
-  //       // const newPick = await createPick({ variables });
-  //       // console.log(newPick);
-  //     } catch (error) {
-  //       console.log(error);
-  //       toast.error("Error has occured");
-  //     }
-  //   };
   return (
     <div className=" text-white border-t border-gray-800 pb-2 pt-2 mt-2">
       <div className="text-[10px]">{time}</div>
@@ -105,8 +90,16 @@ const Lines: React.FC<LinesProps> = ({ time, event }) => {
           </div>
         </div>
         {/* AWAY TEAM SPREAD!!!!!!!!!!! */}
-        <div className={oddsBox}>
-          {event.lines.spread.point_spread_away == 0.001 ? (
+        <div
+          className={oddsBox}
+          onClick={() =>
+            handleAdd({
+              ...data,
+              pick: `${event.teams[0].name} ${event.lines.spread.point_spread_away} ${event.lines.spread.point_spread_away_odds}`,
+            })
+          }
+        >
+          {event.lines.spread.point_spread_away == 0.0001 ? (
             <div className={lineContainer}>N/A</div>
           ) : (
             <div className={lineContainer}>
@@ -124,9 +117,16 @@ const Lines: React.FC<LinesProps> = ({ time, event }) => {
           )}
         </div>
         {/* OVER!!!!!!!!!!! */}
-        <div className={oddsBox}>
-          {event.lines.total.total_over == 0 ||
-          event.lines.total.total_over == 0.0001 ? (
+        <div
+          className={oddsBox}
+          onClick={() =>
+            handleAdd({
+              ...data,
+              pick: `Over ${event.lines.total.total_over} ${event.lines.total.total_over_odds}`,
+            })
+          }
+        >
+          {event.lines.total.total_over == 0.0001 ? (
             <div className={lineContainer}>N/A</div>
           ) : (
             <div className={lineContainer}>
@@ -142,9 +142,16 @@ const Lines: React.FC<LinesProps> = ({ time, event }) => {
           )}
         </div>
         {/* AWAY TEAM!!!!!!!!!!! */}
-        <div className={oddsBox}>
-          {event.lines.moneyline.moneyline_away == 0.0001 ||
-          event.lines.moneyline.moneyline_away == 0.0001 ? (
+        <div
+          className={oddsBox}
+          onClick={() =>
+            handleAdd({
+              ...data,
+              pick: `${event.teams[0].name} ML ${event.lines.moneyline.moneyline_away}`,
+            })
+          }
+        >
+          {event.lines.moneyline.moneyline_away == 0.0001 ? (
             <div className={lineContainer}>N/A</div>
           ) : (
             <div className={lineContainer}>
@@ -174,8 +181,16 @@ const Lines: React.FC<LinesProps> = ({ time, event }) => {
           </div>
         </div>
         {/* HOME TEAM SPREAD!!!!!!!!!!! */}
-        <div className={oddsBox}>
-          {event.lines.spread.point_spread_home == 0.001 ? (
+        <div
+          className={oddsBox}
+          onClick={() =>
+            handleAdd({
+              ...data,
+              pick: `${event.teams[1].name} ${event.lines.spread.point_spread_home} ${event.lines.spread.point_spread_home_odds}`,
+            })
+          }
+        >
+          {event.lines.spread.point_spread_home == 0.0001 ? (
             <div className={lineContainer}>N/A</div>
           ) : (
             <div className={lineContainer}>
@@ -193,9 +208,16 @@ const Lines: React.FC<LinesProps> = ({ time, event }) => {
           )}
         </div>
         {/* UNDER!!!!!!!!!!! */}
-        <div className={oddsBox}>
-          {event.lines.total.total_over == 0 ||
-          event.lines.total.total_over == 0.0001 ? (
+        <div
+          className={oddsBox}
+          onClick={() =>
+            handleAdd({
+              ...data,
+              pick: `Over ${event.lines.total.total_over} ${event.lines.total.total_under_odds}`,
+            })
+          }
+        >
+          {event.lines.total.total_over == 0.0001 ? (
             <div className={lineContainer}>N/A</div>
           ) : (
             <div className={lineContainer}>
@@ -211,9 +233,16 @@ const Lines: React.FC<LinesProps> = ({ time, event }) => {
           )}
         </div>
         {/* home TEAM!!!!!!!!!!! */}
-        <div className={oddsBox}>
-          {event.lines.moneyline.moneyline_home == 0.0001 ||
-          event.lines.moneyline.moneyline_home == 0.0001 ? (
+        <div
+          className={oddsBox}
+          onClick={() =>
+            handleAdd({
+              ...data,
+              pick: `${event.teams[1].name} ML ${event.lines.moneyline.moneyline_home}`,
+            })
+          }
+        >
+          {event.lines.moneyline.moneyline_home == 0.0001 ? (
             <div className={lineContainer}>N/A</div>
           ) : (
             <div className={lineContainer}>
