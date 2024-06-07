@@ -8,6 +8,7 @@ import {
 } from "../../../public/SportsTeam";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import toast, { Toaster } from "react-hot-toast";
+import useSWR from "swr";
 
 const CreatePickMutation = gql`
   mutation createPick(
@@ -44,6 +45,9 @@ const CreatePickMutation = gql`
     }
   }
 `;
+
+export const fetcher = (...args: Parameters<typeof fetch>) =>
+  fetch(...args).then((res) => res.json());  
 
 type Team = {
   team: string;
@@ -92,9 +96,77 @@ const Form: React.FC = () => {
   const [pick, setPick] = React.useState<string>("");
   const [startTime, setStartTime] = React.useState<string>("");
   const [leagueLogo, setLeagueLogo] = React.useState<string>("");
+  const [data, setData] = React.useState();
 
-  const [createPick, { data, loading, error }] =
+  const [createPick, { data:createdPick, loading, error }] =
     useMutation(CreatePickMutation);
+
+    const {
+      data: nbaData,
+      error: nbaError,
+      isLoading: nbaLoading,
+    } = useSWR("/api/NBA", fetcher);
+  
+    // const {
+    //   data: nflData,
+    //   error: nflError,
+    //   isLoading: nflLoading,
+    // } = useSWR("/api/NFL", fetcher);
+  
+    const {
+      data: nhlData,
+      error: nhlError,
+      isLoading: nhlLoading,
+    } = useSWR("/api/NHL", fetcher);
+  
+    const {
+      data: mlbData,
+      error: mlbError,
+      isLoading: mlbLoading,
+    } = useSWR("/api/MLB", fetcher);
+
+    React.useEffect(() => {
+      if (selectedSport === "NBA") {
+        if (nbaLoading) console.log("...loading nba games");
+        else if (nbaError) console.error(nbaError);
+        else setData(nbaData);
+      }
+  
+      // if (selectedSport === "NFL") {
+      //   if (nflLoading) console.log("...loading nfl games");
+      //   else if (nflError) console.error(nflError);
+      //   else setData(nflData);
+      // }
+  
+      if (selectedSport === "NHL") {
+        if (nhlLoading) console.log("...loading nhl games");
+        else if (nhlError) console.error(nhlError);
+        else setData(nhlData);
+      }
+  
+      if (selectedSport === "MLB") {
+        if (mlbLoading) console.log("...loading mlb games");
+        else if (mlbError) console.error(mlbError);
+        else setData(mlbData);
+      }
+  
+      console.log(data);
+    }, [
+      selectedSport,
+      data,
+      nbaLoading,
+      nbaError,
+      nbaData,
+      // nflLoading,
+      // nflError,
+      // nflData,
+      nhlLoading,
+      nhlError,
+      nhlData,
+      mlbLoading,
+      mlbError,
+      mlbData,
+    ]);
 
   const handleSportChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const sport = event.target.value as Sports;
