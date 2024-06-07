@@ -33,7 +33,6 @@ const SinglePicks: FC = () => {
 
   React.useEffect(() => {
     if (!loading) {
-      console.log(data);
       data.getPicks.forEach((game: SinglePickProps) => {
         console.log(game.createdAt, getDate().dateCheck);
       });
@@ -42,9 +41,6 @@ const SinglePicks: FC = () => {
           (pick: SinglePickProps) => pick.createdAt == getDate().dateCheck
         )
       );
-      console.log(slate);
-    } else {
-      console.log(loading);
     }
   }, [loading, error, data]);
 

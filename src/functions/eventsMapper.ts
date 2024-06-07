@@ -16,6 +16,9 @@ export interface OutputTeam {
 }
 
 export interface InputObject {
+  score: {
+    event_status: string;
+  };
   event_id: string;
   sport_id: number;
   teams: InputTeam[];
@@ -27,12 +30,19 @@ export interface InputObject {
         moneyline_home: number;
       };
       spread: {
+        point_spread_home_money: number;
+        point_spread_away_money: number;
+     
         point_spread_away: number;
+    
         point_spread_home: number;
       };
       total: {
+   
         total_over: number;
+        total_over_money: number;
         total_under: number;
+        total_under_money: number;
       };
     };
   };
@@ -112,16 +122,20 @@ export function mapObjects(inputArray: InputObject[]): OutputObject[] {
       const line = lines[parseInt(key, 10)];
       mappedLines[parseInt(key, 10)] = {
         moneyline: {
-          moneyline_away: line.moneyline.moneyline_away,
-          moneyline_home: line.moneyline.moneyline_home,
+          moneyline_away: Math.round(line.moneyline.moneyline_away),
+          moneyline_home: Math.round(line.moneyline.moneyline_home),
         },
         spread: {
           point_spread_away: line.spread.point_spread_away,
+          point_spread_away_odds: Math.round(line.spread.point_spread_away_money),
           point_spread_home: line.spread.point_spread_home,
+          point_spread_home_odds: Math.round(line.spread.point_spread_home_money),
         },
         total: {
           total_over: line.total.total_over,
-          total_under: line.total.total_under,
+          total_over_odds: Math.round(line.total.total_over_money),
+          total_under: Math.round(line.total.total_over),
+          total_under_odds: Math.round(line.total.total_under_money),
         },
       };
     });

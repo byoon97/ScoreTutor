@@ -3,13 +3,12 @@ import React, { FC, useState, useRef } from "react";
 import Dropdown from "./GameBarComps/DropDown";
 import GameCarousel from "./GameBarComps/Carousel";
 import useSWR from "swr";
-import { useUser } from "@auth0/nextjs-auth0/client";
 
 const dropdownOptions = [
   { label: "NBA", imageSrc: "/sportsLogos/NBA.png" },
   { label: "NFL", imageSrc: "/sportsLogos/NFL.png" },
   { label: "MLB", imageSrc: "/sportsLogos/MLB.png" },
-  { label: "NHL", imageSrc: "/sportsLogos/NHL.png" },
+  // { label: "NHL", imageSrc: "/sportsLogos/NHL.png" },
   { label: "NCAA", imageSrc: "/sportsLogos/NCAA.png" },
 ];
 
@@ -29,11 +28,11 @@ const GameBar: React.FC<GameBarProps> = () => {
     isLoading: nbaLoading,
   } = useSWR("/api/NBA", fetcher);
 
-  const {
-    data: nflData,
-    error: nflError,
-    isLoading: nflLoading,
-  } = useSWR("/api/NFL", fetcher);
+  // const {
+  //   data: nflData,
+  //   error: nflError,
+  //   isLoading: nflLoading,
+  // } = useSWR("/api/NFL", fetcher);
 
   const {
     data: nhlData,
@@ -41,11 +40,11 @@ const GameBar: React.FC<GameBarProps> = () => {
     isLoading: nhlLoading,
   } = useSWR("/api/NHL", fetcher);
 
-  // const {
-  //   data: mlbData,
-  //   error: mlbError,
-  //   isLoading: mlbLoading,
-  // } = useSWR("/api/MLB", fetcher);
+  const {
+    data: mlbData,
+    error: mlbError,
+    isLoading: mlbLoading,
+  } = useSWR("/api/MLB", fetcher);
 
   React.useEffect(() => {
     if (selectedOption.label === "NBA") {
@@ -54,11 +53,11 @@ const GameBar: React.FC<GameBarProps> = () => {
       else setData(nbaData);
     }
 
-    if (selectedOption.label === "NFL") {
-      if (nflLoading) console.log("...loading nfl games");
-      else if (nflError) console.error(nflError);
-      else setData(nflData);
-    }
+    // if (selectedOption.label === "NFL") {
+    //   if (nflLoading) console.log("...loading nfl games");
+    //   else if (nflError) console.error(nflError);
+    //   else setData(nflData);
+    // }
 
     if (selectedOption.label === "NHL") {
       if (nhlLoading) console.log("...loading nhl games");
@@ -66,26 +65,28 @@ const GameBar: React.FC<GameBarProps> = () => {
       else setData(nhlData);
     }
 
-    // if (selectedOption.label === "MLB") {
-    //   if (mlbLoading) console.log("...loading mlb games");
-    //   else if (mlbError) console.error(mlbError);
-    //   else setData(mlbData);
-    // }
+    if (selectedOption.label === "MLB") {
+      if (mlbLoading) console.log("...loading mlb games");
+      else if (mlbError) console.error(mlbError);
+      else setData(mlbData);
+    }
+
+    console.log(data);
   }, [
     selectedOption,
     data,
     nbaLoading,
     nbaError,
     nbaData,
-    nflLoading,
-    nflError,
-    nflData,
+    // nflLoading,
+    // nflError,
+    // nflData,
     nhlLoading,
     nhlError,
     nhlData,
-    // mlbLoading,
-    // mlbError,
-    // mlbData,
+    mlbLoading,
+    mlbError,
+    mlbData,
   ]);
 
   return (
