@@ -6,7 +6,7 @@ import { SinglePickProps } from "./PicksList";
 
 const SinglePick: React.FC<SinglePickProps> = (game) => {
   return (
-    <div className="border-[1px] border-[#595959] my-2 text-sm p-4 rounded-lg shadow-lg hover:border-sky-500 md:w-[397px]">
+    <div className="border-[1px] border-[#595959] my-2 text-sm p-4 rounded-lg shadow-lg hover:border-sky-500">
       {" "}
       <div className="flex flex-row justify-between -px-2">
         <div className="flex flex-col w-full">
