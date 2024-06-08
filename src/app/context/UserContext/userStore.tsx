@@ -19,6 +19,7 @@ const GET_USER_QUERY = gql`
       firstName
       lastName
       phoneNumber
+      role
     }
   }
 `;
@@ -59,11 +60,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   });
 
   // Debugging log to check GraphQL query state
-  // useEffect(() => {
-  //   console.log("GraphQL loading:", gqlLoading);
-  //   console.log("GraphQL error:", gqlError);
-  //   console.log("GraphQL userData:", userData);
-  // }, [gqlLoading, gqlError, userData]);
+  useEffect(() => {
+    console.log("GraphQL loading:", gqlLoading);
+    console.log("GraphQL error:", gqlError);
+    console.log("GraphQL userData:", userData);
+  }, [gqlLoading, gqlError, userData]);
 
   useEffect(() => {
     if (auth0User) {

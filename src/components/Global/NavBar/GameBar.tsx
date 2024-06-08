@@ -8,7 +8,7 @@ const dropdownOptions = [
   { label: "NBA", imageSrc: "/sportsLogos/NBA.png" },
   { label: "NFL", imageSrc: "/sportsLogos/NFL.png" },
   { label: "MLB", imageSrc: "/sportsLogos/MLB.png" },
-  // { label: "NHL", imageSrc: "/sportsLogos/NHL.png" },
+  { label: "NHL", imageSrc: "/sportsLogos/NHL.png" },
   { label: "NCAA", imageSrc: "/sportsLogos/NCAA.png" },
 ];
 

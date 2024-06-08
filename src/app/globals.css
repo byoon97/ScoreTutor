@@ -80,4 +80,16 @@ body {
     animation: sk-chase-dot-before 2s infinite ease-in-out both;
 }
 
+/* Hide scrollbar for WebKit-based browsers (Chrome, Safari) */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for Internet Explorer and Edge */
+.no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
 /* Add the animation delay classes here, similar to your styled-components setup */

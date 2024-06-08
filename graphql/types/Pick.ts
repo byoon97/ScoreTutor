@@ -20,7 +20,9 @@ builder.prismaObject('Pick', {
       }),
       eventId: t.exposeString('eventId', {
         nullable: true
-      })
+      }),
+      status: t.exposeString('status'),
+      toWin: t.exposeFloat('toWin')
     })
   })
 
@@ -47,13 +49,15 @@ builder.mutationField("createPick", (t) =>
         result: t.arg.string({required: true}),
         leagueLogo: t.arg.string({required:true}),
         eventId: t.arg.string({required:true}),
+        status: t.arg.string({required:true}),
+        toWin: t.arg.float({required:true})
     },
   resolve: async (query, _parent, args, ctx) => {
-      const { startTime, homeTeam, homeTeamLogo, awayTeam, awayTeamLogo, pick, unit, result, leagueLogo,eventId } = args;
+      const { startTime, homeTeam, homeTeamLogo, awayTeam, awayTeamLogo, pick, unit, result, leagueLogo,eventId, toWin, status } = args;
       return await prisma.pick.create({
         ...query,
         data: {
-            startTime, awayTeam, homeTeam, awayTeamLogo, homeTeamLogo, pick, unit, result, leagueLogo,eventId
+            startTime, awayTeam, homeTeam, awayTeamLogo, homeTeamLogo, pick, unit, result, leagueLogo,eventId, toWin, status
         }
       });
     },

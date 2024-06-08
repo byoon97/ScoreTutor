@@ -51,6 +51,8 @@ model Pick {
   awayTeamLogo String
   pick    String
   unit    Float
+  status  String  @default("pending") 
+  toWin   Float   @default(0.0)       
   result  String
   leagueLogo  String?
   eventId String?

@@ -1,58 +1,33 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import React from "react";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import toast, { Toaster } from "react-hot-toast";
-import { InputObject, OutputObject } from "@/functions/eventsMapper";
 import { Pick, event } from "@/types";
 
 type LinesProps = {
   time: string;
+  selectedSport: string;
   event: event;
   setBetSlip: React.Dispatch<React.SetStateAction<Pick[]>>;
 };
-
-const CreatePickMutation = gql`
-  mutation createPick(
-    $homeTeam: String!
-    $awayTeam: String!
-    $homeTeamLogo: String!
-    $awayTeamLogo: String!
-    $pick: String!
-    $unit: Float!
-    $startTime: String!
-    $result: String!
-    $eventId: String!
-  ) {
-    createPick(
-      homeTeam: $homeTeam
-      awayTeam: $awayTeam
-      homeTeamLogo: $homeTeamLogo
-      awayTeamLogo: $awayTeamLogo
-      pick: $pick
-      unit: $unit
-      startTime: $startTime
-      result: $result
-      eventId: $eventId
-    ) {
-      homeTeam
-      awayTeam
-      homeTeamLogo
-      awayTeamLogo
-      pick
-      unit
-      startTime
-      result
-      eventId
-    }
-  }
-`;
 
 const lineContainer =
   "flex p-2 m-0.5 justify-center text-center flex-col gap-2 bg-[#242424] h-12 text-white";
 const oddsBox = "text-xs box-border h-full w-full relative";
 
-const Lines: React.FC<LinesProps> = ({ time, event, setBetSlip }) => {
+const leagueLogos = [
+  { label: "NBA", imageSrc: "/sportsLogos/NBA.png" },
+  { label: "NFL", imageSrc: "/sportsLogos/NFL.png" },
+  { label: "MLB", imageSrc: "/sportsLogos/MLB.png" },
+  { label: "NHL", imageSrc: "/sportsLogos/NHL.png" },
+  { label: "NCAA", imageSrc: "/sportsLogos/NCAA.png" },
+];
+
+const Lines: React.FC<LinesProps> = ({
+  time,
+  event,
+  selectedSport,
+  setBetSlip,
+}) => {
   const [data, setData] = React.useState<Pick>({
     homeTeam: event.teams[1].name,
     homeTeamLogo: event.teams[1].teamLogo,
@@ -61,12 +36,13 @@ const Lines: React.FC<LinesProps> = ({ time, event, setBetSlip }) => {
     pick: "",
     unit: 0,
     startTime: time,
-    result: "Incomplete",
+    result: "In Progress",
     eventId: event.eventid,
+    toWin: 0,
+    leagueLogo: leagueLogos.filter((league) => league.label == selectedSport)[0]
+      .imageSrc,
+    status: "In Progress",
   });
-
-  const [createPick, { data: createdPick, loading, error }] =
-    useMutation(CreatePickMutation);
 
   const handleAdd = (ele: Pick) => {
     setBetSlip((prevBetSlip) => [...prevBetSlip, ele]);
@@ -76,7 +52,7 @@ const Lines: React.FC<LinesProps> = ({ time, event, setBetSlip }) => {
     <div className=" text-white border-t border-gray-800 pb-2 pt-2 mt-2">
       <div className="text-[10px]">{time}</div>
       <div className="flex flex-row">
-        <div className="mt-2 flex items-center justify-center text-right overflow-hidden w-full">
+        <div className="mt-2 flex items-center justify-center overflow-hidden w-full">
           <div className="imgContainer">
             <img
               src={event.teams[0].teamLogo}
@@ -167,7 +143,7 @@ const Lines: React.FC<LinesProps> = ({ time, event, setBetSlip }) => {
       </div>
       {/* home team */}
       <div className="flex flex-row">
-        <div className="mt-2 flex items-center justify-center text-right overflow-hidden w-full">
+        <div className="mt-2 flex items-center justify-center overflow-hidden w-full">
           <div className="imgContainer">
             <img
               src={event.teams[1].teamLogo}

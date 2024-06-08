@@ -1,13 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import React from "react";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import toast, { Toaster } from "react-hot-toast";
 import useSWR from "swr";
 import { convertToEST, extractDateTime } from "@/functions/getDate";
 import Lines from "@/components/addPicksComponents/Lines";
 import { Pick, event } from "@/types";
+import BetSlip from "@/components/addPicksComponents/BetSlip";
+import toast, { Toaster } from "react-hot-toast";
+import { useUser } from "../context/UserContext/userStore";
 
+const hideSlip = "w-0 pl-0";
 const header =
   "border-[1px] border-[#4C4C4C] rounded-lg text-[12px] w-1/2 text-center mx-2";
 
@@ -17,11 +19,11 @@ export const fetcher = (...args: Parameters<typeof fetch>) =>
 type Sports = "NBA" | "MLB" | "NHL" | "NFL";
 
 const Form: React.FC = () => {
-  const [selectedSport, setSelectedSport] = React.useState<Sports | null>(
-    "MLB"
-  );
+  const [selectedSport, setSelectedSport] = React.useState<Sports>("MLB");
   const [data, setData] = React.useState<any>();
   const [betSlip, setBetSlip] = React.useState<Pick[]>([]);
+
+  const { user, isLoading, error, isSignedIn } = useUser();
 
   const {
     data: nbaData,
@@ -93,6 +95,7 @@ const Form: React.FC = () => {
   return (
     <div>
       <h1 className="text-center my-2">Add Picks</h1>
+      <Toaster />
       {/* select league */}
       <div className="flex flex-row justify-evenly m-4">
         <div className={header} onClick={() => setSelectedSport("NBA")}>
@@ -110,7 +113,7 @@ const Form: React.FC = () => {
       </div>
 
       {/* games container */}
-      <div className="h-full">
+      <div className="h-full lg:flex lg:flex-row lg:relative">
         <div className="flex flex-col w-full table-fixed border-separate border-spacing-0 p-2 bg-[#121212]">
           {/* games header */}
           <div className="flex justify-around cursor-default text-[#c5c5c5] text-xs font-semibold text-center">
@@ -121,6 +124,7 @@ const Form: React.FC = () => {
           </div>
           {/* actual games */}
           {data &&
+            user?.role == "ADMIN" &&
             data.map((event: any, idx: number) => {
               let time = event.schedule.event_name;
               time = extractDateTime(time);
@@ -131,10 +135,22 @@ const Form: React.FC = () => {
                   time={time}
                   event={event}
                   setBetSlip={setBetSlip}
+                  selectedSport={selectedSport}
                 />
               );
             })}
         </div>
+      </div>
+
+      {/* picks container */}
+      <div
+        className={`transition duration-1000 sm:sticky sm:bottom-0 md:w-[350px] md:top-0 md:flex md:h-screen md:sticky md:pt-2.5 md:pl-1.5 md:pb-1.5 ${
+          !betSlip.length && hideSlip
+        }`}
+      >
+        {betSlip.length > 0 && (
+          <BetSlip betSlip={betSlip} setBetSlip={setBetSlip} />
+        )}
       </div>
     </div>
   );

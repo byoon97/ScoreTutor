@@ -51,6 +51,9 @@ export interface Pick {
     pick: string
     unit: number
     startTime: string
+    status: string
+    toWin: number
     result: string
     eventId: string
+    leagueLogo: string
 }

@@ -9,6 +9,7 @@ import SinglePick from "./SinglePick";
 import PickPreviewMD from "./PickPreviewMD";
 import { gql, useQuery } from "@apollo/client";
 import { getDate } from "@/functions/getDate";
+import { useUser } from "@/app/context/UserContext/userStore";
 
 const GET_PICKS_QUERY = gql`
   query GetPicks {
@@ -46,6 +47,13 @@ export default function PicksList({}: Props) {
   const { state, dispatch } = useGlobalState();
   const [slate, setSlate] = React.useState([]);
 
+  const {
+    user: userData,
+    isLoading,
+    error: globalError,
+    isSignedIn,
+  } = useUser();
+
   const addGame = (newGame: SinglePickProps) => {
     dispatch({ type: "SET_GAME", payload: newGame });
   };
@@ -53,6 +61,7 @@ export default function PicksList({}: Props) {
   const { loading, error, data } = useQuery(GET_PICKS_QUERY);
 
   useEffect(() => {
+    if (!isLoading) console.log(userData);
     if (!loading) {
       data.getPicks.forEach((game: SinglePickProps) => {
         console.log(game.createdAt, getDate().dateCheck);
@@ -72,14 +81,16 @@ export default function PicksList({}: Props) {
     <div className="flex flex-col p-4 bg-white text-black pt-4">
       <div className="border-t-[1px] border-[#595959] py-1 mx-16"></div>
       <div className="flex justify-center items-center">
-        <Link href={"/addPick"}>
-          {" "}
-          <button className="border-[1px] px-2 py-1 rounded-lg border-black text-[13px]">
-            Add Pick
-          </button>
-        </Link>
+        {userData?.role == "ADMIN" ? (
+          <Link href={"/addPicks"}>
+            {" "}
+            <button className="border-[1px] px-2 py-1 rounded-lg border-black text-[13px]">
+              Add Pick
+            </button>
+          </Link>
+        ) : null}
       </div>
-      <div className="flex items-center, justify-center">
+      <div className="flex items-center justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:hidden">
           {!loading &&
             slate.map((pick: SinglePickProps) => {
@@ -101,7 +112,6 @@ export default function PicksList({}: Props) {
                 <div
                   key={data.getPicks.indexOf(pick)}
                   // onClick={() => addGame(pick)}
-                  className="md:w-[397px]"
                 >
                   <Link href={generateLink()}>
                     <SinglePick {...pick} />
@@ -111,7 +121,7 @@ export default function PicksList({}: Props) {
             })}
         </div>
       </div>
-      <div className="hidden lg:flex lg:flex-row lg:m-6">
+      {/* <div className="hidden lg:flex lg:flex-row lg:m-6">
         <div className="mr-4">
           {" "}
           {slate.map((pick: SinglePickProps) => {
@@ -140,7 +150,7 @@ export default function PicksList({}: Props) {
             leagueLogo={""}
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
