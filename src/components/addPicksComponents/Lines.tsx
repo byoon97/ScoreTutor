@@ -36,12 +36,13 @@ const Lines: React.FC<LinesProps> = ({
     pick: "",
     unit: 0,
     startTime: time,
-    result: "In Progress",
+    result: "Incomplete",
     eventId: event.eventid,
     toWin: 0,
     leagueLogo: leagueLogos.filter((league) => league.label == selectedSport)[0]
       .imageSrc,
-    status: "In Progress",
+    status: "Not Started",
+    net: 0,
   });
 
   const handleAdd = (ele: Pick) => {

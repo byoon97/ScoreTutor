@@ -13,7 +13,7 @@ const hideSlip = "w-0 pl-0";
 const header =
   "border-[1px] border-[#4C4C4C] rounded-lg text-[12px] w-1/2 text-center mx-2";
 
-export const fetcher = (...args: Parameters<typeof fetch>) =>
+const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => res.json());
 
 type Sports = "NBA" | "MLB" | "NHL" | "NFL";

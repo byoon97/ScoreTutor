@@ -56,6 +56,7 @@ model Pick {
   result  String
   leagueLogo  String?
   eventId String?
+  net Float?
 }
 
 enum Role {

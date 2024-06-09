@@ -1,44 +1,37 @@
+/* eslint-disable react/jsx-key */
 "use client";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import moment from "moment";
-import React from "react";
+import React, { useEffect } from "react";
+import { useTable, Column } from "react-table";
+import { gql, useQuery } from "@apollo/client";
+import TableComponent from "@/components/TableComponents/Table";
 
-const localizer = momentLocalizer(moment);
+interface Data {
+  awayTeam: string;
+  homeTeam: string;
+  result: string;
+  unit: number;
+  pick: string;
+  toWin: number;
+}
 
-const MyCalendar = () => {
-  const [view, setView] = React.useState("month");
-  const [events, setEvents] = React.useState([
-    {
-      title: "Event 1",
-      start: new Date(),
-      end: new Date(),
-    },
-    {
-      title: "Event 2",
-      start: new Date(),
-      end: new Date(),
-    },
-    // Add more events as needed
-  ]);
+const GET_PICKS_QUERY = gql`
+  query GetPicks {
+    getPicks {
+      homeTeam
+      awayTeam
+      pick
+      unit
+      result
+      toWin
+    }
+  }
+`;
 
-  const handleViewChange = (newView: any) => {
-    setView(newView);
-  };
+const TableContainer: React.FC = () => {
+  const { loading, error, data } = useQuery(GET_PICKS_QUERY);
 
-  return (
-    <div className="bg-white text-black p-4">
-      <Calendar
-        localizer={localizer}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 500 }}
-        views={["month", "day"]}
-        onView={handleViewChange}
-        events={events} // Provide events to the calendar component
-      />
-    </div>
-  );
+  // Render the TableComponent with the fetched data
+  return !loading && <TableComponent data={data?.getPicks} />;
 };
 
-export default MyCalendar;
+export default TableContainer;
