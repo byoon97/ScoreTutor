@@ -56,4 +56,5 @@ export interface Pick {
     result: string
     eventId: string
     leagueLogo: string
+    net: number
 }

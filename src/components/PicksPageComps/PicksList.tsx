@@ -1,19 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useEffect } from "react";
-import { GamePick, picks } from "../../../public/data/picks";
-import Image from "next/image";
 import Link from "next/link";
 import { useGlobalState } from "@/app/context/store";
 import SinglePick from "./SinglePick";
 import PickPreviewMD from "./PickPreviewMD";
 import { gql, useQuery } from "@apollo/client";
 import { getDate } from "@/functions/getDate";
-import { useUser } from "@/app/context/UserContext/userStore";
+import UpdateModal from "../Admin/UpdatePicksModal/UpdateModal";
+import { Toaster } from "react-hot-toast";
 
 const GET_PICKS_QUERY = gql`
   query GetPicks {
     getPicks {
+      id
       createdAt
       homeTeam
       awayTeam
@@ -24,11 +24,15 @@ const GET_PICKS_QUERY = gql`
       startTime
       result
       leagueLogo
+      status
+      eventId
+      toWin
     }
   }
 `;
 
 export type SinglePickProps = {
+  id: number;
   homeTeam: string;
   awayTeam: string;
   homeTeamLogo: string;
@@ -39,20 +43,19 @@ export type SinglePickProps = {
   result: string;
   createdAt: string;
   leagueLogo: string;
+  status: string;
+  eventId: string;
+  toWin: number;
 };
 
-type Props = {};
+type Props = {
+  page: string;
+};
 
-export default function PicksList({}: Props) {
+export default function PicksList({ page }: Props) {
   const { state, dispatch } = useGlobalState();
   const [slate, setSlate] = React.useState([]);
-
-  const {
-    user: userData,
-    isLoading,
-    error: globalError,
-    isSignedIn,
-  } = useUser();
+  const [modalOpen, setOpen] = React.useState<boolean>(false);
 
   const addGame = (newGame: SinglePickProps) => {
     dispatch({ type: "SET_GAME", payload: newGame });
@@ -61,35 +64,37 @@ export default function PicksList({}: Props) {
   const { loading, error, data } = useQuery(GET_PICKS_QUERY);
 
   useEffect(() => {
-    if (!isLoading) console.log(userData);
-    if (!loading) {
-      data.getPicks.forEach((game: SinglePickProps) => {
-        console.log(game.createdAt, getDate().dateCheck);
-      });
+    if (!loading && page === "picks") {
       setSlate(
         data.getPicks.filter(
           (pick: SinglePickProps) => pick.createdAt == getDate().dateCheck
         )
       );
       console.log(slate);
-    } else {
-      console.log(loading);
+    } else if (!loading && page === "update") {
+      setSlate(
+        data.getPicks.filter(
+          (pick: SinglePickProps) => pick.status !== "Complete"
+        )
+      );
     }
   }, [loading, error, data]);
 
+  const openModal = (pick: SinglePickProps) => {
+    setOpen(true);
+    addGame(pick);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+  };
+
   return (
     <div className="flex flex-col p-4 bg-white text-black pt-4">
+      <UpdateModal isOpen={modalOpen} closeModal={closeModal} />
+      {page == "update" && <Toaster />}
       <div className="border-t-[1px] border-[#595959] py-1 mx-16"></div>
-      <div className="flex justify-center items-center">
-        {userData?.role == "ADMIN" ? (
-          <Link href={"/addPicks"}>
-            {" "}
-            <button className="border-[1px] px-2 py-1 rounded-lg border-black text-[13px]">
-              Add Pick
-            </button>
-          </Link>
-        ) : null}
-      </div>
+      <div className="flex justify-center items-center"></div>
       <div className="flex items-center justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:hidden">
           {!loading &&
@@ -111,17 +116,20 @@ export default function PicksList({}: Props) {
                 // change to flex wrap or grid later on medium screens
                 <div
                   key={data.getPicks.indexOf(pick)}
-                  // onClick={() => addGame(pick)}
+                  onClick={() => openModal(pick)}
                 >
-                  <Link href={generateLink()}>
-                    <SinglePick {...pick} />
-                  </Link>
+                  <SinglePick {...pick} />
                 </div>
               );
             })}
         </div>
       </div>
-      {/* <div className="hidden lg:flex lg:flex-row lg:m-6">
+      {/* Large view goes here */}
+    </div>
+  );
+}
+{
+  /* <div className="hidden lg:flex lg:flex-row lg:m-6">
         <div className="mr-4">
           {" "}
           {slate.map((pick: SinglePickProps) => {
@@ -150,7 +158,5 @@ export default function PicksList({}: Props) {
             leagueLogo={""}
           />
         </div>
-      </div> */}
-    </div>
-  );
+      </div> */
 }

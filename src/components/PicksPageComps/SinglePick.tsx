@@ -62,7 +62,7 @@ const SinglePick: React.FC<SinglePickProps> = (game) => {
       </div>
       <div className="text-[12px] font-bold">Units Wagered: {game.unit}</div>
       <div className="text-[12px]">Time: {game.startTime}</div>
-      <div className="text-[12px]">Result: {game.result}</div>
+      <div className="text-[12px]">Status: {game.status}</div>
     </div>
   );
 };

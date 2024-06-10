@@ -1,3 +1,4 @@
+import { Inter } from 'next/font/google';
 import { prisma } from "../../lib/prisma";
 import { builder } from "../builder";
 
@@ -22,7 +23,8 @@ builder.prismaObject('Pick', {
         nullable: true
       }),
       status: t.exposeString('status'),
-      toWin: t.exposeFloat('toWin')
+      toWin: t.exposeFloat('toWin'),
+      net: t.exposeFloat('net')
     })
   })
 
@@ -50,16 +52,44 @@ builder.mutationField("createPick", (t) =>
         leagueLogo: t.arg.string({required:true}),
         eventId: t.arg.string({required:true}),
         status: t.arg.string({required:true}),
-        toWin: t.arg.float({required:true})
+        toWin: t.arg.float({required:true}),
+        net: t.arg.float({required:true}),
+
     },
   resolve: async (query, _parent, args, ctx) => {
-      const { startTime, homeTeam, homeTeamLogo, awayTeam, awayTeamLogo, pick, unit, result, leagueLogo,eventId, toWin, status } = args;
+      const { net, startTime, homeTeam, homeTeamLogo, awayTeam, awayTeamLogo, pick, unit, result, leagueLogo,eventId, toWin, status } = args;
       return await prisma.pick.create({
         ...query,
         data: {
-            startTime, awayTeam, homeTeam, awayTeamLogo, homeTeamLogo, pick, unit, result, leagueLogo,eventId, toWin, status
+            net, startTime, awayTeam, homeTeam, awayTeamLogo, homeTeamLogo, pick, unit, result, leagueLogo,eventId, toWin, status
         }
       });
     },
 })
+)
+
+builder.mutationField("updatePick", (t) => 
+  t.prismaField({
+    type: 'Pick',
+    args: {
+      id: t.arg.int({required: true}),
+      status: t.arg.string({required: true}),
+      result: t.arg.string({required: true}),
+      net: t.arg.float({required: true}),
+
+    },
+    resolve: async (query, _parent, args, ctx) => {
+      const { id, status, result, net } = args
+      return prisma.pick.update({
+        where : {
+          id: id
+        },
+
+        data: {
+          status, result, net
+        },
+        ...query
+      })
+    }
+  })
 )

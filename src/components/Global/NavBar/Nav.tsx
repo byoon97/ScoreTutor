@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CgProfile } from "react-icons/cg";
+import { FiTool } from "react-icons/fi";
 import Link from "next/link";
 import { FaSignInAlt } from "react-icons/fa";
 import { MdCardMembership } from "react-icons/md";
@@ -13,6 +14,7 @@ import { useUser } from "@/app/context/UserContext/userStore";
 
 const menuItemContainer = "flex flex-row items-center p-4 cursor-pointer";
 const menuItem = "font-thin pl-2";
+const line = "border-b-[1px] border-[#5A5A5A]";
 
 export default function Nav() {
   const [openMenu, setOpenMenu] = React.useState(false);
@@ -91,7 +93,7 @@ export default function Nav() {
             </div>
           </Link>
 
-          <div className="border-b-[1px] border-[#5A5A5A]"></div>
+          <div className={line}></div>
           <Link href="/picks" onClick={() => setOpenHamMenu(!openHamMenu)}>
             {" "}
             <div className={menuItemContainer}>
@@ -100,7 +102,7 @@ export default function Nav() {
             </div>
           </Link>
 
-          <Link href="/calendar" onClick={() => setOpenHamMenu(!openHamMenu)}>
+          <Link href="/history" onClick={() => setOpenHamMenu(!openHamMenu)}>
             {" "}
             <div className={menuItemContainer}>
               <CiCalendar size={20} />
@@ -108,7 +110,7 @@ export default function Nav() {
             </div>
           </Link>
 
-          <div className="border-b-[1px] border-[#5A5A5A]"></div>
+          <div className={line}></div>
           <Link href="/about" onClick={() => setOpenHamMenu(!openHamMenu)}>
             {" "}
             <div className={menuItemContainer}>
@@ -117,7 +119,16 @@ export default function Nav() {
             </div>
           </Link>
 
-          <div className="border-b-[1px] border-[#5A5A5A]"></div>
+          {user?.role == "ADMIN" && (
+            <Link href="/Admin" onClick={() => setOpenHamMenu(!openHamMenu)}>
+              {" "}
+              <div className={menuItemContainer}>
+                <FiTool size={20} />
+                <div className={menuItem}>Admin Tools</div>
+              </div>
+            </Link>
+          )}
+          <div className={line}></div>
         </div>
       )}
       {openMenu ? (
