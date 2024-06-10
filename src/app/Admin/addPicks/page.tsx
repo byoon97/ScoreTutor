@@ -7,7 +7,7 @@ import Lines from "@/components/addPicksComponents/Lines";
 import { Pick, event } from "@/types";
 import BetSlip from "@/components/addPicksComponents/BetSlip";
 import toast, { Toaster } from "react-hot-toast";
-import { useUser } from "../context/UserContext/userStore";
+import { useUser } from "../../context/UserContext/userStore";
 
 const hideSlip = "w-0 pl-0";
 const header =

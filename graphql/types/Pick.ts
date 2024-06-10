@@ -1,3 +1,4 @@
+import { Inter } from 'next/font/google';
 import { prisma } from "../../lib/prisma";
 import { builder } from "../builder";
 
@@ -23,9 +24,7 @@ builder.prismaObject('Pick', {
       }),
       status: t.exposeString('status'),
       toWin: t.exposeFloat('toWin'),
-      net: t.exposeFloat('net', {
-        nullable: true
-      })
+      net: t.exposeFloat('net')
     })
   })
 
@@ -69,14 +68,28 @@ builder.mutationField("createPick", (t) =>
 })
 )
 
-// builder.mutationField("updatePick", (t) => 
-//   t.prismaField({
-//     type: 'Pick',
-//     args: {
+builder.mutationField("updatePick", (t) => 
+  t.prismaField({
+    type: 'Pick',
+    args: {
+      id: t.arg.int({required: true}),
+      status: t.arg.string({required: true}),
+      result: t.arg.string({required: true}),
+      net: t.arg.float({required: true}),
 
-//     },
-//     resolve: async (query, _parent, args, ctx) => {
+    },
+    resolve: async (query, _parent, args, ctx) => {
+      const { id, status, result, net } = args
+      return prisma.pick.update({
+        where : {
+          id: id
+        },
 
-//     }
-//   })
-// )
+        data: {
+          status, result, net
+        },
+        ...query
+      })
+    }
+  })
+)

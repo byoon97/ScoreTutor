@@ -34,12 +34,6 @@ model Membership {
   user      User      @relation(fields: [userId], references: [id])
 }
 
-model UnitCount {
-  id        Int       @id @default(autoincrement())
-  netUnits  Float     
-  date      DateTime  @default(now())
-}
-
 model Pick {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
@@ -56,10 +50,26 @@ model Pick {
   result  String
   leagueLogo  String?
   eventId String?
-  net Float?
+  net Float @default(0.0)  
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+model UnitCount {
+  id           Int          @id @default(autoincrement())
+  netUnits     Float
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  dailyUnits   DailyUnit[]
+}
+
+model DailyUnit {
+  id          Int        @id @default(autoincrement())
+  date        DateTime   @default(now())
+  netUnits    Float
+  unitCountId Int
+  unitCount   UnitCount  @relation(fields: [unitCountId], references: [id])
 }

@@ -19,6 +19,7 @@ const CreatePickMutation = gql`
     $status: String!
     $toWin: Float!
     $leagueLogo: String!
+    $net: Float!
   ) {
     createPick(
       homeTeam: $homeTeam
@@ -33,6 +34,7 @@ const CreatePickMutation = gql`
       status: $status
       toWin: $toWin
       leagueLogo: $leagueLogo
+      net: $net
     ) {
       homeTeam
       awayTeam
@@ -46,6 +48,7 @@ const CreatePickMutation = gql`
       status
       toWin
       leagueLogo
+      net
     }
   }
 `;

@@ -1,6 +1,5 @@
 import { Prisma, PrismaClient, User } from '@prisma/client';
 import {  users } from "./seedData/users";
-import { hash } from 'bcrypt';
 
 
 const prisma = new PrismaClient();

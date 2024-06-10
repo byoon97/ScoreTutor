@@ -20,7 +20,7 @@ export default function Page({}: Props) {
         <span className="text-3xl font-bold">{getDate()} Picks</span>
       </div>
 
-      <PicksList />
+      <PicksList page={"picks"} />
     </div>
   );
 }

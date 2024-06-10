@@ -42,7 +42,7 @@ const Lines: React.FC<LinesProps> = ({
     leagueLogo: leagueLogos.filter((league) => league.label == selectedSport)[0]
       .imageSrc,
     status: "Not Started",
-    net: 0,
+    net: 0.0,
   });
 
   const handleAdd = (ele: Pick) => {

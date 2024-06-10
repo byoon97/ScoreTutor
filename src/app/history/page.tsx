@@ -11,7 +11,7 @@ interface Data {
   result: string;
   unit: number;
   pick: string;
-  toWin: number;
+  net: number;
 }
 
 const GET_PICKS_QUERY = gql`
@@ -22,7 +22,7 @@ const GET_PICKS_QUERY = gql`
       pick
       unit
       result
-      toWin
+      net
     }
   }
 `;

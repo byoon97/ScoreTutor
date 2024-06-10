@@ -8,7 +8,7 @@ interface Data {
   result: string;
   unit: number;
   pick: string;
-  toWin: number;
+  net: number;
 }
 
 const columns: Column<Data>[] = [
@@ -34,7 +34,7 @@ const columns: Column<Data>[] = [
   },
   {
     Header: "Return",
-    accessor: "toWin",
+    accessor: "net",
   },
 ];
 
