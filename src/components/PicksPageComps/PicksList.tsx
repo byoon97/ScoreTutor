@@ -64,14 +64,13 @@ export default function PicksList({ page }: Props) {
   const { loading, error, data } = useQuery(GET_PICKS_QUERY);
 
   useEffect(() => {
-    if (!loading && page === "picks") {
+    if (!loading && page == "picks") {
       setSlate(
         data.getPicks.filter(
           (pick: SinglePickProps) => pick.createdAt == getDate().dateCheck
         )
       );
-      console.log(slate);
-    } else if (!loading && page === "update") {
+    } else if (!loading && page == "update") {
       setSlate(
         data.getPicks.filter(
           (pick: SinglePickProps) => pick.status !== "Complete"
