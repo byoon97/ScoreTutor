@@ -111,13 +111,15 @@ export default function PicksList({ page }: Props) {
 
                 return link;
               };
-
-              return (
-                // change to flex wrap or grid later on medium screens
+              return page == "update" ? (
                 <div
                   key={data.getPicks.indexOf(pick)}
                   onClick={() => openModal(pick)}
                 >
+                  <SinglePick {...pick} />
+                </div>
+              ) : (
+                <div key={data.getPicks.indexOf(pick)}>
                   <SinglePick {...pick} />
                 </div>
               );
