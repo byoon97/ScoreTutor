@@ -99,6 +99,7 @@ export default function PicksList({ page }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:hidden">
           {!loading &&
             slate.map((pick: SinglePickProps) => {
+              console.log(pick);
               const generateLink = () => {
                 let link;
                 const awayTeam = pick.awayTeam.replace(/\s/g, "_");
