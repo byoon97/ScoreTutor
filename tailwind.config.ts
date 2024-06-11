@@ -23,11 +23,5 @@ const config: Config = {
       }
     },
   },
-  plugins: [
-    require('flowbite/plugin')({
-        charts: true,
-    }),
-    // ... other plugins
-  ]
   };
 export default config;
