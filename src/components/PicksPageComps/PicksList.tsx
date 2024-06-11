@@ -64,14 +64,13 @@ export default function PicksList({ page }: Props) {
   const { loading, error, data } = useQuery(GET_PICKS_QUERY);
 
   useEffect(() => {
-    if (!loading && page === "picks") {
-      console.log(data);
+    if (!loading && page == "picks") {
       setSlate(
         data.getPicks.filter(
           (pick: SinglePickProps) => pick.createdAt == getDate().dateCheck
         )
       );
-    } else if (!loading && page === "update") {
+    } else if (!loading && page == "update") {
       setSlate(
         data.getPicks.filter(
           (pick: SinglePickProps) => pick.status !== "Complete"
@@ -121,7 +120,7 @@ export default function PicksList({ page }: Props) {
                     <SinglePick {...pick} />
                   </div>
                 );
-              } else {
+              } else if (page == "picks") {
                 return (
                   <div key={data.getPicks.indexOf(pick)}>
                     <SinglePick {...pick} />
