@@ -110,7 +110,6 @@ export default function PicksList({ page }: Props) {
 
                 return link;
               };
-
               if (page == "update") {
                 return (
                   <div
