@@ -111,18 +111,22 @@ export default function PicksList({ page }: Props) {
 
                 return link;
               };
-              return page == "update" ? (
-                <div
-                  key={data.getPicks.indexOf(pick)}
-                  onClick={() => openModal(pick)}
-                >
-                  <SinglePick {...pick} />
-                </div>
-              ) : (
-                <div key={data.getPicks.indexOf(pick)}>
-                  <SinglePick {...pick} />
-                </div>
-              );
+              if (page == "update") {
+                return (
+                  <div
+                    key={data.getPicks.indexOf(pick)}
+                    onClick={() => openModal(pick)}
+                  >
+                    <SinglePick {...pick} />
+                  </div>
+                );
+              } else if (page == "picks") {
+                return (
+                  <div key={data.getPicks.indexOf(pick)}>
+                    <SinglePick {...pick} />
+                  </div>
+                );
+              }
             })}
         </div>
       </div>
