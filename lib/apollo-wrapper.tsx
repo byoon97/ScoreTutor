@@ -11,7 +11,7 @@ export function makeClient() {
     uri:
       process.env.NODE_ENV === "development"
         ? "http://localhost:3000/api/graphql"
-        : process.env.VERCEL_BASE_LINK + "/api/graphql",
+        : "https://scoretutor.vercel.app" + "/api/graphql",
   });
 
   const link = ApolloLink.from([httpLink]);
