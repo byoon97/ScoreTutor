@@ -65,12 +65,12 @@ export default function PicksList({ page }: Props) {
 
   useEffect(() => {
     if (!loading && page === "picks") {
+      console.log(data);
       setSlate(
         data.getPicks.filter(
           (pick: SinglePickProps) => pick.createdAt == getDate().dateCheck
         )
       );
-      console.log(slate);
     } else if (!loading && page === "update") {
       setSlate(
         data.getPicks.filter(
@@ -111,18 +111,23 @@ export default function PicksList({ page }: Props) {
 
                 return link;
               };
-              return page == "update" ? (
-                <div
-                  key={data.getPicks.indexOf(pick)}
-                  onClick={() => openModal(pick)}
-                >
-                  <SinglePick {...pick} />
-                </div>
-              ) : (
-                <div key={data.getPicks.indexOf(pick)}>
-                  <SinglePick {...pick} />
-                </div>
-              );
+
+              if (page == "update") {
+                return (
+                  <div
+                    key={data.getPicks.indexOf(pick)}
+                    onClick={() => openModal(pick)}
+                  >
+                    <SinglePick {...pick} />
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={data.getPicks.indexOf(pick)}>
+                    <SinglePick {...pick} />
+                  </div>
+                );
+              }
             })}
         </div>
       </div>

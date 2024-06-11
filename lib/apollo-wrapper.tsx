@@ -9,6 +9,7 @@ import {
 export function makeClient() {
   const httpLink = new HttpLink({
     uri: "https://scoretutor.vercel.app/api/graphql",
+    // uri: "http://localhost:3000/api/graphql",
     credentials: "same-origin",
   });
 

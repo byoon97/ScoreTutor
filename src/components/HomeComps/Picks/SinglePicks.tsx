@@ -33,9 +33,6 @@ const SinglePicks: FC = () => {
 
   React.useEffect(() => {
     if (!loading) {
-      data.getPicks.forEach((game: SinglePickProps) => {
-        console.log(game.createdAt, getDate().dateCheck);
-      });
       setSlate(
         data.getPicks.filter(
           (pick: SinglePickProps) => pick.createdAt == getDate().dateCheck
