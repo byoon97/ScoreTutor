@@ -53,7 +53,7 @@ const Lines: React.FC<LinesProps> = ({
     <div className=" text-white border-t border-gray-800 pb-2 pt-2 mt-2">
       <div className="text-[10px]">{time}</div>
       <div className="flex flex-row">
-        <div className="mt-2 flex items-center justify-center overflow-hidden w-full">
+        <div className="mt-2 flex items-center overflow-hidden w-full">
           <div className="imgContainer">
             <img
               src={event.teams[0].teamLogo}
@@ -144,7 +144,7 @@ const Lines: React.FC<LinesProps> = ({
       </div>
       {/* home team */}
       <div className="flex flex-row">
-        <div className="mt-2 flex items-center justify-center overflow-hidden w-full">
+        <div className="mt-2 flex items-center overflow-hidden w-full">
           <div className="imgContainer">
             <img
               src={event.teams[1].teamLogo}

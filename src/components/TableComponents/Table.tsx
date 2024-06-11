@@ -63,7 +63,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
               <th
                 {...column.getHeaderProps()}
                 key={column.id}
-                className="border border-gray-300 px-4 py-2"
+                className="border border-gray-300 px-4 py-2 text-sm"
               >
                 {column.render("Header")}
               </th>
@@ -80,7 +80,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
                 <td
                   {...cell.getCellProps()}
                   key={cell.column.id}
-                  className="border border-gray-300 px-4 py-2"
+                  className="border border-gray-300 px-4 py-2 text-sm"
                 >
                   {cell.render("Cell")}
                 </td>

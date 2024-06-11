@@ -18,14 +18,11 @@
     "@prisma/client": "^5.15.0",
     "@stripe/react-stripe-js": "^2.5.0",
     "@stripe/stripe-js": "^3.0.5",
-    "apexcharts": "^3.48.0",
     "axios": "^1.6.7",
-    "bull": "^4.12.9",
-    "flowbite": "^2.3.0",
+    "chart.js": "^4.4.3",
     "graphql": "^16.8.1",
     "graphql-scalars": "^1.22.4",
     "graphql-yoga": "^5.1.1",
-    "ioredis": "^5.4.1",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
@@ -37,6 +34,7 @@
     "swr": "^2.2.4"
   },
   "devDependencies": {
+    "@types/chart.js": "^2.9.41",
     "@types/node": "^20",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18",
