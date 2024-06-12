@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { gql, useQuery } from "@apollo/client";
 import { SinglePickProps } from "@/components/PicksPageComps/PicksList";
-import { getDate } from "@/functions/getDate";
+import { getDate } from "@/util/getDate";
 
 const GET_PICKS_QUERY = gql`
   query GetPicks {

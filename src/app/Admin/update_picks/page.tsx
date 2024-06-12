@@ -1,5 +1,5 @@
 import PicksList from "@/components/PicksPageComps/PicksList";
-import { getDate } from "@/functions/getDate";
+import { getDate } from "@/util/getDate";
 import React from "react";
 
 const UpdatePicks: React.FC = () => {

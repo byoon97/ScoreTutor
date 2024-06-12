@@ -6,7 +6,7 @@ import { useGlobalState } from "@/app/context/store";
 import SinglePick from "./SinglePick";
 import PickPreviewMD from "./PickPreviewMD";
 import { gql, useQuery } from "@apollo/client";
-import { getDate } from "@/functions/getDate";
+import { getDate } from "@/util/getDate";
 import UpdateModal from "../Admin/UpdatePicksModal/UpdateModal";
 import { Toaster } from "react-hot-toast";
 

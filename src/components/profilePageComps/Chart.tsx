@@ -1,9 +1,55 @@
-import { FC, useRef, useEffect } from "react";
+"use client";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import { Chart, ChartConfiguration, registerables } from "chart.js";
+import { UserProps } from "@/types";
+import {
+  getLabelsForMostRecent,
+  getLabelsForCurrentMonth,
+  getLabelsForCurrentYear,
+  getDataForMostRecent,
+  getDataForCurrentMonth,
+  getDataForCurrentYear,
+  UnitData,
+} from "../../util/chartUtil"; // Adjust the import path as necessary
 
-const MyChart: FC = () => {
+type ChartProps = {
+  units: UnitData[];
+  user: UserProps | null;
+};
+
+const LabelBtn =
+  "text-black mr-2 p-2 bg-[#DCF2F2] font-mono text-xs rounded-sm shadow-lg";
+
+const MyChart: React.FC<ChartProps> = ({ units, user }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
+  const [labelType, setLabelType] = useState("mostRecent");
+
+  const getLabels = () => {
+    switch (labelType) {
+      case "mostRecent":
+        return getLabelsForMostRecent(units);
+      case "currentMonth":
+        return getLabelsForCurrentMonth();
+      case "currentYear":
+        return getLabelsForCurrentYear();
+      default:
+        return [];
+    }
+  };
+
+  const getData = () => {
+    switch (labelType) {
+      case "mostRecent":
+        return getDataForMostRecent(units);
+      case "currentMonth":
+        return getDataForCurrentMonth(units);
+      case "currentYear":
+        return getDataForCurrentYear(units);
+      default:
+        return [];
+    }
+  };
 
   useEffect(() => {
     if (chartRef.current) {
@@ -25,11 +71,11 @@ const MyChart: FC = () => {
         const config: ChartConfiguration = {
           type: "line",
           data: {
-            labels: ["January", "February", "March", "April", "May", "June"],
+            labels: getLabels(),
             datasets: [
               {
                 label: "Units",
-                data: [12, 19, 3, 5, 2, 3],
+                data: getData(),
                 backgroundColor: "rgba(75, 192, 192, 0.2)",
                 borderColor: "rgba(75, 192, 192, 1)",
                 borderWidth: 1,
@@ -50,7 +96,7 @@ const MyChart: FC = () => {
             plugins: {
               title: {
                 display: true,
-                text: "Your Bankroll",
+                text: "Bankroll",
               },
             },
             scales: {
@@ -82,14 +128,33 @@ const MyChart: FC = () => {
         chartInstanceRef.current.destroy();
       }
     };
-  }, []);
+  }, [labelType, units]);
 
   return (
-    <div className="relative sm:h-[500px] h-[500px]">
-      <canvas
-        ref={chartRef}
-        className="bg-white shadow-lg rounded-lg w-full h-full"
-      />
+    <div>
+      <div className="mb-4 m-4">
+        <button onClick={() => setLabelType("mostRecent")} className={LabelBtn}>
+          Most Recent 7
+        </button>
+        <button
+          onClick={() => setLabelType("currentMonth")}
+          className={LabelBtn}
+        >
+          Current Month
+        </button>
+        <button
+          onClick={() => setLabelType("currentYear")}
+          className={LabelBtn}
+        >
+          Current Year
+        </button>
+      </div>
+      <div className="relative sm:h-[500px] h-[500px]">
+        <canvas
+          ref={chartRef}
+          className="bg-white shadow-lg rounded-lg w-full h-full"
+        />
+      </div>
     </div>
   );
 };

@@ -2,7 +2,7 @@
 "use client";
 import React from "react";
 import useSWR from "swr";
-import { convertToEST, extractDateTime } from "@/functions/getDate";
+import { convertToEST, extractDateTime } from "@/util/getDate";
 import Lines from "@/components/addPicksComponents/Lines";
 import { Pick, event } from "@/types";
 import BetSlip from "@/components/addPicksComponents/BetSlip";
