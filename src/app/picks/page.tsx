@@ -15,12 +15,13 @@ export default function Page({}: Props) {
   };
   return (
     <div className="bg-white text-black pt-6">
-      <div className="text-center">
-        {" "}
-        <span className="text-3xl font-bold">{getDate()} Picks</span>
-      </div>
+      <h1 className="bg-white text-black text-center p-4 font-mono">
+        {getDate()} Picks
+      </h1>
+      {/* <div className="border-b-[1px] border-black shadow-b-lg mb-6 lg:mx-64 mx-20"></div> */}
 
       <PicksList page={"picks"} />
     </div>
   );
 }
+

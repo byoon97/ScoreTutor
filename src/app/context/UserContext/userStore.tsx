@@ -20,6 +20,8 @@ const GET_USER_QUERY = gql`
       lastName
       phoneNumber
       role
+      bankroll
+      unitSize
     }
   }
 `;

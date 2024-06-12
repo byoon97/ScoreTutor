@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { InputObject, OutputObject, mapObjects } from './../../../functions/eventsMapper';
+import { InputObject, OutputObject, mapObjects } from '../../../util/eventsMapper';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {

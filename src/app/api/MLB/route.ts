@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { NextResponse } from 'next/server';
-import { InputObject, OutputObject, mapObjects } from './../../../functions/eventsMapper';
+import { InputObject, OutputObject, mapObjects } from '../../../util/eventsMapper';
 
 export async function GET(request: Request) {
   const today = new Date();

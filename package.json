@@ -20,6 +20,7 @@
     "@stripe/stripe-js": "^3.0.5",
     "axios": "^1.6.7",
     "chart.js": "^4.4.3",
+    "date-fns": "^3.6.0",
     "graphql": "^16.8.1",
     "graphql-scalars": "^1.22.4",
     "graphql-yoga": "^5.1.1",
