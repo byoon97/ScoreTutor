@@ -106,8 +106,8 @@ const TableContainer: React.FC = () => {
         </div>
       </div>
       {!loading && table == "table" && <TableComponent data={data?.getPicks} />}
-      {!loading && table == "lineGraph" && !unitLoad && (
-        <MyChart units={units} user={null} />
+      {table == "lineGraph" && !unitLoad && (
+        <MyChart units={units.getDailyUnits} user={null} />
       )}
     </div>
   );

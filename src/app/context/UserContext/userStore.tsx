@@ -14,6 +14,7 @@ import { gql, useQuery } from "@apollo/client";
 const GET_USER_QUERY = gql`
   query GetUserByEmail($email: String!) {
     getUserByEmail(email: $email) {
+      createdAt
       id
       email
       firstName
@@ -22,6 +23,9 @@ const GET_USER_QUERY = gql`
       role
       bankroll
       unitSize
+      membership {
+        expiresAt
+      }
     }
   }
 `;

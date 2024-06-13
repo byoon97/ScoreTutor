@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { useUser } from "@/app/context/UserContext/userStore";
 import MyChart from "@/components/profilePageComps/Chart";
+import { isBefore, isAfter, isEqual, compareAsc } from "date-fns";
 
 const GET_DAILY_UNITS = gql`
   query GetDailyUnits {
@@ -17,14 +18,38 @@ const GET_TOTAL_UNITS = gql`
   query GetUnitCount {
     getUnitCount {
       netUnits
+      date
     }
   }
 `;
+
+type days = {
+  date: Date;
+  netUnits: number;
+};
 
 const Page: React.FC = () => {
   const { isLoading, isSignedIn, user } = useUser();
   const { loading, error, data: units } = useQuery(GET_DAILY_UNITS);
   const { loading: totalLoad, data: netUnits } = useQuery(GET_TOTAL_UNITS);
+  const [userUnits, setUserUnits] = React.useState();
+  const [hasFiltered, setHasFiltered] = React.useState(false);
+
+  useEffect(() => {
+    if (!isLoading && !loading && !hasFiltered) {
+      const userCreatedAt = user?.createdAt
+        ? new Date(user.createdAt)
+        : undefined;
+
+      if (userCreatedAt) {
+        const filteredDays = units.getDailyUnits.filter(
+          (day: { date: string }) => isAfter(new Date(day.date), userCreatedAt)
+        );
+        setUserUnits(filteredDays);
+        setHasFiltered(true); // Set hasFiltered to true to prevent re-execution
+      }
+    }
+  }, [units, user, isLoading, loading, hasFiltered]);
 
   return (
     <div className="bg-[#F6F7FB] p-2 xl:px-64 xl:py-8">
@@ -49,24 +74,28 @@ const Page: React.FC = () => {
                 </div>
                 <div className="flex">
                   <div className="w-3/8">
-                    <span className="text-[#151F2B]">Display Name :</span>
+                    <span className="text-[#151F2B]">
+                      Recieve Email Notifcations:{" "}
+                    </span>
                   </div>
                   <div className="w-36">{/* Display name value here */}</div>
                 </div>
                 <div className="flex">
                   <div className="w-3/8">
-                    <span className="text-[#151F2B]">Email :</span>
+                    <span className="text-[#151F2B]">Email : </span>
                   </div>
                   <div className="w-36">{user?.email}</div>
                 </div>
                 <div className="flex">
                   <div className="w-3/8">
-                    <span className="text-[#151F2B]">Active Member :</span>
+                    <span className="text-[#151F2B]">Active Member : </span>
                   </div>
-                  <div className="w-36">Yes</div>
+                  <div className="w-36">
+                    {user?.membership?.expiresAt?.toString()}
+                  </div>
                 </div>
               </div>
-              {user && !totalLoad && (
+              {user && netUnits && (
                 <div className="text-[12px] font-mono">
                   <div className="flex">
                     <div className="w-20">
@@ -97,9 +126,7 @@ const Page: React.FC = () => {
       )}
 
       {/* make sure daily units are from when user joins */}
-      {!loading && !isLoading && (
-        <MyChart units={units.getDailyUnits} user={user} />
-      )}
+      {userUnits && !isLoading && <MyChart units={userUnits} user={user} />}
     </div>
   );
 };

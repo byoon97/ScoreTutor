@@ -9,6 +9,7 @@ export type UserProps = {
     bankroll: number
     unitSize: number
     membership: Membership
+    createdAt: Date | string
 }
 
 export interface event {

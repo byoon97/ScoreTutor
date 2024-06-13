@@ -5,6 +5,9 @@ import { builder } from "../builder";
 builder.prismaObject('User', {
   fields: (t) => ({
     id: t.exposeID('id'),
+    createdAt: t.expose("createdAt", {
+      type: "Date",
+    }),
     email: t.exposeString('email'),
     firstName: t.exposeString('firstName' , {
       nullable: true

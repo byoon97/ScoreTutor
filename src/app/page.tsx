@@ -7,7 +7,7 @@ import HomeCarousel from "@/components/HomeComps/HomeCarousel/Index";
 
 const Home: FC = () => {
   return (
-    <div className="bg-white text-black flex flex-col px-2">
+    <div className="bg-white text-black flex flex-col px-2 font-mono">
       <GameBar />
       <div className="md:hidden flex items-center flex-col">
         {" "}
