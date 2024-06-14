@@ -33,13 +33,8 @@ const MyChart: React.FC<ChartProps> = ({ units, user }) => {
       : units
   );
 
-  useEffect(() => {
-    console.log(transformedUnits);
-  }, [units, user]);
-
   const getLabels = () => {
     const dataSource = transformedUnits.length ? transformedUnits : units;
-    console.log(dataSource, transformedUnits);
     switch (labelType) {
       case "mostRecent":
         return getLabelsForMostRecent(dataSource);
@@ -116,10 +111,10 @@ const MyChart: React.FC<ChartProps> = ({ units, user }) => {
             },
             scales: {
               y: {
-                max: user ? 5000 : 20,
-                min: -500,
+                max: user ? Math.round((user?.bankroll * 2) / 1000) * 1000 : 20,
+                min: user ? -500 : -20,
                 ticks: {
-                  stepSize: user ? user?.unitSize * 2 : 2,
+                  stepSize: user ? user?.unitSize * 2.5 : 2,
                   autoSkip: false,
                 },
               },
@@ -149,19 +144,19 @@ const MyChart: React.FC<ChartProps> = ({ units, user }) => {
     <div>
       <div className="mb-4 m-4">
         <button onClick={() => setLabelType("mostRecent")} className={LabelBtn}>
-          Most Recent 7
+          1W
         </button>
         <button
           onClick={() => setLabelType("currentMonth")}
           className={LabelBtn}
         >
-          Current Month
+          1M
         </button>
         <button
           onClick={() => setLabelType("currentYear")}
           className={LabelBtn}
         >
-          Current Year
+          1Y
         </button>
       </div>
       <div className="relative sm:h-[500px] h-[500px]">

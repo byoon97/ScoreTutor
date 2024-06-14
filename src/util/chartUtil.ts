@@ -10,12 +10,24 @@ const addOneDay = (date: Date): Date => {
 };
 
 export const getLabelsForMostRecent = (units: UnitData[]): string[] => {
-  console.log(units)
   const recentUnits = units.slice(-8);
-  // Remove the last element from the array (today's date)
-  recentUnits.shift()
-  // Format the dates for the labels using UTC
-  return recentUnits.map(unit => format(new Date(Date.UTC(new Date(unit.date).getUTCFullYear(), new Date(unit.date).getUTCMonth(), new Date(unit.date).getUTCDate())), "MMM dd"));
+
+  // Add one day to each date and format the labels
+  return recentUnits.map(unit => {
+    const date = new Date(unit.date);
+    const adjustedDate = addDays(date, 1); // Add one day to the date
+    return format(adjustedDate, "MMM dd");
+  });
+};
+
+export const getDataForMostRecent = (units: UnitData[]): number[] => {
+  // Get the most recent 8 entries
+  const recentUnits = units.slice(-8);
+    let cumulativeTotal = 0;
+  return recentUnits.map(unit => {
+    cumulativeTotal += unit.netUnits;
+    return cumulativeTotal;
+  });
 };
 
 export const getLabelsForCurrentYear = (): string[] => {
@@ -49,17 +61,6 @@ export const getDataForCurrentMonth = (units: UnitData[]): number[] => {
   });
 };
 
-export const getDataForMostRecent = (units: UnitData[]): number[] => {
-  // Get the most recent 8 entries
-  const recentUnits = units.slice(-8);
-  recentUnits.pop();
-
-  let cumulativeTotal = 0;
-  return recentUnits.map(unit => {
-    cumulativeTotal += unit.netUnits;
-    return cumulativeTotal;
-  });
-};
 
 export const getDataForCurrentYear = (units: UnitData[]): number[] => {
   const months = eachMonthOfInterval({

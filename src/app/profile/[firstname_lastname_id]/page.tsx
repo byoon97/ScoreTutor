@@ -4,6 +4,8 @@ import { gql, useQuery } from "@apollo/client";
 import { useUser } from "@/app/context/UserContext/userStore";
 import MyChart from "@/components/profilePageComps/Chart";
 import { isBefore, isAfter, isEqual, compareAsc } from "date-fns";
+import { isMembershipExpired } from "@/util/profileUtil";
+import { convertToEST } from "@/util/getDate";
 
 const GET_DAILY_UNITS = gql`
   query GetDailyUnits {
@@ -18,7 +20,6 @@ const GET_TOTAL_UNITS = gql`
   query GetUnitCount {
     getUnitCount {
       netUnits
-      date
     }
   }
 `;
@@ -49,7 +50,9 @@ const Page: React.FC = () => {
         setHasFiltered(true); // Set hasFiltered to true to prevent re-execution
       }
     }
-  }, [units, user, isLoading, loading, hasFiltered]);
+
+    !totalLoad && console.log(netUnits);
+  }, [units, user, isLoading, loading, hasFiltered, totalLoad, netUnits]);
 
   return (
     <div className="bg-[#F6F7FB] p-2 xl:px-64 xl:py-8">
@@ -62,10 +65,10 @@ const Page: React.FC = () => {
       ) : (
         <div className="bg-white text-black p-4 rounded-lg shadow-lg my-2 flex flex-row justify-between">
           <div className="flex flex-col w-full">
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-col md:flex-row md:justify-between">
               <div className="text-[12px] lg:text-[14px] font-mono flex-grow">
                 <div className="flex">
-                  <div className="w-3/8">
+                  <div className="w-52">
                     <span className="text-[#151F2B]">Name:</span>
                   </div>
                   <div className="w-36">
@@ -73,50 +76,52 @@ const Page: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex">
-                  <div className="w-3/8">
+                  <div className="w-52">
                     <span className="text-[#151F2B]">
-                      Recieve Email Notifcations:{" "}
+                      Recieve Email Notifs :{" "}
                     </span>
                   </div>
-                  <div className="w-36">{/* Display name value here */}</div>
+                  <div className="w-36">Yes</div>
                 </div>
                 <div className="flex">
-                  <div className="w-3/8">
+                  <div className="w-52">
                     <span className="text-[#151F2B]">Email : </span>
                   </div>
                   <div className="w-36">{user?.email}</div>
                 </div>
                 <div className="flex">
-                  <div className="w-3/8">
-                    <span className="text-[#151F2B]">Active Member : </span>
+                  <div className="w-52">
+                    <span className="text-[#151F2B]">Active Member: </span>
                   </div>
                   <div className="w-36">
-                    {user?.membership?.expiresAt?.toString()}
+                    {user?.membership?.expiresAt !== undefined &&
+                    user?.membership?.expiresAt !== null &&
+                    !isMembershipExpired(user?.membership?.expiresAt.toString())
+                      ? convertToEST(
+                          user?.membership?.expiresAt?.toString()
+                        ).split(" ")[0]
+                      : "Not Active"}
                   </div>
                 </div>
               </div>
-              {user && netUnits && (
-                <div className="text-[12px] font-mono">
-                  <div className="flex">
-                    <div className="w-20">
-                      <span className="text-[#151F2B]">Bankroll : </span>
-                    </div>
-                    <div>
-                      {user?.bankroll +
+              <div className="text-[12px] font-mono">
+                <div className="flex">
+                  <div className="text-[#151F2B] w-52">Bankroll : </div>
+
+                  <div>
+                    {user &&
+                      user?.bankroll +
                         user?.unitSize * netUnits.getUnitCount[0].netUnits}
-                    </div>
-                  </div>
-                  <div className="flex">
-                    <div className="w-20">
-                      <span className="text-[#151F2B]">Units Up :</span>
-                    </div>
-                    {/* fix to from when user joins */}
-                    <div>{netUnits.getUnitCount[0].netUnits.toFixed(2)}</div>
                   </div>
                 </div>
-              )}
+                <div className="flex">
+                  <div className="text-[#151F2B] w-52">Net Units :</div>
+
+                  <div>{netUnits.getUnitCount[0].netUnits.toFixed(2)}</div>
+                </div>
+              </div>
             </div>{" "}
-            <div className="edit flex items-center justify-center my-2">
+            <div className="edit flex items-center justify-center mt-6 mb-4">
               <button className="rounded-lg shadow-lg bg-[#DCF2F2] font-mono w-20 text-xs h-6">
                 Edit
               </button>

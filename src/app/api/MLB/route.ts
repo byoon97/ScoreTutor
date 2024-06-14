@@ -25,6 +25,7 @@ export async function GET(request: Request) {
     });
 
     if (response) {
+      console.log(response.data.events[1])
       const inputArray: InputObject[] = response.data.events;
 
       // Current time in UTC
