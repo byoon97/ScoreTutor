@@ -7,6 +7,10 @@ import {
   TableInstance,
   HeaderGroup,
   CellProps,
+  usePagination,
+  TableState,
+  UsePaginationInstanceProps,
+  UsePaginationState,
 } from "react-table";
 
 interface Data {
@@ -83,23 +87,44 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
   const tableInstance = useTable<Data>(
     {
       columns,
-      data: sortedData,
+      data: sortedData.reverse(),
+      initialState: { pageSize: 10 } as Partial<TableState<Data>>, // Correctly set the initial page size
     },
-    useSortBy
-  ) as TableInstance<Data>;
+    useSortBy,
+    usePagination
+  ) as TableInstance<Data> &
+    UsePaginationInstanceProps<Data> & { state: UsePaginationState<Data> };
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    tableInstance;
+  const {
+    rows,
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    prepareRow,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
+  } = tableInstance;
 
   return (
-    <div>
+    <div className="text-black">
       <input
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Search by Pick"
-        className="mb-4 p-2 border-[1px] border-black text-black"
+        className="mb-4 p-2 border-[1px] border-black text-black font-mono text-sm"
       />
+      <span className="text-xs font-mono mx-6">
+        Click the Table Headers to Sort
+      </span>
       <table
         {...getTableProps()}
         className="table-auto border-collapse border border-gray-400 w-full bg-white text-black"
@@ -118,14 +143,6 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
                     className="border border-gray-300 px-4 py-2 text-sm"
                   >
                     {columnInstance.render("Header")}
-                    {/* Add a sort indicator */}
-                    <span>
-                      {columnInstance.isSorted
-                        ? columnInstance.isSortedDesc
-                          ? " 🔽"
-                          : " 🔼"
-                        : ""}
-                    </span>
                   </th>
                 );
               })}
@@ -133,7 +150,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {page.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()} key={row.id}>
@@ -151,6 +168,55 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
           })}
         </tbody>
       </table>
+      <div className="pagination p-3 font-mono text-xs items-center justify-center">
+        <div>
+          <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+            {"<<"}
+          </button>{" "}
+          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+            {"<"}
+          </button>{" "}
+          <button onClick={() => nextPage()} disabled={!canNextPage}>
+            {">"}
+          </button>{" "}
+          <button
+            onClick={() => gotoPage(pageCount - 1)}
+            disabled={!canNextPage}
+          >
+            {">>"}
+          </button>{" "}
+          <span>
+            Page{" "}
+            <strong>
+              {pageIndex + 1} of {pageOptions.length}
+            </strong>{" "}
+          </span>
+          <span>
+            | Go to page:{" "}
+            <input
+              type="number"
+              defaultValue={pageIndex + 1}
+              onChange={(e) => {
+                const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                gotoPage(page);
+              }}
+              style={{ width: "100px" }}
+            />
+          </span>{" "}
+          <select
+            value={pageSize}
+            onChange={(e) => {
+              setPageSize(Number(e.target.value));
+            }}
+          >
+            {[10, 20, 30, 40].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                Show {pageSize}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
     </div>
   );
 };

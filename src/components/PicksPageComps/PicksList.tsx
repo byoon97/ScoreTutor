@@ -79,6 +79,10 @@ export default function PicksList({ page }: Props) {
     }
   }, [loading, error, data]);
 
+  useEffect(() => {
+    console.log(slate);
+  }, [slate]);
+
   const openModal = (pick: SinglePickProps) => {
     setOpen(true);
     addGame(pick);
@@ -95,8 +99,8 @@ export default function PicksList({ page }: Props) {
       <div className="border-t-[1px] border-[#595959] py-1 mx-16"></div>
       <div className="flex justify-center items-center"></div>
       <div className="flex items-center justify-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:hidden">
-          {!loading &&
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {slate.length > 0 &&
             slate.map((pick: SinglePickProps) => {
               console.log(pick, page);
               const generateLink = () => {
@@ -113,16 +117,13 @@ export default function PicksList({ page }: Props) {
               };
               if (page == "update") {
                 return (
-                  <div
-                    key={data.getPicks.indexOf(pick)}
-                    onClick={() => openModal(pick)}
-                  >
+                  <div key={pick.id} onClick={() => openModal(pick)}>
                     <SinglePick {...pick} />
                   </div>
                 );
               } else if (page == "picks") {
                 return (
-                  <div key={data.getPicks.indexOf(pick)}>
+                  <div key={pick.id}>
                     <SinglePick {...pick} />
                   </div>
                 );

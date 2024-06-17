@@ -91,7 +91,7 @@ const TableContainer: React.FC = () => {
         <div
           onClick={() => setTable("lineGraph")}
           className={`flex items-center justify-center w-full h-full border-x-[1px] border-white ${
-            table === "lineGrasph" ? "bg-[#3367AD]" : "bg-[#2C3140]"
+            table === "lineGraph" ? "bg-[#3367AD]" : "bg-[#2C3140]"
           }`}
         >
           Line Graph
@@ -106,8 +106,8 @@ const TableContainer: React.FC = () => {
         </div>
       </div>
       {!loading && table == "table" && <TableComponent data={data?.getPicks} />}
-      {!loading && table == "lineGraph" && !unitLoad && (
-        <MyChart units={units} user={null} />
+      {table == "lineGraph" && !unitLoad && (
+        <MyChart units={units.getDailyUnits} user={null} />
       )}
     </div>
   );

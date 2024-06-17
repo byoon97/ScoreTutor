@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   const utcHour = today.getUTCHours();
   const isoDateString = today.toISOString().split('T')[0];
 
-  let baseUrl = process.env.NEXT_PUBLIC_BASE_URL + `/6/events/${isoDateString}?affiliate_ids=19` as string;
+  let baseUrl = process.env.NEXT_PUBLIC_BASE_URL + `/6/events/affiliate_ids=19` as string;
 
   if (utcHour > 12) {
     baseUrl += '&offset=500';

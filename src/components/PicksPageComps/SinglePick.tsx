@@ -1,7 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import { GamePick } from "../../../public/data/picks";
-import Image from "next/image";
 import { SinglePickProps } from "./PicksList";
 
 const SinglePick: React.FC<SinglePickProps> = (game) => {

@@ -40,12 +40,17 @@ export default function Nav() {
             />
           </Link>
         </div>
-
-        <div
-          className="flex flex-row items-center"
-          onClick={() => setOpenMenu(!openMenu)}
-        >
-          <CgProfile size={"1em"} fontSize={"1.5em"} />
+        <div className="flex flex-row justify-center items-center">
+          {" "}
+          <div className="font-mono text-sm text-white mr-2">
+            {user?.firstName} {user?.lastName}
+          </div>
+          <div
+            className="flex flex-row items-center"
+            onClick={() => setOpenMenu(!openMenu)}
+          >
+            <CgProfile size={"1em"} fontSize={"1.5em"} />
+          </div>
         </div>
       </div>{" "}
       {openHamMenu && (

@@ -24,11 +24,20 @@ const MyChart: React.FC<ChartProps> = ({ units, user }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
   const [labelType, setLabelType] = useState("mostRecent");
+  const [transformedUnits, setTransformedUnits] = useState<UnitData[]>(() =>
+    user
+      ? units.map((unit) => ({
+          ...unit,
+          netUnits: unit.netUnits * user.unitSize,
+        }))
+      : units
+  );
 
   const getLabels = () => {
+    const dataSource = transformedUnits.length ? transformedUnits : units;
     switch (labelType) {
       case "mostRecent":
-        return getLabelsForMostRecent(units);
+        return getLabelsForMostRecent(dataSource);
       case "currentMonth":
         return getLabelsForCurrentMonth();
       case "currentYear":
@@ -39,13 +48,14 @@ const MyChart: React.FC<ChartProps> = ({ units, user }) => {
   };
 
   const getData = () => {
+    const dataSource = transformedUnits.length ? transformedUnits : units;
     switch (labelType) {
       case "mostRecent":
-        return getDataForMostRecent(units);
+        return getDataForMostRecent(dataSource);
       case "currentMonth":
-        return getDataForCurrentMonth(units);
+        return getDataForCurrentMonth(dataSource);
       case "currentYear":
-        return getDataForCurrentYear(units);
+        return getDataForCurrentYear(dataSource);
       default:
         return [];
     }
@@ -55,7 +65,7 @@ const MyChart: React.FC<ChartProps> = ({ units, user }) => {
     if (chartRef.current) {
       const canvas = chartRef.current;
       const ctx = canvas.getContext("2d");
-
+      const dataSource = transformedUnits.length ? transformedUnits : units;
       if (ctx) {
         // Register all necessary components
         Chart.register(...registerables);
@@ -74,7 +84,7 @@ const MyChart: React.FC<ChartProps> = ({ units, user }) => {
             labels: getLabels(),
             datasets: [
               {
-                label: "Units",
+                label: user ? "$" : "Units",
                 data: getData(),
                 backgroundColor: "rgba(75, 192, 192, 0.2)",
                 borderColor: "rgba(75, 192, 192, 1)",
@@ -101,10 +111,10 @@ const MyChart: React.FC<ChartProps> = ({ units, user }) => {
             },
             scales: {
               y: {
-                max: 20,
-                min: -10,
+                max: user ? Math.round((user?.bankroll * 2) / 1000) * 1000 : 20,
+                min: user ? -500 : -20,
                 ticks: {
-                  stepSize: 2,
+                  stepSize: user ? user?.unitSize * 2.5 : 2,
                   autoSkip: false,
                 },
               },
@@ -134,19 +144,19 @@ const MyChart: React.FC<ChartProps> = ({ units, user }) => {
     <div>
       <div className="mb-4 m-4">
         <button onClick={() => setLabelType("mostRecent")} className={LabelBtn}>
-          Most Recent 7
+          1W
         </button>
         <button
           onClick={() => setLabelType("currentMonth")}
           className={LabelBtn}
         >
-          Current Month
+          1M
         </button>
         <button
           onClick={() => setLabelType("currentYear")}
           className={LabelBtn}
         >
-          Current Year
+          1Y
         </button>
       </div>
       <div className="relative sm:h-[500px] h-[500px]">
