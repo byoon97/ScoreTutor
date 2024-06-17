@@ -25,7 +25,8 @@ builder.prismaObject('User', {
       nullable: true
     }),
     role: t.expose('role', { type: Role, }),
-    membership: t.relation('membership')
+    membership: t.relation('membership'),
+    emailNotifs: t.exposeBoolean('emailNotifs')
   })
 })
 
@@ -42,17 +43,18 @@ builder.mutationField("updateUser", (t) =>
       lastName: t.arg.string({ required: true }),
       phoneNumber: t.arg.string({ required: true}),
       unitSize: t.arg.int({required: true}),
-      bankroll: t.arg.int({required: true})
+      bankroll: t.arg.int({required: true}),
+      emailNotifs: t.arg.boolean({required: true})
     },
     resolve: async (query, _parent, args, ctx) => {
-      const { email, firstName, lastName, phoneNumber, unitSize, bankroll } = args
+      const { email, firstName, lastName, phoneNumber, unitSize, bankroll, emailNotifs } = args
       return prisma.user.update({
         where: {
           email: email,
         },
        
         data: {
-          firstName, lastName, phoneNumber, unitSize, bankroll
+          firstName, lastName, phoneNumber, unitSize, bankroll, emailNotifs
         },
         ...query,
       })

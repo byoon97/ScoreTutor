@@ -22,7 +22,8 @@ model User {
   phoneNumber String?
   membership  Membership?
   bankroll    Int?        
-  unitSize    Int?         
+  unitSize    Int?
+  emailNotifs Boolean @default(false)         
 }
 
 model Membership {

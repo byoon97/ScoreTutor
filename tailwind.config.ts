@@ -17,9 +17,7 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: [
-          "roboto"
-        ]
+        'roboto': ['Roboto', 'sans-serif'],
       }
     },
   },

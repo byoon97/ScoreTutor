@@ -122,6 +122,9 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
         placeholder="Search by Pick"
         className="mb-4 p-2 border-[1px] border-black text-black font-mono text-sm"
       />
+      <span className="text-xs font-mono mx-6">
+        Click the Table Headers to Sort
+      </span>
       <table
         {...getTableProps()}
         className="table-auto border-collapse border border-gray-400 w-full bg-white text-black"
