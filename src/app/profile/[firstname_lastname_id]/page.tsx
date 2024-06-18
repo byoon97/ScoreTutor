@@ -150,7 +150,9 @@ const Page: React.FC = () => {
                       Net Units :
                     </div>
 
-                    <div>{netUnits.getUnitCount[0].netUnits.toFixed(2)}</div>
+                    <div>
+                      {netUnits && netUnits.getUnitCount[0].netUnits.toFixed(2)}
+                    </div>
                   </div>
                 </div>
               </div>{" "}
