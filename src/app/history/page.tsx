@@ -48,6 +48,10 @@ const TableContainer: React.FC = () => {
 
   const [table, setTable] = React.useState<string>("table");
 
+  useEffect(() => {
+    !totalLoad && console.log(netUnits);
+  }, [totalLoad]);
+
   // Render the TableComponent with the fetched data
   return (
     <div className="bg-white p-2 xl:px-40">
@@ -107,7 +111,11 @@ const TableContainer: React.FC = () => {
       </div>
       {!loading && table == "table" && <TableComponent data={data?.getPicks} />}
       {table == "lineGraph" && !unitLoad && (
-        <MyChart units={units.getDailyUnits} user={null} />
+        <MyChart
+          units={units.getDailyUnits}
+          user={null}
+          totalUnits={netUnits.getUnitCount[0].netUnits}
+        />
       )}
     </div>
   );

@@ -15,12 +15,13 @@ import {
 type ChartProps = {
   units: UnitData[];
   user: UserProps | null;
+  totalUnits: number | null;
 };
 
 const LabelBtn =
   "text-black mr-2 p-2 bg-[#DCF2F2] font-mono text-xs rounded-sm shadow-lg";
 
-const MyChart: React.FC<ChartProps> = ({ units, user }) => {
+const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
   const [labelType, setLabelType] = useState("mostRecent");
@@ -111,10 +112,14 @@ const MyChart: React.FC<ChartProps> = ({ units, user }) => {
             },
             scales: {
               y: {
-                max: user ? Math.round((user?.bankroll * 2) / 1000) * 1000 : 20,
+                max: user
+                  ? Math.round((user?.bankroll * 2) / 1000) * 1000
+                  : totalUnits !== null
+                  ? Math.round((totalUnits * 2) / 10) * 10
+                  : 50,
                 min: user ? -500 : -20,
                 ticks: {
-                  stepSize: user ? user?.unitSize * 2.5 : 2,
+                  stepSize: user ? user?.unitSize * 2.5 : 5,
                   autoSkip: false,
                 },
               },
