@@ -1,3 +1,44 @@
+import { parse, format, differenceInMinutes, isToday, isTomorrow, addDays, differenceInCalendarDays } from 'date-fns';
+import { toZonedTime, format as formatTz } from 'date-fns-tz';
+
+export const whenProvider = (dateString : string) => {
+ const dateFormat = "MM-dd-yyyy hh:mm:ss a";
+    const timeZone = 'America/New_York';
+
+    // Parse the input date string
+    const parsedDate = parse(dateString, dateFormat, new Date());
+
+    // Convert the parsed date to EST
+    const estDate = toZonedTime(parsedDate, timeZone);
+
+    // Get the current date in EST
+    const now = toZonedTime(new Date(), timeZone);
+
+    // Calculate the difference in minutes
+    const minutesDifference = differenceInMinutes(estDate, now);
+
+    // Convert minutes difference to hours and minutes
+    const hours = Math.floor(minutesDifference / 60);
+    const minutes = minutesDifference % 60;
+    const timeDifference = `${hours > 0 ? `${hours} hr${hours > 1 ? 's' : ''} ` : ''}${minutes} min${minutes !== 1 ? 's' : ''}`;
+
+    // Determine the day description
+    let dayDescription;
+    if (isToday(estDate)) {
+      dayDescription = 'Today';
+    } else if (isTomorrow(estDate)) {
+      dayDescription = 'Tomorrow';
+    } else {
+      const daysDifference = differenceInCalendarDays(estDate, now);
+      dayDescription = `In ${daysDifference} Days`;
+    }
+  
+  return {
+    day: dayDescription,
+    when: minutesDifference
+  };
+};
+
 export const getDate = () => {
     const currentDate = new Date();
     const formattedMonth = String(currentDate.getMonth() + 1).padStart(2, "0");

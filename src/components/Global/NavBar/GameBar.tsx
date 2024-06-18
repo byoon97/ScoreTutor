@@ -5,11 +5,11 @@ import GameCarousel from "./GameBarComps/Carousel";
 import useSWR from "swr";
 
 const dropdownOptions = [
-  { label: "NBA", imageSrc: "/sportsLogos/NBA.png" },
-  { label: "NFL", imageSrc: "/sportsLogos/NFL.png" },
+  // { label: "NBA", imageSrc: "/sportsLogos/NBA.png" },
+  // { label: "NFL", imageSrc: "/sportsLogos/NFL.png" },
   { label: "MLB", imageSrc: "/sportsLogos/MLB.png" },
-  { label: "NHL", imageSrc: "/sportsLogos/NHL.png" },
-  { label: "NCAA", imageSrc: "/sportsLogos/NCAA.png" },
+  // { label: "NHL", imageSrc: "/sportsLogos/NHL.png" },
+  // { label: "NCAA", imageSrc: "/sportsLogos/NCAA.png" },
 ];
 
 export const fetcher = (...args: Parameters<typeof fetch>) =>

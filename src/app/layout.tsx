@@ -20,7 +20,7 @@ export default function RootLayout({
         <UserProvider>
           <ApolloWrapper>
             <UserState>
-              <body className={inter.className + `bg-white`}>
+              <body className={inter.className}>
                 <Nav />
                 {children} <Footer />
               </body>

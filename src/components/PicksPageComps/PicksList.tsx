@@ -9,6 +9,7 @@ import { gql, useQuery } from "@apollo/client";
 import { getDate } from "@/util/getDate";
 import UpdateModal from "../Admin/UpdatePicksModal/UpdateModal";
 import { Toaster } from "react-hot-toast";
+import RightColumn from "../HomeComps/Picks/RightColumn";
 
 const GET_PICKS_QUERY = gql`
   query GetPicks {
@@ -67,7 +68,7 @@ export default function PicksList({ page }: Props) {
     if (!loading && page == "picks") {
       setSlate(
         data.getPicks.filter(
-          (pick: SinglePickProps) => pick.createdAt == getDate().dateCheck
+          (pick: SinglePickProps) => pick.status !== "Complete"
         )
       );
     } else if (!loading && page == "update") {
@@ -93,13 +94,11 @@ export default function PicksList({ page }: Props) {
   };
 
   return (
-    <div className="flex flex-col p-4 bg-white text-black pt-4">
+    <div className="flex flex-col p-2 bg-white text-black pt-4">
       <UpdateModal isOpen={modalOpen} closeModal={closeModal} />
       {page == "update" && <Toaster />}
-      <div className="border-t-[1px] border-[#595959] py-1 mx-16"></div>
-      <div className="flex justify-center items-center"></div>
-      <div className="flex items-center justify-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="flex justify-center flex-row">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-1 w-screen">
           {slate.length > 0 &&
             slate.map((pick: SinglePickProps) => {
               console.log(pick, page);
@@ -129,7 +128,8 @@ export default function PicksList({ page }: Props) {
                 );
               }
             })}
-        </div>
+        </div>{" "}
+        <RightColumn />
       </div>
       {/* Large view goes here */}
     </div>
