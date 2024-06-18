@@ -169,7 +169,9 @@ const Page: React.FC = () => {
         )}
 
         {/* make sure daily units are from when user joins */}
-        {userUnits && !isLoading && <MyChart units={userUnits} user={user} />}
+        {userUnits && !isLoading && (
+          <MyChart units={userUnits} user={user} totalUnits={null} />
+        )}
       </div>
     </div>
   );
