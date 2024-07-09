@@ -43,13 +43,15 @@ export const getDate = () => {
     const currentDate = new Date();
     const formattedMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
     const formattedDay = String(currentDate.getDate()).padStart(2, "0");
-    const formattedDate = `${formattedMonth}-${formattedDay}-${currentDate.getFullYear()}`;
+    const formattedDate = `${formattedMonth}/${formattedDay}/${currentDate.getFullYear()}`;
     const dateCheck = `${currentDate.getFullYear()}-${formattedMonth}-${formattedDay}`;
 
     return { formattedDate, dateCheck };
   };
 
-  export function convertToEST(dateTime: string): string {
+
+
+export function convertToEST(dateTime: string): string {
     // Create a Date object from the input date-time string
     const date = new Date(dateTime);
   
@@ -91,4 +93,12 @@ export const getDate = () => {
     const parts = input.split(" - ");
     return parts[parts.length - 1];
   }
+
+  export const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const month = date.getMonth() + 1; // Months are zero-based
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month}/${day}`;
+  };
   

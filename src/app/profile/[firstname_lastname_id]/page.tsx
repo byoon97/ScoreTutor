@@ -39,7 +39,7 @@ const Page: React.FC = () => {
   const [hasFiltered, setHasFiltered] = React.useState<boolean>(false);
   const [editModal, toggleEditModal] = React.useState<boolean>(false);
 
-  useEffect(() => {
+
     if (!isLoading && !loading && !hasFiltered) {
       const userCreatedAt = user?.createdAt
         ? new Date(user.createdAt)
@@ -54,8 +54,6 @@ const Page: React.FC = () => {
       }
     }
 
-    !totalLoad && console.log(netUnits);
-  }, [units, user, isLoading, loading, hasFiltered, totalLoad, netUnits]);
   const openModal = () => {
     toggleEditModal(true);
   };

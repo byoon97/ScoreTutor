@@ -78,7 +78,7 @@ export default function PicksList({ page }: Props) {
 
   const { loading, error, data } = useQuery(GET_PICKS_QUERY);
 
-  useEffect(() => {
+
     if (!loading && page == "picks") {
       setSlate(
         data.getPicks.filter(
@@ -92,7 +92,7 @@ export default function PicksList({ page }: Props) {
         )
       );
     }
-  }, [loading, error, data]);
+
 
   useEffect(() => {
     if (slate.length === 0) return;
