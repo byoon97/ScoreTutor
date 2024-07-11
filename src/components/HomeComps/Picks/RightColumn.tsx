@@ -30,7 +30,7 @@ const RightColumn: FC = () => {
           to view our betting history{" "}
         </div>
       </div>
-      <div className="bg-[#5D5C61] rounded-lg text-white font-mono p-4 mt-4">
+      <div className="bg-[#5D5C61] rounded-lg text-white font-sans p-4 mt-4">
         <div className="flex flex-col  mb-2 text-[13px]">
           <div className="flex flex-row items-center mb-1">
             {" "}
@@ -65,7 +65,7 @@ const RightColumn: FC = () => {
       </div>
 
       {/* DISCORD */}
-      <div className="bg-[#5D5C61] rounded-lg text-white font-mono p-4 mt-4">
+      <div className="bg-[#5D5C61] rounded-lg text-white font-sans p-4 mt-4">
         <div className="flex flex-col  mb-2 text-[13px]">
           <div className="flex flex-row items-center mb-1">
             {" "}

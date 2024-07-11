@@ -8,6 +8,13 @@ import { isMembershipExpired } from "@/util/profileUtil";
 import { convertToEST } from "@/util/getDate";
 import EditUserModal from "@/components/profilePageComps/EditUser";
 import { Toaster } from "react-hot-toast";
+import { FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
+import {
+  IoIosArrowForward,
+  IoIosArrowUp,
+  IoIosArrowDown,
+} from "react-icons/io";
+import { getDataForCurrentMonth, getDataForMostRecent } from "@/util/chartUtil";
 
 const GET_DAILY_UNITS = gql`
   query GetDailyUnits {
@@ -26,10 +33,10 @@ const GET_TOTAL_UNITS = gql`
   }
 `;
 
-type days = {
-  date: Date;
-  netUnits: number;
-};
+const overViewContainer = "flex flex-col text-white text-center";
+const overViewHeader = "text-[12px]";
+const overViewNumber = "text-[30px] flex flex-row items-center";
+const overViewBorder = "border-r-[1px] border-gray-300 my-2";
 
 const Page: React.FC = () => {
   const { isLoading, isSignedIn, user } = useUser();
@@ -37,140 +44,234 @@ const Page: React.FC = () => {
   const { loading: totalLoad, data: netUnits } = useQuery(GET_TOTAL_UNITS);
   const [userUnits, setUserUnits] = React.useState();
   const [hasFiltered, setHasFiltered] = React.useState<boolean>(false);
-  const [editModal, toggleEditModal] = React.useState<boolean>(false);
+  const [currentWk, setCurrentWk] = React.useState<number | undefined>(
+    undefined
+  );
+  const [currentMonth, setCurrentMonth] = React.useState<number | undefined>(
+    undefined
+  );
+  const [currentTotal, setCurrentTotal] = React.useState<number | undefined>(
+    undefined
+  );
 
+  if (!isLoading && !loading && !hasFiltered) {
+    const userCreatedAt = user?.createdAt
+      ? new Date(user.createdAt)
+      : undefined;
 
-    if (!isLoading && !loading && !hasFiltered) {
-      const userCreatedAt = user?.createdAt
-        ? new Date(user.createdAt)
-        : undefined;
+    if (userCreatedAt) {
+      const filteredDays = units.getDailyUnits.filter((day: { date: string }) =>
+        isAfter(new Date(day.date), userCreatedAt)
+      );
+      setUserUnits(filteredDays);
+      setHasFiltered(true); // Set hasFiltered to true to prevent re-execution
+    }
+  }
 
-      if (userCreatedAt) {
-        const filteredDays = units.getDailyUnits.filter(
-          (day: { date: string }) => isAfter(new Date(day.date), userCreatedAt)
-        );
-        setUserUnits(filteredDays);
-        setHasFiltered(true); // Set hasFiltered to true to prevent re-execution
-      }
+  if (user && units && netUnits) {
+    const newMonth =
+      Number(
+        getDataForCurrentMonth(units.getDailyUnits)[
+          units.getDailyUnits.length - 1
+        ].toFixed(2)
+      ) * user.unitSize;
+
+    const newWeek =
+      Number(
+        getDataForMostRecent(units.getDailyUnits)[
+          units.getDailyUnits.length - 1
+        ].toFixed(2)
+      ) * user.unitSize;
+
+    const newTotal = user.unitSize * netUnits.getUnitCount[0].netUnits;
+
+    if (currentMonth !== newMonth) {
+      setCurrentMonth(newMonth);
     }
 
-  const openModal = () => {
-    toggleEditModal(true);
-  };
+    if (currentWk !== newWeek) {
+      setCurrentWk(newWeek);
+    }
 
-  const closeModal = () => {
-    toggleEditModal(false);
-  };
+    if (currentTotal !== newTotal) {
+      setCurrentTotal(newTotal);
+    }
+  }
 
   return (
-    <div className="bg-[#F6F7FB]">
-      {" "}
-      <div className=" p-2 xl:mx-80 xl:py-8">
-        <div className="flex flex-col w-full">
-          <h1 className=" text-black text-center p-4 font-mono">Profile</h1>
-          <div className="border-b-[1px] border-black shadow-b-lg mb-6 lg:mx-64 mx-20"></div>
-        </div>
-        {isLoading && !user ? (
-          <div>loading</div>
-        ) : (
-          <div className="bg-white text-black p-4 rounded-lg shadow-lg my-2 flex flex-row justify-between xl:p-8">
-            <EditUserModal
-              isOpen={editModal}
-              closeModal={closeModal}
-              user={user}
-            />
-            <Toaster />
-            <div className="flex flex-col w-full">
-              <div className="flex flex-col md:flex-row md:justify-between">
-                <div className="text-[12px] lg:text-[14px] font-mono flex-grow">
-                  <div className="flex">
-                    <div className="w-52">
-                      <span className="text-[#151F2B]">Name:</span>
-                    </div>
-                    <div className="w-36">
-                      {user?.firstName} {user?.lastName}
-                    </div>
-                  </div>
-                  <div className="flex">
-                    <div className="w-52">
-                      <span className="text-[#151F2B]">Email : </span>
-                    </div>
-                    <div className="w-36">{user?.email}</div>
-                  </div>{" "}
-                  <div className="flex">
-                    <div className="w-52">
-                      <span className="text-[#151F2B]">
-                        Recieve Email Notifs :{" "}
-                      </span>
-                    </div>
-                    <div className="w-36">Yes</div>
-                  </div>
-                  <div className="flex">
-                    <div className="w-52">
-                      <span className="text-[#151F2B]">Active Member: </span>
-                    </div>
-                    <div className="w-36">
-                      {user?.membership?.expiresAt !== undefined &&
-                      user?.membership?.expiresAt !== null &&
-                      !isMembershipExpired(
-                        user?.membership?.expiresAt.toString()
-                      )
-                        ? convertToEST(
-                            user?.membership?.expiresAt?.toString()
-                          ).split(" ")[0]
-                        : "Not Active"}
-                    </div>
-                  </div>
+    <div className="bg-[#F6F7FB] h-full font-sans leading-tighter">
+      {isLoading && !user ? (
+        <div>Loading...</div>
+      ) : (
+        <div className="flex flex-col md:flex-row text-black">
+          <div className="bg-gray-800 text-white w-full md:w-1/4 lg:w-1/5 p-4 space-y-6 hidden md:flex">
+            <nav className="flex flex-col space-y-4 text-[13px] w-full">
+              <a
+                href="#"
+                className="flex items-center space-x-2 hover:text-gray-300 w-full"
+              >
+                <FaUser />
+                <div className="flex flex-row justify-between items-center w-full">
+                  {" "}
+                  <span>Profile</span>
+                  <IoIosArrowForward />
                 </div>
-                <div className="text-[12px] font-mono">
-                  <div className="flex">
-                    <div className="text-[#151F2B] w-52 md:w-24">
-                      Bankroll :{" "}
-                    </div>
-
-                    <div>
-                      $
-                      {user &&
-                        netUnits &&
-                        user?.bankroll +
-                          user?.unitSize * netUnits.getUnitCount[0].netUnits}
-                    </div>
-                  </div>
-                  <div className="flex">
-                    <div className="text-[#151F2B] w-52 md:w-24">
-                      Unit Size :{" "}
-                    </div>
-
-                    <div>${user && user.unitSize}</div>
-                  </div>
-                  <div className="flex">
-                    <div className="text-[#151F2B] w-52 md:w-24">
-                      Net Units :
-                    </div>
-
-                    <div>
-                      {netUnits && netUnits.getUnitCount[0].netUnits.toFixed(2)}
-                    </div>
-                  </div>
+              </a>
+              <a
+                href="#"
+                className="flex items-center space-x-2 hover:text-gray-300 w-full"
+              >
+                <FaCog />
+                <div className="flex flex-row justify-between items-center w-full">
+                  <span>Settings</span>
+                  <IoIosArrowForward />
                 </div>
-              </div>{" "}
-              <div className="edit flex items-center justify-center mt-6 mb-4">
-                <button
-                  className="rounded-lg shadow-lg bg-[#DCF2F2] font-mono w-20 text-xs h-6"
-                  onClick={openModal}
-                >
-                  Edit
-                </button>
+              </a>
+              <a
+                href="#"
+                className="flex items-center space-x-2 hover:text-gray-300 w-full"
+              >
+                <FaSignOutAlt />
+                <div className="flex flex-row justify-between items-center w-full">
+                  <span>Logout</span>
+                  <IoIosArrowForward />
+                </div>
+              </a>
+            </nav>
+          </div>
+          <div className="flex flex-col flex-1">
+            <div className="pl-6 py-4 flex flex-col">
+              <div className="font-bold text-[17x]">Dashboard</div>
+              <div className="text-[10px] text-gray-400">
+                Profile/Units Current
               </div>
             </div>
+            <div className="flex-1 px-6 bg-gray-100">
+              <div className="bg-white shadow rounded-lg p-6">
+                <div className="flex flex-col space-y-3">
+                  <div className="text-2xl font-bold">
+                    {user?.firstName} {user?.lastName}
+                  </div>
+                  <div className="border-b-[1px] border-gray-200"></div>{" "}
+                  <div className="flex md:flex-row flex-col">
+                    {" "}
+                    <div className="flex flex-col space-y-2 items-start text-[12px] pb-2">
+                      <div className="flex">
+                        <div className="w-40 text-start">
+                          <span className="text-[#151F2B]">Email:</span>
+                        </div>
+                        <div className="w-44 text-[#45A29F]">{user?.email}</div>
+                      </div>
+                      <div className="flex">
+                        <div className="w-40">
+                          <span className="text-[#151F2B]">Email Alerts:</span>
+                        </div>
+                        <div className="w-44">
+                          {user?.emailNotifs ? "Enabled" : "Disabled"}
+                        </div>
+                      </div>
+                      <div className="flex">
+                        <div className="w-40">
+                          <span className="text-[#151F2B]">
+                            Active Member:{" "}
+                          </span>
+                        </div>
+                        <div className="w-44">
+                          {user?.membership?.expiresAt !== undefined &&
+                          user?.membership?.expiresAt !== null &&
+                          !isMembershipExpired(
+                            user?.membership?.expiresAt.toString()
+                          )
+                            ? convertToEST(
+                                user?.membership?.expiresAt?.toString()
+                              ).split(" ")[0]
+                            : "Not Active"}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col space-y-2 items-start text-[12px]">
+                      <div className="flex">
+                        <div className="w-40 text-start">
+                          <span className="text-[#151F2B]">Phone Number:</span>
+                        </div>
+                        <div className="w-44">{user?.phoneNumber || "N/A"}</div>
+                      </div>
+                      <div className="flex">
+                        <div className="w-40">
+                          <span className="text-[#151F2B]">Member Since: </span>
+                        </div>
+                        <div className="w-44">
+                          {
+                            convertToEST(
+                              user?.createdAt?.toString() as string
+                            ).split(" ")[0]
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="pt-4 px-6 flex flex-col">
+              <div className="font-bold text-[17x]">Overview</div>
+              <div className="text-[10px] text-gray-400">
+                Net Units, Unit Flow, Analytics Data Visualization
+              </div>
+            </div>
+            <div className="bg-[#5886FE] mx-6 my-4 p-4 flex flex-row justify-evenly font-sans">
+              <div className={overViewContainer}>
+                <div className={overViewHeader}>Net Total</div>
+                <div className={overViewNumber}>
+                  {currentTotal && currentTotal > 0 ? (
+                    <IoIosArrowUp className="pr-2 text-[#3ED36C] animate-pulse" />
+                  ) : (
+                    <IoIosArrowDown className="pr-2 text-red-500 animate-pulse" />
+                  )}
+                  ${user && netUnits && currentTotal}
+                </div>
+              </div>
+              <div className={overViewBorder}></div>
+              <div className={overViewContainer}>
+                <div className={overViewHeader}>This Month</div>
+                <div className={overViewNumber}>
+                  {currentMonth && currentMonth > 0 ? (
+                    <IoIosArrowUp className="pr-2 text-[#3ED36C] animate-pulse" />
+                  ) : (
+                    <IoIosArrowDown className="pr-2 text-red-500 animate-pulse" />
+                  )}
+                  ${currentMonth}
+                </div>
+              </div>
+              <div className={overViewBorder}></div>
+              <div className={overViewContainer}>
+                <div className={overViewHeader}>This Week</div>
+                <div className={overViewNumber}>
+                  {currentWk && currentWk > 0 ? (
+                    <IoIosArrowUp className="pr-2 text-[#3ED36C] animate-pulse" />
+                  ) : (
+                    <IoIosArrowDown className="pr-2 text-red-500 animate-pulse" />
+                  )}
+                  ${user && netUnits && currentWk}
+                </div>
+              </div>
+              <div className={overViewBorder}></div>
+              <div className={overViewContainer}>
+                <div className={overViewHeader}>Unit Size</div>
+                <div className={overViewNumber}>${user && user?.unitSize}</div>
+              </div>
+            </div>
+            {/* Make sure daily units are from when user joins */}
+            {userUnits && !isLoading && (
+              <div className="flex-1 px-6 bg-gray-100">
+                <div className="bg-white shadow rounded-lg mb-6">
+                  <MyChart units={userUnits} user={user} totalUnits={null} />
+                </div>
+              </div>
+            )}
           </div>
-        )}
-
-        {/* make sure daily units are from when user joins */}
-        {userUnits && !isLoading && (
-          <MyChart units={userUnits} user={user} totalUnits={null} />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

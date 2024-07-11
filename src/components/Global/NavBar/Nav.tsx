@@ -15,7 +15,7 @@ import { useUser } from "@/app/context/UserContext/userStore";
 const menuItemContainer = "flex flex-row items-center p-4 cursor-pointer";
 const menuItem = "font-thin pl-2";
 const line = "border-b-[1px] border-[#5A5A5A]";
-const navItem = "font-mono text-sm text-white mx-2 lg:mx-4 xl:mx-6";
+const navItem = "font-sans text-sm text-white mx-2 lg:mx-4 xl:mx-6";
 
 export default function Nav() {
   const [openMenu, setOpenMenu] = React.useState(false);

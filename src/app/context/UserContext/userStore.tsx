@@ -23,6 +23,7 @@ const GET_USER_QUERY = gql`
       role
       bankroll
       unitSize
+      emailNotifs
       membership {
         expiresAt
       }

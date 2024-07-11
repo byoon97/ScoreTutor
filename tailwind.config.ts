@@ -18,8 +18,24 @@ const config: Config = {
     extend: {
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],
+        'custom': [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          '"Noto Sans"',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+          '"Noto Color Emoji"',
+        ],
+        sans: ['var(--font-sans)', ...require('tailwindcss/defaultTheme').fontFamily.sans],
       }
     },
   },
+  plugins: [],
   };
 export default config;

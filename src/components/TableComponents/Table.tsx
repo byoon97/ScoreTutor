@@ -120,9 +120,9 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Search by Pick"
-        className="mb-4 p-2 border-[1px] border-black text-black font-mono text-sm"
+        className="mb-4 p-2 border-[1px] border-black text-black font-sans text-sm"
       />
-      <span className="text-xs font-mono mx-6">
+      <span className="text-xs font-sans mx-6">
         Click the Table Headers to Sort
       </span>
       <table
@@ -168,7 +168,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
           })}
         </tbody>
       </table>
-      <div className="pagination p-3 font-mono text-xs items-center justify-center">
+      <div className="pagination p-3 font-sans text-xs items-center justify-center">
         <div>
           <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
             {"<<"}

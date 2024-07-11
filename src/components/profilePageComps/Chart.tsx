@@ -11,6 +11,7 @@ import {
   getDataForCurrentYear,
   UnitData,
 } from "../../util/chartUtil"; // Adjust the import path as necessary
+import { gql, useQuery } from "@apollo/client";
 
 type ChartProps = {
   units: UnitData[];
@@ -18,8 +19,16 @@ type ChartProps = {
   totalUnits: number | null;
 };
 
+const GET_TOTAL_UNITS = gql`
+  query GetUnitCount {
+    getUnitCount {
+      netUnits
+    }
+  }
+`;
+
 const LabelBtn =
-  "text-black mr-2 p-2 bg-[#DCF2F2] font-mono text-xs rounded-sm shadow-lg";
+  "text-black mr-2 p-2 bg-[#DCF2F2] font-sans text-xs rounded-sm shadow-lg";
 
 const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
@@ -33,6 +42,45 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
         }))
       : units
   );
+
+  let weekROI;
+  let monthROI;
+  let yearROI;
+  let netWeek;
+  let netMonth;
+  let netYear;
+
+  if (user) {
+    weekROI = (
+      ((user?.unitSize *
+        Number(getDataForMostRecent(units)[units.length - 1])) /
+        user?.bankroll) *
+      100
+    ).toFixed(2);
+
+    monthROI = (
+      ((user?.unitSize *
+        Number(getDataForCurrentMonth(units)[units.length - 1])) /
+        user?.bankroll) *
+      100
+    ).toFixed(2);
+
+    yearROI = (
+      ((user?.unitSize *
+        Number(getDataForCurrentYear(units)[units.length - 1])) /
+        user?.bankroll) *
+      100
+    ).toFixed(2);
+
+    netWeek =
+      user?.unitSize * Number(getDataForMostRecent(units)[units.length - 1]);
+    netMonth =
+      user?.unitSize * Number(getDataForCurrentMonth(units)[units.length - 1]);
+    netYear =
+      user?.unitSize * Number(getDataForCurrentYear(units)[units.length - 1]);
+  }
+
+  const { loading: totalLoad, data: netUnits } = useQuery(GET_TOTAL_UNITS);
 
   const getLabels = () => {
     const dataSource = transformedUnits.length ? transformedUnits : units;
@@ -63,6 +111,7 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
   };
 
   useEffect(() => {
+    console.log(getDataForMostRecent(units));
     if (chartRef.current) {
       const canvas = chartRef.current;
       const ctx = canvas.getContext("2d");
@@ -85,7 +134,7 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
             labels: getLabels(),
             datasets: [
               {
-                label: user ? "$" : "Units",
+                label: user ? "USD " : "Units",
                 data: getData(),
                 backgroundColor: "rgba(75, 192, 192, 0.2)",
                 borderColor: "rgba(75, 192, 192, 1)",
@@ -104,16 +153,13 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
             },
             responsive: true,
             maintainAspectRatio: false, // Set to false to manually control height
-            plugins: {
-              title: {
-                display: true,
-                text: "Bankroll",
-              },
-            },
             scales: {
               y: {
+                grid: {
+                  display: false,
+                },
                 max: user
-                  ? Math.round((user?.bankroll * 2) / 1000) * 1000
+                  ? Math.round((user?.bankroll * 2) / 1000) * 1000 - 1000
                   : totalUnits !== null
                   ? Math.round((totalUnits * 2) / 10) * 10
                   : 50,
@@ -121,6 +167,11 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
                 ticks: {
                   stepSize: user ? user?.unitSize * 2.5 : 5,
                   autoSkip: false,
+                },
+              },
+              x: {
+                grid: {
+                  display: false,
                 },
               },
             },
@@ -146,32 +197,63 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
   }, [labelType, units]);
 
   return (
-    <div>
-      <div className="mb-4 m-4">
-        <button onClick={() => setLabelType("mostRecent")} className={LabelBtn}>
-          1W
-        </button>
-        <button
-          onClick={() => setLabelType("currentMonth")}
-          className={LabelBtn}
-        >
-          1M
-        </button>
-        <button
-          onClick={() => setLabelType("currentYear")}
-          className={LabelBtn}
-        >
-          1Y
-        </button>
+    <div className="mb-2">
+      <div className="flex flex-row justify-between text-black pt-4 px-6">
+        <div className="flex flex-col">
+          <div className="font-bold text-[20px]">
+            {user &&
+              !totalLoad &&
+              user?.unitSize * netUnits.getUnitCount[0].netUnits}{" "}
+            USD
+          </div>{" "}
+          <div className="text-gray-500 font-thin text-[15px]">
+            {user && labelType === "mostRecent" && (
+              <div>
+                {netWeek} USD ({weekROI}%)
+              </div>
+            )}
+
+            {user && labelType === "currentMonth" && (
+              <div>
+                {netMonth} USD ({monthROI}%)
+              </div>
+            )}
+
+            {user && labelType === "currentYear" && (
+              <div>
+                {netYear} USD ({yearROI}%)
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div>
+          <button
+            onClick={() => setLabelType("mostRecent")}
+            className={LabelBtn}
+          >
+            1W
+          </button>
+          <button
+            onClick={() => setLabelType("currentMonth")}
+            className={LabelBtn}
+          >
+            1M
+          </button>
+          <button
+            onClick={() => setLabelType("currentYear")}
+            className={LabelBtn}
+          >
+            1Y
+          </button>
+        </div>
       </div>
       <div className="relative sm:h-[500px] h-[500px]">
-        <canvas
-          ref={chartRef}
-          className="bg-white shadow-lg rounded-lg w-full h-full"
-        />
+        <canvas ref={chartRef} className=" w-full h-full font-sans" />
       </div>
     </div>
   );
 };
 
 export default MyChart;
+

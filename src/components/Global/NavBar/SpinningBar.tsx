@@ -22,7 +22,7 @@ type Unit = {
 };
 
 const lineItem =
-  "item inline-block text-black border-r-4 border-[#66FCF1] h-14 flex items-center justify-center tracking-tight font-light text-[18px]";
+  "text-sm item inline-block text-black border-r-4 border-[#66FCF1] h-14 flex items-center justify-center tracking-tight font-light text-[18px]";
 const optionItem = "font-bold border-solid border-[2px] bg-white";
 
 const ScrollingToolbar: React.FC = () => {
@@ -71,7 +71,7 @@ const ScrollingToolbar: React.FC = () => {
 
   return (
     <div
-      className="toolbar overflow-hidden whitespace-nowrap bg-[#0B0D10] flex items-center h-12 font-roboto"
+      className="toolbar overflow-hidden whitespace-nowrap bg-[#0B0D10] flex items-center h-12 font-sans"
       onMouseEnter={() =>
         document.querySelector(".toolbar-content")?.classList.add("paused")
       }
