@@ -54,7 +54,7 @@ builder.mutationField("updateUser", (t) =>
         },
        
         data: {
-          firstName, lastName, phoneNumber, unitSize, bankroll, emailNotifs
+          firstName, lastName, phoneNumber, unitSize, bankroll, emailNotifs, email
         },
         ...query,
       })

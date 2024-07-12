@@ -6,7 +6,6 @@ import MyChart from "@/components/profilePageComps/Chart";
 import { isBefore, isAfter, isEqual, compareAsc } from "date-fns";
 import { isMembershipExpired } from "@/util/profileUtil";
 import { convertToEST } from "@/util/getDate";
-import EditUserModal from "@/components/profilePageComps/EditUser";
 import { Toaster } from "react-hot-toast";
 import { FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
 import {
@@ -15,6 +14,8 @@ import {
   IoIosArrowDown,
 } from "react-icons/io";
 import { getDataForCurrentMonth, getDataForMostRecent } from "@/util/chartUtil";
+import Link from "next/link";
+import EditUserModal from "@/components/profilePageComps/EditUserDash";
 
 const GET_DAILY_UNITS = gql`
   query GetDailyUnits {
@@ -53,6 +54,14 @@ const Page: React.FC = () => {
   const [currentTotal, setCurrentTotal] = React.useState<number | undefined>(
     undefined
   );
+  const [dashboard, setDashboard] = React.useState<string>("profile");
+
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
 
   if (!isLoading && !loading && !hasFiltered) {
     const userCreatedAt = user?.createdAt
@@ -103,12 +112,12 @@ const Page: React.FC = () => {
       {isLoading && !user ? (
         <div>Loading...</div>
       ) : (
-        <div className="flex flex-col md:flex-row text-black">
-          <div className="bg-gray-800 text-white w-full md:w-1/4 lg:w-1/5 p-4 space-y-6 hidden md:flex">
-            <nav className="flex flex-col space-y-4 text-[13px] w-full">
-              <a
-                href="#"
+        <div className="flex flex-col md:flex-row text-black w-full">
+          <div className="bg-gray-800 text-white space-y-6 md:flex p-4">
+            <nav className="flex flex-col space-y-4 text-[13px]">
+              <div
                 className="flex items-center space-x-2 hover:text-gray-300 w-full"
+                onClick={() => setDashboard("profile")}
               >
                 <FaUser />
                 <div className="flex flex-row justify-between items-center w-full">
@@ -116,160 +125,211 @@ const Page: React.FC = () => {
                   <span>Profile</span>
                   <IoIosArrowForward />
                 </div>
-              </a>
-              <a
-                href="#"
+              </div>
+              <div
                 className="flex items-center space-x-2 hover:text-gray-300 w-full"
+                onClick={() => setDashboard("settings")}
               >
                 <FaCog />
                 <div className="flex flex-row justify-between items-center w-full">
                   <span>Settings</span>
                   <IoIosArrowForward />
                 </div>
-              </a>
-              <a
-                href="#"
-                className="flex items-center space-x-2 hover:text-gray-300 w-full"
-              >
-                <FaSignOutAlt />
-                <div className="flex flex-row justify-between items-center w-full">
-                  <span>Logout</span>
-                  <IoIosArrowForward />
+              </div>
+              <Link href="/api/auth/logout">
+                <div className="flex items-center space-x-2 hover:text-gray-300 w-full">
+                  <FaSignOutAlt />
+                  <div className="flex flex-row justify-between items-center w-full">
+                    <span>Logout</span>
+                    <IoIosArrowForward />
+                  </div>
                 </div>
-              </a>
+              </Link>
             </nav>
           </div>
-          <div className="flex flex-col flex-1">
-            <div className="pl-6 py-4 flex flex-col">
-              <div className="font-bold text-[17x]">Dashboard</div>
-              <div className="text-[10px] text-gray-400">
-                Profile/Units Current
+          {dashboard == "profile" && (
+            <div className="flex flex-col px-2 w-full">
+              <div className="py-4 flex flex-col">
+                <div className="font-bold text-[17x]">Dashboard</div>
+                <div className="text-[10px] text-gray-400">
+                  Profile/Units Current
+                </div>
               </div>
-            </div>
-            <div className="flex-1 px-6 bg-gray-100">
-              <div className="bg-white shadow rounded-lg p-6">
-                <div className="flex flex-col space-y-3">
-                  <div className="text-2xl font-bold">
-                    {user?.firstName} {user?.lastName}
-                  </div>
-                  <div className="border-b-[1px] border-gray-200"></div>{" "}
-                  <div className="flex md:flex-row flex-col">
-                    {" "}
-                    <div className="flex flex-col space-y-2 items-start text-[12px] pb-2">
-                      <div className="flex">
-                        <div className="w-40 text-start">
-                          <span className="text-[#151F2B]">Email:</span>
+              <div className="flex-1 bg-gray-100 w-full">
+                <div className="bg-white shadow rounded-lg p-6">
+                  <div className="flex flex-col space-y-3">
+                    <div className="text-2xl font-bold">
+                      {user?.firstName} {user?.lastName}
+                    </div>
+                    <div className="border-b-[1px] border-gray-200"></div>{" "}
+                    <div className="flex md:flex-row flex-col">
+                      {" "}
+                      <div className="flex flex-col space-y-2 items-start text-[12px] pb-2">
+                        <div className="flex">
+                          <div className="w-32 text-start">
+                            <span className="text-[#151F2B]">Email:</span>
+                          </div>
+                          <div className="w-44 text-[#45A29F]">
+                            {user?.email}
+                          </div>
                         </div>
-                        <div className="w-44 text-[#45A29F]">{user?.email}</div>
+                        <div className="flex">
+                          <div className="w-32">
+                            <span className="text-[#151F2B]">
+                              Email Alerts:
+                            </span>
+                          </div>
+                          <div className="w-44">
+                            {user?.emailNotifs ? "Enabled" : "Disabled"}
+                          </div>
+                        </div>
+                        <div className="flex">
+                          <div className="w-32">
+                            <span className="text-[#151F2B]">
+                              Active Member:{" "}
+                            </span>
+                          </div>
+                          <div className="w-44">
+                            {user?.membership?.expiresAt !== undefined &&
+                            user?.membership?.expiresAt !== null &&
+                            !isMembershipExpired(
+                              user?.membership?.expiresAt.toString()
+                            )
+                              ? convertToEST(
+                                  user?.membership?.expiresAt?.toString()
+                                ).split(" ")[0]
+                              : "Not Active"}
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex">
-                        <div className="w-40">
-                          <span className="text-[#151F2B]">Email Alerts:</span>
+                      <div className="flex flex-col space-y-2 items-start text-[12px]">
+                        <div className="flex">
+                          <div className="w-32 text-start">
+                            <span className="text-[#151F2B]">
+                              Phone Number:
+                            </span>
+                          </div>
+                          <div className="w-44">
+                            {user?.phoneNumber || "N/A"}
+                          </div>
                         </div>
-                        <div className="w-44">
-                          {user?.emailNotifs ? "Enabled" : "Disabled"}
-                        </div>
-                      </div>
-                      <div className="flex">
-                        <div className="w-40">
-                          <span className="text-[#151F2B]">
-                            Active Member:{" "}
-                          </span>
-                        </div>
-                        <div className="w-44">
-                          {user?.membership?.expiresAt !== undefined &&
-                          user?.membership?.expiresAt !== null &&
-                          !isMembershipExpired(
-                            user?.membership?.expiresAt.toString()
-                          )
-                            ? convertToEST(
-                                user?.membership?.expiresAt?.toString()
+                        <div className="flex">
+                          <div className="w-32">
+                            <span className="text-[#151F2B]">
+                              Member Since:{" "}
+                            </span>
+                          </div>
+                          <div className="w-44">
+                            {
+                              convertToEST(
+                                user?.createdAt?.toString() as string
                               ).split(" ")[0]
-                            : "Not Active"}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col space-y-2 items-start text-[12px]">
-                      <div className="flex">
-                        <div className="w-40 text-start">
-                          <span className="text-[#151F2B]">Phone Number:</span>
-                        </div>
-                        <div className="w-44">{user?.phoneNumber || "N/A"}</div>
-                      </div>
-                      <div className="flex">
-                        <div className="w-40">
-                          <span className="text-[#151F2B]">Member Since: </span>
-                        </div>
-                        <div className="w-44">
-                          {
-                            convertToEST(
-                              user?.createdAt?.toString() as string
-                            ).split(" ")[0]
-                          }
+                            }
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <div className="pt-4 flex flex-col">
+                <div className="font-bold text-[17x]">Overview</div>
+                <div className="text-[10px] text-gray-400">
+                  Net Units, Unit Flow, Analytics Data Visualization
+                </div>
+              </div>
+              {/* SMALL SCREEN BAR */}
+              {/* SMALL SCREEN BAR */}
+              {/* SMALL SCREEN BAR */}
+              {/* SMALL SCREEN BAR */}
+              <div className="bg-[#5886FE] my-4 p-4 flex flex-row justify-evenly font-sans md:hidden">
+                <div className={overViewContainer}>
+                  <div className={overViewHeader}>Net Total</div>
+                  <div className={overViewNumber}>
+                    {currentTotal && currentTotal > 0 ? (
+                      <IoIosArrowUp
+                        className="pr-2 animate-pulse text-green-500"/>
+                    ) : (
+                      <IoIosArrowDown className="pr-2 text-red-500 animate-pulse" />
+                    )}
+
+                    {user && netUnits && formatter.format(Number(currentTotal))}
+                  </div>
+                </div>
+                <div className={overViewBorder}></div>
+                <div className={overViewContainer}>
+                  <div className={overViewHeader}>Unit Size</div>
+                  <div className={overViewNumber}>
+                    {user && formatter.format(user?.unitSize)}
+                  </div>
+                </div>
+              </div>
+              {/* MD AND UP */}
+              {/* MD AND UP */}
+              {/* MD AND UP */}
+              {/* MD AND UP */}
+              <div className="hidden md:block">
+                {" "}
+                <div className="bg-[#5886FE] my-4 p-4 flex flex-row justify-evenly font-sans">
+                  <div className={overViewContainer}>
+                    <div className={overViewHeader}>Net Total</div>
+                    <div className={overViewNumber}>
+                      {currentTotal && currentTotal > 0 ? (
+                        <IoIosArrowUp className="pr-2 text-[#3ED36C] animate-pulse" />
+                      ) : (
+                        <IoIosArrowDown className="pr-2 text-red-500 animate-pulse" />
+                      )}
+
+                      {user &&
+                        netUnits &&
+                        formatter.format(Number(currentTotal))}
+                    </div>
+                  </div>
+                  <div className={overViewBorder}></div>
+                  <div className={overViewContainer}>
+                    <div className={overViewHeader}>This Month</div>
+                    <div className={overViewNumber}>
+                      {currentMonth && currentMonth > 0 ? (
+                        <IoIosArrowUp className="pr-2 text-[#3ED36C] animate-pulse" />
+                      ) : (
+                        <IoIosArrowDown className="pr-2 text-red-500 animate-pulse" />
+                      )}
+                      {formatter.format(Number(currentMonth))}
+                    </div>
+                  </div>
+                  <div className={overViewBorder}></div>
+                  <div className={overViewContainer}>
+                    <div className={overViewHeader}>This Week</div>
+                    <div className={overViewNumber}>
+                      {currentWk && currentWk > 0 ? (
+                        <IoIosArrowUp className="pr-2 text-[#3ED36C] animate-pulse" />
+                      ) : (
+                        <IoIosArrowDown className="pr-2 text-red-500 animate-pulse" />
+                      )}
+                      {user && netUnits && formatter.format(Number(currentWk))}
+                    </div>
+                  </div>
+                  <div className={overViewBorder}></div>
+                  <div className={overViewContainer}>
+                    <div className={overViewHeader}>Unit Size</div>
+                    <div className={overViewNumber}>
+                      {user && formatter.format(user?.unitSize)}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Make sure daily units are from when user joins */}
+              {userUnits && !isLoading && (
+                <div className="flex-1 bg-gray-100 w-full">
+                  <div className="bg-white shadow rounded-lg mb-6">
+                    <MyChart units={userUnits} user={user} totalUnits={null} />
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="pt-4 px-6 flex flex-col">
-              <div className="font-bold text-[17x]">Overview</div>
-              <div className="text-[10px] text-gray-400">
-                Net Units, Unit Flow, Analytics Data Visualization
-              </div>
-            </div>
-            <div className="bg-[#5886FE] mx-6 my-4 p-4 flex flex-row justify-evenly font-sans">
-              <div className={overViewContainer}>
-                <div className={overViewHeader}>Net Total</div>
-                <div className={overViewNumber}>
-                  {currentTotal && currentTotal > 0 ? (
-                    <IoIosArrowUp className="pr-2 text-[#3ED36C] animate-pulse" />
-                  ) : (
-                    <IoIosArrowDown className="pr-2 text-red-500 animate-pulse" />
-                  )}
-                  ${user && netUnits && currentTotal}
-                </div>
-              </div>
-              <div className={overViewBorder}></div>
-              <div className={overViewContainer}>
-                <div className={overViewHeader}>This Month</div>
-                <div className={overViewNumber}>
-                  {currentMonth && currentMonth > 0 ? (
-                    <IoIosArrowUp className="pr-2 text-[#3ED36C] animate-pulse" />
-                  ) : (
-                    <IoIosArrowDown className="pr-2 text-red-500 animate-pulse" />
-                  )}
-                  ${currentMonth}
-                </div>
-              </div>
-              <div className={overViewBorder}></div>
-              <div className={overViewContainer}>
-                <div className={overViewHeader}>This Week</div>
-                <div className={overViewNumber}>
-                  {currentWk && currentWk > 0 ? (
-                    <IoIosArrowUp className="pr-2 text-[#3ED36C] animate-pulse" />
-                  ) : (
-                    <IoIosArrowDown className="pr-2 text-red-500 animate-pulse" />
-                  )}
-                  ${user && netUnits && currentWk}
-                </div>
-              </div>
-              <div className={overViewBorder}></div>
-              <div className={overViewContainer}>
-                <div className={overViewHeader}>Unit Size</div>
-                <div className={overViewNumber}>${user && user?.unitSize}</div>
-              </div>
-            </div>
-            {/* Make sure daily units are from when user joins */}
-            {userUnits && !isLoading && (
-              <div className="flex-1 px-6 bg-gray-100">
-                <div className="bg-white shadow rounded-lg mb-6">
-                  <MyChart units={userUnits} user={user} totalUnits={null} />
-                </div>
-              </div>
-            )}
-          </div>
+          )}
+          {dashboard == "settings" && <EditUserModal user={user} />}
         </div>
       )}
     </div>
@@ -277,3 +337,4 @@ const Page: React.FC = () => {
 };
 
 export default Page;
+

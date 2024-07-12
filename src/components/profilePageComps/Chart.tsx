@@ -28,7 +28,7 @@ const GET_TOTAL_UNITS = gql`
 `;
 
 const LabelBtn =
-  "text-black mr-2 p-2 bg-[#DCF2F2] font-sans text-xs rounded-sm shadow-lg";
+  "text-black mr-2 px-4 py-2 font-sans text-xs rounded-lg border-[1px]";
 
 const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
@@ -49,6 +49,13 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
   let netWeek;
   let netMonth;
   let netYear;
+
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
 
   if (user) {
     weekROI = (
@@ -72,12 +79,15 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
       100
     ).toFixed(2);
 
-    netWeek =
-      user?.unitSize * Number(getDataForMostRecent(units)[units.length - 1]);
-    netMonth =
-      user?.unitSize * Number(getDataForCurrentMonth(units)[units.length - 1]);
-    netYear =
-      user?.unitSize * Number(getDataForCurrentYear(units)[units.length - 1]);
+    netWeek = formatter.format(
+      user?.unitSize * Number(getDataForMostRecent(units)[units.length - 1])
+    );
+    netMonth = formatter.format(
+      user?.unitSize * Number(getDataForCurrentMonth(units)[units.length - 1])
+    );
+    netYear = formatter.format(
+      user?.unitSize * Number(getDataForCurrentYear(units)[units.length - 1])
+    );
   }
 
   const { loading: totalLoad, data: netUnits } = useQuery(GET_TOTAL_UNITS);
@@ -203,7 +213,9 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
           <div className="font-bold text-[20px]">
             {user &&
               !totalLoad &&
-              user?.unitSize * netUnits.getUnitCount[0].netUnits}{" "}
+              formatter.format(
+                user?.unitSize * netUnits.getUnitCount[0].netUnits
+              )}{" "}
             USD
           </div>{" "}
           <div className="text-gray-500 font-thin text-[15px]">
@@ -230,19 +242,25 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
         <div>
           <button
             onClick={() => setLabelType("mostRecent")}
-            className={LabelBtn}
+            className={`text-black mr-2 px-4 py-2 font-sans text-xs rounded-lg border-[1px] ${
+              labelType == "mostRecent" && "bg-[#DCF2F2]"
+            }`}
           >
             1W
           </button>
           <button
             onClick={() => setLabelType("currentMonth")}
-            className={LabelBtn}
+            className={`text-black mr-2 px-4 py-2 font-sans text-xs rounded-lg border-[1px] ${
+              labelType == "currentMonth" && "bg-[#DCF2F2]"
+            }`}
           >
             1M
           </button>
           <button
             onClick={() => setLabelType("currentYear")}
-            className={LabelBtn}
+            className={`text-black mr-2 px-4 py-2 font-sans text-xs rounded-lg border-[1px] ${
+              labelType == "currentYear" && "bg-[#DCF2F2]"
+            }`}
           >
             1Y
           </button>
