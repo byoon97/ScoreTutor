@@ -1,7 +1,7 @@
 import React from "react";
 import { UserProps } from "@/types";
 import { gql, useMutation } from "@apollo/client";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const UPDATE_USER_MUTATION = gql`
   mutation UpdateUser(
@@ -12,6 +12,7 @@ const UPDATE_USER_MUTATION = gql`
     $unitSize: Int!
     $bankroll: Int!
     $emailNotifs: Boolean!
+    $password: String!
   ) {
     updateUser(
       email: $email
@@ -21,6 +22,7 @@ const UPDATE_USER_MUTATION = gql`
       unitSize: $unitSize
       bankroll: $bankroll
       emailNotifs: $emailNotifs
+      password: $password
     ) {
       email
       firstName
@@ -29,6 +31,7 @@ const UPDATE_USER_MUTATION = gql`
       unitSize
       bankroll
       emailNotifs
+      password
     }
   }
 `;
@@ -45,6 +48,7 @@ type Credentials = {
   unitSize: number;
   bankroll: number;
   emailNotifs: boolean;
+  password: string;
 };
 
 const inputClass =
@@ -60,21 +64,25 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
     bankroll: 0,
     unitSize: 0,
     emailNotifs: false,
+    password: "",
   });
 
   const [updateUser, { data, loading, error }] =
     useMutation(UPDATE_USER_MUTATION);
 
   async function completeRegistration() {
-    const variables = {
-      email: user?.email,
-      firstName: userData?.firstName,
-      lastName: userData?.lastName,
-      phoneNumber: userData?.phoneNumber,
-      unitSize: userData?.unitSize,
-      bankroll: userData?.bankroll,
-      emailNotifs: userData?.emailNotifs,
-    };
+    const variables: { [key: string]: any } = {};
+
+    if (user?.email) variables.email = user.email;
+    if (userData?.firstName) variables.firstName = userData.firstName;
+    if (userData?.lastName) variables.lastName = userData.lastName;
+    if (userData?.phoneNumber) variables.phoneNumber = userData.phoneNumber;
+    if (userData?.unitSize) variables.unitSize = userData.unitSize;
+    if (userData?.bankroll) variables.bankroll = userData.bankroll;
+    if (userData?.emailNotifs !== undefined)
+      variables.emailNotifs = userData.emailNotifs;
+    if (userData?.password) variables.password = userData.password;
+
     try {
       await toast.promise(updateUser({ variables }), {
         loading: "Updating your Account...",
@@ -97,6 +105,7 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
 
   return (
     <div className="w-full rounded-lg p-2 flex flex-col">
+      <Toaster />
       <div className="py-4 flex flex-col">
         <div className="font-bold text-[17x]">Your Settings</div>
         <div className="text-[10px] text-gray-400">Edit Information</div>
@@ -150,6 +159,20 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
                   }
                 />
               </div>
+              <div className="w-full md:w-1/2 px-3 mb-3">
+                <label htmlFor="password" className={inputLabel}>
+                  Password
+                </label>
+                <input
+                  className={inputClass}
+                  id="password"
+                  type="password"
+                  placeholder="new password"
+                  onChange={(e) =>
+                    setUserData({ ...userData, password: e.target.value })
+                  }
+                />
+              </div>
 
               <div className="w-full md:w-1/2 px-3 mb-3">
                 <label htmlFor="phone" className={inputLabel}>
@@ -165,6 +188,41 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
                   }
                 />
               </div>
+              <div className="w-full md:w-1/2 px-3 mb-3">
+                <label htmlFor="bankroll" className={inputLabel}>
+                  Bankroll
+                </label>
+                <input
+                  className={inputClass}
+                  id="bankroll"
+                  type="number"
+                  placeholder="$500"
+                  onChange={(e) =>
+                    setUserData({
+                      ...userData,
+                      bankroll: Number(e.target.value),
+                    })
+                  }
+                />
+              </div>
+              <div className="w-full md:w-1/2 px-3 mb-3">
+                <label htmlFor="unitsize" className={inputLabel}>
+                  unitsize
+                </label>
+                <input
+                  className={inputClass}
+                  id="unitsize"
+                  type="number"
+                  placeholder="$500"
+                  onChange={(e) =>
+                    setUserData({
+                      ...userData,
+                      unitSize: Number(e.target.value),
+                    })
+                  }
+                />
+              </div>
+
               <div className="w-full md:w-1/2 px-3 mb-3">
                 <p className="text-gray-700 pb-1">
                   Receive Email Notifications
