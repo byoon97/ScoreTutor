@@ -1,5 +1,4 @@
 "use client";
-// context/UserContext.tsx
 import {
   createContext,
   useContext,
@@ -23,6 +22,7 @@ const GET_USER_QUERY = gql`
       role
       bankroll
       unitSize
+      emailNotifs
       membership {
         expiresAt
       }

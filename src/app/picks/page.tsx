@@ -15,7 +15,7 @@ export default function Page({}: Props) {
   };
   return (
     <div className="bg-white text-black pt-6 xl:px-80">
-      <h1 className="bg-white text-black text-center font-mono">
+      <h1 className="bg-white text-black text-center font-sans">
         {getDate()} Picks
       </h1>
       {/* <div className="border-b-[1px] border-black shadow-b-lg mb-6 lg:mx-64 mx-20"></div> */}

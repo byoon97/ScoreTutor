@@ -20,7 +20,7 @@ const Carousel: React.FC = () => {
   }, []); // Runs only once when component mounts
 
   return (
-    <div className="relative w-full mt-4 flex flex-col h-64 md:h-[30rem] lg:mx-8 md:mb-4">
+    <div className="relative w-full flex flex-col h-64 md:h-[30rem] lg:mx-8">
       {images.map((image, index) => (
         <div
           key={index}

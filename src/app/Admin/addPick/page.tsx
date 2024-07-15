@@ -112,7 +112,7 @@ const Form: React.FC = () => {
     isLoading: mlbLoading,
   } = useSWR("/api/MLB", fetcher);
 
-  React.useEffect(() => {
+
     if (selectedSport === "NBA") {
       if (nbaLoading) console.log("...loading nba games");
       else if (nbaError) console.error(nbaError);
@@ -137,23 +137,6 @@ const Form: React.FC = () => {
       else setData(mlbData);
     }
 
-    console.log(data);
-  }, [
-    selectedSport,
-    data,
-    nbaLoading,
-    nbaError,
-    nbaData,
-    // nflLoading,
-    // nflError,
-    // nflData,
-    nhlLoading,
-    nhlError,
-    nhlData,
-    mlbLoading,
-    mlbError,
-    mlbData,
-  ]);
 
   const handleSportChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const sport = event.target.value as Sports;

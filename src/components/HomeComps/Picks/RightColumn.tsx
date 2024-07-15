@@ -4,9 +4,9 @@ import { FaDiscord } from "react-icons/fa";
 
 const RightColumn: FC = () => {
   return (
-    <div className="w-1/3 ml-4 px-2 flex flex-col">
+    <div className="w-1/3 ml-4 px-2 flex flex-col font-roboto">
       <div className="flex flex-col text-[14px] bg-white rounded-lg shadow-lg p-4 mt-6">
-        <div className="font-bold font-inter text-center mb-2">
+        <div className="font-bold  text-center mb-2">
           We are currently 9-1 in our last NBA Plays 🔥🤑💰💸
         </div>
         <div className="text-[12px]">
@@ -18,9 +18,7 @@ const RightColumn: FC = () => {
         </div>
       </div>
       <div className="flex flex-col text-[14px] bg-white rounded-lg shadow-lg p-4 mt-4">
-        <div className="font-bold font-inter text-left mb-2">
-          Track how we are doing
-        </div>
+        <div className="font-bold  text-left mb-2">Track how we are doing</div>
         <div className="text-[12px]">
           Click{" "}
           <a
@@ -32,8 +30,8 @@ const RightColumn: FC = () => {
           to view our betting history{" "}
         </div>
       </div>
-      <div className="bg-[#5D5C61] rounded-lg text-white font-mono p-4 mt-4">
-        <div className="flex flex-col font-inter mb-2 text-[13px]">
+      <div className="bg-[#5D5C61] rounded-lg text-white font-sans p-4 mt-4">
+        <div className="flex flex-col  mb-2 text-[13px]">
           <div className="flex flex-row items-center mb-1">
             {" "}
             <PiTelegramLogo className="text-[#77D2EF]" size={25} />
@@ -46,7 +44,7 @@ const RightColumn: FC = () => {
           </div>
         </div>
 
-        <div className="font-inter text-[10px] mb-2">
+        <div className=" text-[10px] mb-2">
           {" "}
           <span>
             Join our official telegram to gain instant{" "}
@@ -55,7 +53,7 @@ const RightColumn: FC = () => {
           </span>
         </div>
 
-        <div className="font-inter text-[10px]">
+        <div className=" text-[10px]">
           <span>
             Click&nbsp;
             <a className="text-[#77D2EF]" href="http://t.me/mkabets">
@@ -67,8 +65,8 @@ const RightColumn: FC = () => {
       </div>
 
       {/* DISCORD */}
-      <div className="bg-[#5D5C61] rounded-lg text-white font-mono p-4 mt-4">
-        <div className="flex flex-col font-inter mb-2 text-[13px]">
+      <div className="bg-[#5D5C61] rounded-lg text-white font-sans p-4 mt-4">
+        <div className="flex flex-col  mb-2 text-[13px]">
           <div className="flex flex-row items-center mb-1">
             {" "}
             <FaDiscord className="text-[#77D2EF]" size={25} />
@@ -80,7 +78,7 @@ const RightColumn: FC = () => {
           </div>
         </div>
 
-        <div className="font-inter text-[10px] mb-2">
+        <div className=" text-[10px] mb-2">
           {" "}
           <span>
             Join our official discord to interact with the MKA team, as well as
@@ -90,7 +88,7 @@ const RightColumn: FC = () => {
           </span>
         </div>
 
-        <div className="font-inter text-[10px]">
+        <div className=" text-[10px]">
           <span>
             Click&nbsp;
             <a className="text-[#77D2EF]" href="https://discord.gg/WQRuxsJx3B">

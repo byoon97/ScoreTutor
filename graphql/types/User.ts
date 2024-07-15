@@ -1,6 +1,8 @@
 import { User } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
 import { builder } from "../builder";
+import { getAuth0Token } from "@/util/tokenManager";
+import axios from 'axios';
 
 builder.prismaObject('User', {
   fields: (t) => ({
@@ -25,8 +27,10 @@ builder.prismaObject('User', {
       nullable: true
     }),
     role: t.expose('role', { type: Role, }),
-    membership: t.relation('membership'),
-    emailNotifs: t.exposeBoolean('emailNotifs')
+    membership: t.relation('membership', {
+      nullable: true
+    }),
+    emailNotifs: t.exposeBoolean('emailNotifs'),
   })
 })
 
@@ -44,7 +48,7 @@ builder.mutationField("updateUser", (t) =>
       phoneNumber: t.arg.string({ required: true}),
       unitSize: t.arg.int({required: true}),
       bankroll: t.arg.int({required: true}),
-      emailNotifs: t.arg.boolean({required: true})
+      emailNotifs: t.arg.boolean({required: true}),
     },
     resolve: async (query, _parent, args, ctx) => {
       const { email, firstName, lastName, phoneNumber, unitSize, bankroll, emailNotifs } = args

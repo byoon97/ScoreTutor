@@ -23,7 +23,7 @@ export const POST = async (req:NextRequest, res:NextResponse) => {
     } else {
     try {
       await prisma.user.create({
-        data: { email, role: Role.USER },
+        data: { email, role: Role.USER, firstName:'N/A', lastName: 'N/A', unitSize: 0, bankroll: 0 },
       });
       return NextResponse.json({ 
         status: 200,

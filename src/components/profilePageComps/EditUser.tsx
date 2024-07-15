@@ -49,8 +49,7 @@ type Credentials = {
   emailNotifs: boolean;
 };
 
-const inputClass =
-  "border border-gray-300 p-3 rounded-md focus:outline-none focus:border-blue-500";
+const inputClass = "border-transparent focus:border-transparent focus:ring-0";
 const inputLabel = "font-medium mb-1";
 
 const EditUserModal: React.FC<EditUserProps> = ({

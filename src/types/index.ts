@@ -10,6 +10,7 @@ export type UserProps = {
     unitSize: number
     membership: Membership
     createdAt: Date | string
+    emailNotifs: boolean
 }
 
 export interface event {

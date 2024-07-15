@@ -1,0 +1,29 @@
+@keyframes scroll {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.toolbar-content {
+    display: flex;
+    white-space: nowrap;
+    animation: scroll 20s linear infinite;
+}
+
+.toolbar-content.paused {
+    animation-play-state: paused;
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.relative {
+    background-color: inherit;
+}

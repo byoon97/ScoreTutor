@@ -16,14 +16,17 @@ model User {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   email       String      @unique
-  firstName   String?
-  lastName    String?
+  firstName   String
+  lastName    String
   role        Role        @default(USER)
   phoneNumber String?
   membership  Membership?
-  bankroll    Int?        
-  unitSize    Int?
-  emailNotifs Boolean @default(false)         
+  bankroll    Int       
+  unitSize    Int
+  emailNotifs Boolean @default(false)
+  discordId   String?
+  telegramId  String?
+              
 }
 
 model Membership {

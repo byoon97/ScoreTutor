@@ -48,9 +48,9 @@ const TableContainer: React.FC = () => {
 
   const [table, setTable] = React.useState<string>("table");
 
-  useEffect(() => {
-    !totalLoad && console.log(netUnits);
-  }, [totalLoad]);
+  // useEffect(() => {
+  //   !totalLoad && console.log(netUnits);
+  // }, [totalLoad]);
 
   // Render the TableComponent with the fetched data
   return (
