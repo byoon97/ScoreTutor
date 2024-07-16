@@ -12,7 +12,6 @@ const UPDATE_USER_MUTATION = gql`
     $unitSize: Int!
     $bankroll: Int!
     $emailNotifs: Boolean!
-    $password: String!
   ) {
     updateUser(
       email: $email
@@ -22,16 +21,13 @@ const UPDATE_USER_MUTATION = gql`
       unitSize: $unitSize
       bankroll: $bankroll
       emailNotifs: $emailNotifs
-      password: $password
     ) {
-      email
       firstName
       lastName
       phoneNumber
       unitSize
       bankroll
       emailNotifs
-      password
     }
   }
 `;
@@ -48,7 +44,6 @@ type Credentials = {
   unitSize: number;
   bankroll: number;
   emailNotifs: boolean;
-  password: string;
 };
 
 const inputClass =
@@ -64,7 +59,6 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
     bankroll: 0,
     unitSize: 0,
     emailNotifs: false,
-    password: "",
   });
 
   const [updateUser, { data, loading, error }] =
@@ -81,8 +75,6 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
     if (userData?.bankroll) variables.bankroll = userData.bankroll;
     if (userData?.emailNotifs !== undefined)
       variables.emailNotifs = userData.emailNotifs;
-    if (userData?.password) variables.password = userData.password;
-
     try {
       await toast.promise(updateUser({ variables }), {
         loading: "Updating your Account...",
@@ -145,35 +137,6 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
             </div>
 
             <div className="flex flex-wrap -mx-3">
-              <div className="w-full md:w-1/2 px-3 mb-3">
-                <label htmlFor="email" className={inputLabel}>
-                  Email
-                </label>
-                <input
-                  className={inputClass}
-                  id="email"
-                  type="email"
-                  placeholder="name@company.com"
-                  onChange={(e) =>
-                    setUserData({ ...userData, email: e.target.value })
-                  }
-                />
-              </div>
-              <div className="w-full md:w-1/2 px-3 mb-3">
-                <label htmlFor="password" className={inputLabel}>
-                  Password
-                </label>
-                <input
-                  className={inputClass}
-                  id="password"
-                  type="password"
-                  placeholder="new password"
-                  onChange={(e) =>
-                    setUserData({ ...userData, password: e.target.value })
-                  }
-                />
-              </div>
-
               <div className="w-full md:w-1/2 px-3 mb-3">
                 <label htmlFor="phone" className={inputLabel}>
                   Phone
