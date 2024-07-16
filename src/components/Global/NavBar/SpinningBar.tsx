@@ -71,7 +71,7 @@ const ScrollingToolbar: React.FC = () => {
 
   return (
     <div
-      className="toolbar overflow-hidden whitespace-nowrap bg-[#0B0D10] flex items-center h-12 font-sans"
+      className="toolbar overflow-hidden whitespace-nowrap bg-[#0B0D10] flex items-center h-12 font-mono"
       onMouseEnter={() =>
         document.querySelector(".toolbar-content")?.classList.add("paused")
       }

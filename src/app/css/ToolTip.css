@@ -1,0 +1,28 @@
+.tooltip {
+    position: absolute;
+    bottom: 125%;
+    /* Adjust to position above the element */
+    left: 50%;
+    transform: translateX(-50%);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #2d3748 transparent transparent transparent;
+    /* Adjust to match tooltip background color */
+}
+
+.group:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}

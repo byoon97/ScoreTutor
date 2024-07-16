@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-// LOG IN PAGE
 "use client";
 import Link from "next/link";
 import * as React from "react";
@@ -9,6 +7,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { gql, useMutation } from "@apollo/client";
 import toast, { Toaster } from "react-hot-toast";
 import { useUser } from "../context/UserContext/userStore";
+import "../css/ToolTip.css";
+import { GrTooltip } from "react-icons/gr";
 
 const UPDATE_USER_MUTATION = gql`
   mutation UpdateUser(
@@ -53,7 +53,7 @@ type Credentials = {
 const CompleteRegistration: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get("email");
+  const email = searchParams.get("email") ?? '';
   const [userData, setUserData] = React.useState<Credentials>({
     email: "",
     firstName: "",
@@ -65,7 +65,11 @@ const CompleteRegistration: React.FC = () => {
     password: "",
   });
 
-  const { user, isSignedIn } = useUser();
+  const { user, isSignedIn, isLoading } = useUser();
+
+  React.useEffect(() => {
+    !isLoading && console.log(user);
+  }, [user, isLoading]);
 
   const [updateUser, { data, loading, error }] =
     useMutation(UPDATE_USER_MUTATION);
@@ -103,6 +107,14 @@ const CompleteRegistration: React.FC = () => {
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     completeRegistration(); // Function to update user data
+  };
+
+  const handleDiscordConnect = () => {
+    const data = { email };
+    const query = new URLSearchParams(data).toString();
+    console.log(data, query);
+
+    window.open(`/api/auth/discord?${query}`, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -167,12 +179,21 @@ const CompleteRegistration: React.FC = () => {
                 required
               />
             </div>
-            <div className="w-full md:w-full px-3 mb-6">
+
+            <div className="w-full md:w-full px-3 mb-6 relative group">
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 htmlFor="number"
               >
-                Unit Size
+                <span>Unit Size</span>
+                <div className="relative inline-block ml-2">
+                  <GrTooltip />
+
+                  <div className="absolute left-full top-1/2 transform -translate-y-1/2 -translate-x-2 hidden group-hover:block bg-gray-800 text-white text-xs px-2 py-1 rounded shadow-lg z-10">
+                    How much you are willing to risk per unit. This value should
+                    be 1-2% of your bankroll.
+                  </div>
+                </div>
               </label>
               <input
                 className="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none"
@@ -184,12 +205,20 @@ const CompleteRegistration: React.FC = () => {
                 required
               />
             </div>
-            <div className="w-full md:w-full px-3 mb-6">
+            <div className="w-full md:w-full px-3 mb-6 relative group">
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 htmlFor="number"
               >
                 Bankroll
+                <div className="relative inline-block ml-2">
+                  <GrTooltip />
+
+                  <div className="absolute left-full top-1/2 transform -translate-y-1/2 -translate-x-2 hidden group-hover:block bg-gray-800 text-white text-xs px-2 py-1 rounded shadow-lg z-10">
+                    Your total bankroll that you are trying to increase
+                    gradually.
+                  </div>
+                </div>
               </label>
               <input
                 className="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none"
@@ -255,19 +284,19 @@ const CompleteRegistration: React.FC = () => {
             </div>
             <div className="flex items-center w-full mt-2">
               <div className="w-full md:w-1/3 px-3 pt-4 mx-2 border-t border-gray-400">
-                <button className="appearance-none flex items-center justify-center  w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
-                  <FaDiscord size={28} />
-                </button>
+                <div className="appearance-none flex items-center justify-center  w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
+                  <FaDiscord size={28} onClick={handleDiscordConnect} />
+                </div>
               </div>
               <div className="w-full md:w-1/2 px-3 pt-4 mx-2">
-                <button className="appearance-none flex items-center justify-center  w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
+                <div className="appearance-none flex items-center justify-center  w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
                   <FcGoogle size={28} />
-                </button>
+                </div>
               </div>
               <div className="w-full md:w-1/3 px-3 pt-4 mx-2 border-t border-gray-400">
-                <button className="appearance-none flex items-center justify-center  w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
+                <div className="appearance-none flex items-center justify-center  w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
                   <FaTelegram size={28} />
-                </button>
+                </div>
               </div>
             </div>
           </div>
