@@ -26,6 +26,7 @@ model User {
   emailNotifs Boolean @default(false)
   discordId   String?
   telegramId  String?
+  telegramToken String?
               
 }
 
