@@ -169,14 +169,14 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
                   display: false,
                 },
                 max: user
-                  ? Math.round((user?.bankroll * 2) / 1000) * 1000 - 1000
+                  ? Math.round((user?.bankroll * 2.5) / 1000) * 1000 - 1000
                   : totalUnits !== null
                   ? Math.round((totalUnits * 2) / 10) * 10
                   : 50,
-                min: user ? -500 : -20,
+                min: 0,
                 ticks: {
-                  stepSize: user ? user?.unitSize * 2.5 : 5,
-                  autoSkip: false,
+                  stepSize: user ? user?.unitSize * 5 : 5,
+                  autoSkip: true,
                 },
               },
               x: {
@@ -214,26 +214,36 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
             {user &&
               !totalLoad &&
               formatter.format(
-                user?.unitSize * netUnits.getUnitCount[0].netUnits
+                user?.unitSize *
+                  units.reduce(
+                    (partialSum, unit) => partialSum + unit.netUnits,
+                    0
+                  )
               )}{" "}
             USD
-          </div>{" "}
+          </div>
           <div className="text-gray-500 font-thin text-[15px]">
             {user && labelType === "mostRecent" && (
               <div>
-                {netWeek} USD ({weekROI}%)
+                {typeof netWeek !== "number"
+                  ? 0 + "USD"
+                  : netWeek + "USD" + weekROI + "%"}
               </div>
             )}
 
             {user && labelType === "currentMonth" && (
               <div>
-                {netMonth} USD ({monthROI}%)
+                {typeof netMonth !== "number"
+                  ? 0 + "USD"
+                  : netMonth + "USD" + monthROI + "%"}
               </div>
             )}
 
             {user && labelType === "currentYear" && (
               <div>
-                {netYear} USD ({yearROI}%)
+                {typeof netYear !== "number"
+                  ? 0 + "USD"
+                  : netYear + "USD" + yearROI + "%"}
               </div>
             )}
           </div>

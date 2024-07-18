@@ -11,12 +11,10 @@ const Success: React.FC = () => {
         </div>
         <div className="text-center">
           <h3 className="md:text-2xl text-base text-gray-900 font-semibold">
-            Payment Done!
+            Connection Done! 🎉🎉
           </h3>
-          <p className="text-gray-600 my-2">
-            Thank you for completing your secure online payment.
-          </p>
-            </div>
+          <p className="text-gray-600 my-2">You may safely close this page </p>
+        </div>
       </div>
     </div>
   );

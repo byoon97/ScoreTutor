@@ -11,6 +11,8 @@ export type UserProps = {
     membership: Membership
     createdAt: Date | string
     emailNotifs: boolean
+    discordId : string
+    telegramId : string
 }
 
 export interface event {

@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 import { serialize } from 'cookie';
-import { prisma } from "../../../../../../lib/prisma"
+import { prisma } from '../../../../../../lib/prisma';
 
 const client_id = process.env.DISCORD_CLIENT_ID!;
 const client_secret = process.env.DISCORD_CLIENT_SECRET!;
@@ -14,8 +14,6 @@ export async function GET(req: NextRequest) {
   const state = url.searchParams.get('state');
   const email = req.cookies.get('oauth_email')?.value;
   const storedState = req.cookies.get('oauth_state')?.value;
-
-  console.log(email)
 
   if (state !== storedState) {
     return NextResponse.json({ error: 'Invalid state parameter' }, { status: 400 });
@@ -50,38 +48,29 @@ export async function GET(req: NextRequest) {
 
     const discordUser = userResponse.data;
 
-    // Here you can associate the Discord account with the user in your database
-    // Example: await updateUserWithDiscord(req.user.id, discordUser);
-    // Assuming you have the user authenticated and their user ID available
-
     if (email) {
-        await prisma.user.update({
-            where : {
-                email: email
-            },
-            data : {
-                discordId : discordUser.id
-            }
-        })
+      await prisma.user.update({
+        where: {
+          email: email,
+        },
+        data: {
+          discordId: discordUser.id,
+        },
+      });
     } else {
-        console.log('email not found')
+      console.log('Email not found');
     }
 
     const clearStateCookie = serialize('oauth_state', '', { path: '/', expires: new Date(0) });
     const clearEmailCookie = serialize('oauth_email', '', { path: '/', expires: new Date(0) });
-    
 
-    // Clear the OAuth state cookie
-    const clearCookie = serialize('oauth_state', '', { path: '/', expires: new Date(0) });
+    const response = NextResponse.redirect('http://localhost:3000/success/discord');
+    response.headers.set('Set-Cookie', clearStateCookie);
+    response.headers.append('Set-Cookie', clearEmailCookie);
 
-    return NextResponse.redirect(`http://localhost:3000/complete_registration`, {
-      headers: {
-        'Set-Cookie': clearCookie,
-        'Clear-Email' : clearEmailCookie,
-        'Clear-State' : clearStateCookie
-      },
-    });
+    return response;
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }
+
