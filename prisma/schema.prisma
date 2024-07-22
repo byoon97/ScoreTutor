@@ -78,3 +78,14 @@ model DailyUnit {
   unitCountId Int
   unitCount   UnitCount  @relation(fields: [unitCountId], references: [id])
 }
+
+model Article {
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  ImageURL    String
+  League      String
+  Title       String
+  Synopsis    String
+  Body        String       
+}

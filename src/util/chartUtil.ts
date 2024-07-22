@@ -72,3 +72,4 @@ export const getDataForCurrentYear = (units: UnitData[]): number[] => {
   return months.map(date => dataMap.get(format(date, "MMM")) || 0);
 };
 
+export const calculateROI = (initialInvestment : number, netProfit : number ) : number => (netProfit / initialInvestment) * 100

@@ -80,7 +80,6 @@ const TableContainer: React.FC = () => {
         <div>
           <div>This Week: </div>
           <div>This Month: </div>
-          <div>Free Picks WR: </div>
         </div>
       </div>
       <div className="flex flex-row my-6 rounded-lg text-[10px] justify-center align-center font-thin h-6 w-full">
@@ -90,24 +89,24 @@ const TableContainer: React.FC = () => {
             table === "table" ? "bg-[#3367AD]" : "bg-[#2C3140]"
           }`}
         >
-          Spreadsheet
+          Pick History
         </div>
         <div
           onClick={() => setTable("lineGraph")}
-          className={`flex items-center justify-center w-full h-full border-x-[1px] border-white ${
+          className={`flex items-center justify-center w-full h-full rounded-r-lg ${
             table === "lineGraph" ? "bg-[#3367AD]" : "bg-[#2C3140]"
           }`}
         >
-          Line Graph
+          Unit History
         </div>
-        <div
+        {/* <div
           onClick={() => setTable("barGraph")}
           className={`flex items-center justify-center w-full h-full rounded-r-lg ${
             table === "barGraph" ? "bg-[#3367AD]" : "bg-[#2C3140]"
           }`}
         >
           Bar Graph
-        </div>
+        </div> */}
       </div>
       {!loading && table == "table" && <TableComponent data={data?.getPicks} />}
       {table == "lineGraph" && !unitLoad && (
