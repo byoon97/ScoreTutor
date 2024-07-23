@@ -28,6 +28,7 @@ const GET_PICKS_QUERY = gql`
 
 const SinglePicks: FC = () => {
   const { user } = useUser();
+
   const [slate, setSlate] = React.useState([]);
   const { loading, error, data } = useQuery(GET_PICKS_QUERY);
 
@@ -43,11 +44,11 @@ const SinglePicks: FC = () => {
 
   return (
     <div className="flex flex-col mt-2">
-      {slate.length > 0 ? (
+      {slate.length > 0 &&
         slate.map((pick: SinglePickProps, idx: number) => (
           <div
             key={idx}
-            className="w-full flex flex-col border-[1px] rounded-lg shadow-lg my-2 bg-white p-4"
+            className=" flex flex-col border-[1px] rounded-lg shadow-lg my-2 bg-white p-4"
           >
             <div className="flex flex-row justify-between">
               <div className="font-sans text-sm text-[#656667]">
@@ -100,10 +101,7 @@ const SinglePicks: FC = () => {
               </button>
             )}
           </div>
-        ))
-      ) : (
-        <div>no picks available</div>
-      )}
+        ))}
     </div>
   );
 };

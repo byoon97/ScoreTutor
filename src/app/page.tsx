@@ -10,8 +10,8 @@ const Home: FC = () => {
   return (
     <>
       <SpinningBar />
-      <div className="bg-white text-black flex flex-col px-2 font-sans">
-        <div className="py-2">
+      <div className="bg-white text-black flex flex-col font-sans">
+        <div className="pt-1">
           <HomeCarousel />
         </div>
         <Picks />
