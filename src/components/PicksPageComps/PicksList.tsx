@@ -139,7 +139,7 @@ useEffect(() => {
       <UpdateModal isOpen={modalOpen} closeModal={closeModal} />
       {page == "update" && <Toaster />}
       {/* SORTER */}
-      <div className="flex flex-row h-8">
+      <div className="flex flex-row h-8 ">
         <h4 className="text-black text-sm font-sans font-thin flex items-center justify-center pr-1">
           Sort By :
         </h4>

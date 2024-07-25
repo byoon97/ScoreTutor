@@ -16,6 +16,12 @@ const config: Config = {
       "2xl": "1500px",
     },
     extend: {
+      colors: {
+        'accent-gold': '#66FCF1', // Define your accent gold color
+      },
+      borderRadius: {
+        '20px': '20px',
+      },
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],
         'custom': [

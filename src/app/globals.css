@@ -95,3 +95,16 @@ body {
     /* Firefox */
 }
 /* Add the animation delay classes here, similar to your styled-components setup */
+.embla {
+    overflow: hidden;
+}
+
+.embla__container {
+    display: flex;
+}
+
+.embla__slide {
+    flex: 0 0 auto;
+    width: 100%;
+    /* Adjust width for responsive design */
+}

@@ -36,8 +36,6 @@ const ScrollingToolbar: React.FC = () => {
 
   if (unitLoad || unitErr) return null;
 
-  const accumilatedUnitData = getDataForMostRecent(data.getDailyUnits);
-
   const items = data.getDailyUnits.map((u: Unit, idx: number) => (
     <div key={u.id} className={lineItem}>
       <div className="px-4 border-r-2 border-[#66FCF1] text-white h-8 flex items-center justify-center">
@@ -51,7 +49,7 @@ const ScrollingToolbar: React.FC = () => {
               {u.netUnits.toString().split("").slice(1).join("")}u
             </div>
             <div className=" border-[#66FCF1] px-4">
-              {accumilatedUnitData[idx].toFixed(2)}u
+              {u.netUnits.toFixed(2)}u
             </div>
           </div>
         ) : (
@@ -61,7 +59,7 @@ const ScrollingToolbar: React.FC = () => {
               {u.netUnits.toFixed(2)}u
             </div>
             <div className=" border-[#66FCF1] px-4">
-              {accumilatedUnitData[idx].toFixed(2)}u
+              {u.netUnits.toFixed(2)}u
             </div>
           </div>
         )}
@@ -71,7 +69,7 @@ const ScrollingToolbar: React.FC = () => {
 
   return (
     <div
-      className="toolbar overflow-hidden whitespace-nowrap bg-[#0B0D10] flex items-center h-12 font-mono"
+      className="toolbar overflow-hidden whitespace-nowrap bg-[#0B0D10] flex items-center h-12 font-mono mb-[2px]"
       onMouseEnter={() =>
         document.querySelector(".toolbar-content")?.classList.add("paused")
       }

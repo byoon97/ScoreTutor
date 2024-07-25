@@ -50,7 +50,6 @@ const LeftColumn: FC = () => {
           )}
         </div>
       </div>
-      <SinglePicks />
     </div>
   );
 };

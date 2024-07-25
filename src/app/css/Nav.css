@@ -1,0 +1,27 @@
+/* styles.css */
+.underline-effect {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.underline-effect::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    /* Adjust to move the border lower */
+    left: 50%;
+    width: 0;
+    height: 2px;
+    /* Adjust to change the thickness of the underline */
+    background: #66FCF1;
+    /* Replace with your desired color */
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.underline-effect:hover::after {
+    width: 120%;
+    /* Adjust to make the underline longer */
+    left: -10%;
+    /* Adjust to center the longer underline */
+}
