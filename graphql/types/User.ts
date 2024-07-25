@@ -31,6 +31,15 @@ builder.prismaObject('User', {
       nullable: true
     }),
     emailNotifs: t.exposeBoolean('emailNotifs'),
+    telegramId: t.exposeString('telegramId', {
+      nullable: true
+    }),
+    telegramToken: t.exposeString('telegramId', {
+      nullable: true
+    }),
+    discordId: t.exposeString('telegramId', {
+      nullable: true
+    }),
   })
 })
 
@@ -59,6 +68,29 @@ builder.mutationField("updateUser", (t) =>
        
         data: {
           firstName, lastName, phoneNumber, unitSize, bankroll, emailNotifs
+        },
+        ...query,
+      })
+    }
+  })
+)
+
+builder.mutationField("updateTelegramToken", (t) =>
+  t.prismaField({
+    type: 'User',
+    args: {
+      email: t.arg.string({ required: true}),
+      telegramToken: t.arg.string({required: true})
+    },
+    resolve: async (query, _parent, args, ctx) => {
+      const { email, telegramToken } = args
+      return prisma.user.update({
+        where: {
+          email: email,
+        },
+       
+        data: {
+          telegramToken
         },
         ...query,
       })

@@ -23,18 +23,9 @@ export default function Nav() {
   const { user, isLoading, error, isSignedIn } = useUser();
 
   return (
-    <div className="sticky top-0 bg-black z-10 text-white px-4 shadow-xl py-2 xl:px-48">
+    <div className="sticky top-0 bg-black z-10 text-white px-2 shadow-xl py-2 xl:px-48">
       <div className="flex flex-row justify-between">
         <div className="flex flex-row items-center">
-          <div className="md:hidden">
-            {" "}
-            <RxHamburgerMenu
-              size={25}
-              fontSize={"1.5em"}
-              onClick={() => setOpenHamMenu(!openHamMenu)}
-            />
-          </div>
-
           <Link href="/">
             <Image
               src="/image.png"
@@ -58,6 +49,14 @@ export default function Nav() {
               <CgProfile size={"1em"} fontSize={"1.5em"} />
             </Link>
           )}
+          <div className="md:hidden ml-2">
+            {" "}
+            <RxHamburgerMenu
+              size={25}
+              fontSize={"1.5em"}
+              onClick={() => setOpenHamMenu(!openHamMenu)}
+            />
+          </div>
         </div>
         <div className="hidden md:flex md:flex-row md:justify-center md:items-center">
           {" "}

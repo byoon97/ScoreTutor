@@ -19,13 +19,14 @@ model User {
   firstName   String
   lastName    String
   role        Role        @default(USER)
-  phoneNumber String?
+  phoneNumber String?      @unique
   membership  Membership?
   bankroll    Int       
   unitSize    Int
   emailNotifs Boolean @default(false)
-  discordId   String?
-  telegramId  String?
+  discordId   String? @unique
+  telegramId  String? @unique
+  telegramToken String? @unique
               
 }
 
@@ -76,4 +77,15 @@ model DailyUnit {
   netUnits    Float
   unitCountId Int
   unitCount   UnitCount  @relation(fields: [unitCountId], references: [id])
+}
+
+model Article {
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  ImageURL    String
+  League      String
+  Title       String
+  Synopsis    String
+  Body        String       
 }

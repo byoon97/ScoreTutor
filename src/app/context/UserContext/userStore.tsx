@@ -23,6 +23,8 @@ const GET_USER_QUERY = gql`
       bankroll
       unitSize
       emailNotifs
+      telegramId
+      discordId
       membership {
         expiresAt
       }

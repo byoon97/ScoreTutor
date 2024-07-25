@@ -13,7 +13,11 @@ import {
   IoIosArrowUp,
   IoIosArrowDown,
 } from "react-icons/io";
-import { getDataForCurrentMonth, getDataForMostRecent } from "@/util/chartUtil";
+import {
+  UnitData,
+  getDataForCurrentMonth,
+  getDataForMostRecent,
+} from "@/util/chartUtil";
 import Link from "next/link";
 import EditUserModal from "@/components/profilePageComps/EditUserDash";
 
@@ -43,7 +47,7 @@ const Page: React.FC = () => {
   const { isLoading, isSignedIn, user } = useUser();
   const { loading, error, data: units } = useQuery(GET_DAILY_UNITS);
   const { loading: totalLoad, data: netUnits } = useQuery(GET_TOTAL_UNITS);
-  const [userUnits, setUserUnits] = React.useState();
+  const [userUnits, setUserUnits] = React.useState<UnitData[]>();
   const [hasFiltered, setHasFiltered] = React.useState<boolean>(false);
   const [currentWk, setCurrentWk] = React.useState<number | undefined>(
     undefined
@@ -69,43 +73,47 @@ const Page: React.FC = () => {
       : undefined;
 
     if (userCreatedAt) {
-      const filteredDays = units.getDailyUnits.filter((day: { date: string }) =>
-        isAfter(new Date(day.date), userCreatedAt)
+      const filteredDays: UnitData[] = units.getDailyUnits.filter(
+        (day: { date: string | number | Date }) =>
+          isAfter(new Date(day.date), userCreatedAt)
       );
       setUserUnits(filteredDays);
       setHasFiltered(true); // Set hasFiltered to true to prevent re-execution
     }
   }
 
-  if (user && units && netUnits) {
-    const newMonth =
-      Number(
-        getDataForCurrentMonth(units.getDailyUnits)[
-          units.getDailyUnits.length - 1
-        ].toFixed(2)
-      ) * user.unitSize;
+  useEffect(() => {
+    console.log(userUnits?.length, userUnits);
 
-    const newWeek =
-      Number(
-        getDataForMostRecent(units.getDailyUnits)[
-          units.getDailyUnits.length - 1
-        ].toFixed(2)
-      ) * user.unitSize;
+    if (userUnits && user && hasFiltered) {
+      const length = userUnits.length;
+      const total =
+        user.unitSize *
+        userUnits.reduce((partialSum, unit) => partialSum + unit.netUnits, 0);
 
-    const newTotal = user.unitSize * netUnits.getUnitCount[0].netUnits;
+      if (length === 0) {
+        console.log(1);
+        setCurrentTotal(0);
+        setCurrentWk(0);
+        setCurrentMonth(0);
+      } else {
+        if (length === 1) {
+          console.log(2);
+        } else {
+          console.log(3);
+          setCurrentTotal(total);
+        }
 
-    if (currentMonth !== newMonth) {
-      setCurrentMonth(newMonth);
+        const mostRecentValue =
+          getDataForMostRecent(userUnits)[userUnits.length - 1];
+        const currentMonthValue =
+          getDataForCurrentMonth(userUnits)[userUnits.length - 1];
+
+        setCurrentWk(Number(mostRecentValue.toFixed(2)) * user.unitSize);
+        setCurrentMonth(Number(currentMonthValue.toFixed(2)) * user.unitSize);
+      }
     }
-
-    if (currentWk !== newWeek) {
-      setCurrentWk(newWeek);
-    }
-
-    if (currentTotal !== newTotal) {
-      setCurrentTotal(newTotal);
-    }
-  }
+  }, [netUnits, units, user, userUnits, hasFiltered]);
 
   return (
     <div className="bg-[#F6F7FB] h-full font-sans leading-tighter">
@@ -247,13 +255,12 @@ const Page: React.FC = () => {
                   <div className={overViewHeader}>Net Total</div>
                   <div className={overViewNumber}>
                     {currentTotal && currentTotal > 0 ? (
-                      <IoIosArrowUp
-                        className="pr-2 animate-pulse text-green-500"/>
+                      <IoIosArrowUp className="pr-2 animate-pulse text-green-500" />
                     ) : (
                       <IoIosArrowDown className="pr-2 text-red-500 animate-pulse" />
                     )}
 
-                    {user && netUnits && formatter.format(Number(currentTotal))}
+                    {user && formatter.format(Number(currentTotal))}
                   </div>
                 </div>
                 <div className={overViewBorder}></div>
@@ -280,9 +287,7 @@ const Page: React.FC = () => {
                         <IoIosArrowDown className="pr-2 text-red-500 animate-pulse" />
                       )}
 
-                      {user &&
-                        netUnits &&
-                        formatter.format(Number(currentTotal))}
+                      {user && formatter.format(Number(currentTotal))}
                     </div>
                   </div>
                   <div className={overViewBorder}></div>
@@ -306,7 +311,7 @@ const Page: React.FC = () => {
                       ) : (
                         <IoIosArrowDown className="pr-2 text-red-500 animate-pulse" />
                       )}
-                      {user && netUnits && formatter.format(Number(currentWk))}
+                      {user && formatter.format(Number(currentWk))}
                     </div>
                   </div>
                   <div className={overViewBorder}></div>

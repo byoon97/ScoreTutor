@@ -78,20 +78,23 @@ export default function PicksList({ page }: Props) {
 
   const { loading, error, data } = useQuery(GET_PICKS_QUERY);
 
+useEffect(() => {
+  if (!loading && page == "picks") {
+    setSlate(
+      data.getPicks.filter(
+        (pick: SinglePickProps) => pick.status !== "Complete"
+      )
+    );
+  } else if (!loading && page == "update") {
+    setSlate(
+      data.getPicks.filter(
+        (pick: SinglePickProps) => pick.status !== "Complete"
+      )
+    );
+  }
+}, [data?.getPicks, loading, page]);
 
-    if (!loading && page == "picks") {
-      setSlate(
-        data.getPicks.filter(
-          (pick: SinglePickProps) => pick.status !== "Complete"
-        )
-      );
-    } else if (!loading && page == "update") {
-      setSlate(
-        data.getPicks.filter(
-          (pick: SinglePickProps) => pick.status !== "Complete"
-        )
-      );
-    }
+
 
 
   useEffect(() => {

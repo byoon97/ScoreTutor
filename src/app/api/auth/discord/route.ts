@@ -13,8 +13,6 @@ export async function GET(req: NextRequest) {
   const stateCookie = serialize('oauth_state', state, { path: '/', httpOnly: true });
   const emailCookie = serialize('oauth_email', email as string, { path: '/', httpOnly: true });
 
-  console.log(emailCookie)
-
   const authorizationUrl = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${encodeURIComponent(redirect_uri)}&response_type=code&scope=${encodeURIComponent(scope)}&state=${state}`;
 
  const response = NextResponse.redirect(authorizationUrl);

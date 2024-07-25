@@ -30,13 +30,7 @@ export const getDataForMostRecent = (units: UnitData[]): number[] => {
   });
 };
 
-export const getLabelsForCurrentYear = (): string[] => {
-  const months = eachMonthOfInterval({
-    start: new Date(new Date().getFullYear(), 0, 1),
-    end: new Date(new Date().getFullYear(), 11, 31)
-  });
-  return months.map(date => format(date, "MMM"));
-};
+
 
 export const getLabelsForCurrentMonth = (): string[] => {
   const now = new Date();
@@ -61,7 +55,13 @@ export const getDataForCurrentMonth = (units: UnitData[]): number[] => {
   });
 };
 
-
+export const getLabelsForCurrentYear = (): string[] => {
+  const months = eachMonthOfInterval({
+    start: new Date(new Date().getFullYear(), 0, 1),
+    end: new Date(new Date().getFullYear(), 11, 31)
+  });
+  return months.map(date => format(date, "MMM"));
+};
 export const getDataForCurrentYear = (units: UnitData[]): number[] => {
   const months = eachMonthOfInterval({
     start: new Date(new Date().getFullYear(), 0, 1),
@@ -72,3 +72,4 @@ export const getDataForCurrentYear = (units: UnitData[]): number[] => {
   return months.map(date => dataMap.get(format(date, "MMM")) || 0);
 };
 
+export const calculateROI = (initialInvestment : number, netProfit : number ) : number => (netProfit / initialInvestment) * 100

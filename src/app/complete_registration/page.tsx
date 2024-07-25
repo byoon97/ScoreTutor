@@ -39,6 +39,15 @@ const UPDATE_USER_MUTATION = gql`
   }
 `;
 
+const UPDATE_TOKEN_MUTATION = gql`
+  mutation UpdateTelegramToken($email: String!, $telegramToken: String!) {
+    updateTelegramToken(email: $email, telegramToken: $telegramToken) {
+      email
+      telegramToken
+    }
+  }
+`;
+
 type Credentials = {
   email: string;
   firstName: string;
@@ -53,7 +62,7 @@ type Credentials = {
 const CompleteRegistration: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get("email") ?? '';
+  const email = searchParams.get("email") ?? "";
   const [userData, setUserData] = React.useState<Credentials>({
     email: "",
     firstName: "",
@@ -73,6 +82,11 @@ const CompleteRegistration: React.FC = () => {
 
   const [updateUser, { data, loading, error }] =
     useMutation(UPDATE_USER_MUTATION);
+
+  const [
+    updateTelegramToken,
+    { data: tgData, loading: tgLoading, error: tgError },
+  ] = useMutation(UPDATE_TOKEN_MUTATION);
 
   async function completeRegistration() {
     console.log(user, isSignedIn, email);
@@ -115,6 +129,34 @@ const CompleteRegistration: React.FC = () => {
     console.log(data, query);
 
     window.open(`/api/auth/discord?${query}`, "_blank", "noopener,noreferrer");
+  };
+
+  const handleTGConnect = async () => {
+    function generateToken() {
+      return Math.random().toString(36).substring(2, 8);
+    }
+
+    const token = generateToken();
+
+    const variables = {
+      email,
+      token,
+    };
+
+    // update user DB here
+    await toast.promise(updateTelegramToken({ variables }), {
+      loading: "Sending you to our channel",
+      success: () => {
+        return "Token Successfully Created! 🎉";
+      },
+      error: (error: { message: any }) => {
+        return `Something went wrong 😥 Please try again - ${error.message}`;
+      },
+    });
+    const telegramUrl = `https://t.me/YourTelegramGroup?start=${token}&email=${encodeURIComponent(
+      email
+    )}`;
+    window.open(telegramUrl, "_blank");
   };
 
   return (
@@ -294,7 +336,10 @@ const CompleteRegistration: React.FC = () => {
                 </div>
               </div>
               <div className="w-full md:w-1/3 px-3 pt-4 mx-2 border-t border-gray-400">
-                <div className="appearance-none flex items-center justify-center  w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
+                <div
+                  className="appearance-none flex items-center justify-center  w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none"
+                  onClick={handleTGConnect}
+                >
                   <FaTelegram size={28} />
                 </div>
               </div>
