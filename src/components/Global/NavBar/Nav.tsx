@@ -37,7 +37,7 @@ export default function Nav() {
             />
           </Link>
         </div>
-        <div className="md:hidden flex flex-row items-center justify-center">
+        <div className="md:hidden flex flex-row items-center justify-center space-x-4">
           <div className={navItem}>
             {user?.firstName} {user?.lastName}
           </div>

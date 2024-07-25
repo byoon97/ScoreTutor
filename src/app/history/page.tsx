@@ -5,6 +5,7 @@ import { gql, useQuery } from "@apollo/client";
 import TableComponent from "@/components/TableComponents/Table";
 import MyChart from "@/components/profilePageComps/Chart";
 import { calculateWinPercentage } from "@/util/historyUtil";
+import Calendar from "@/components/historyComponents/Calendar";
 
 const GET_PICKS_QUERY = gql`
   query GetPicks {
@@ -85,7 +86,7 @@ const TableContainer: React.FC = () => {
       <div className="flex flex-row my-6 rounded-lg text-[10px] justify-center align-center font-thin h-6 w-full">
         <div
           onClick={() => setTable("table")}
-          className={`flex items-center justify-center w-full h-full rounded-l-lg ${
+          className={`flex items-center justify-center w-full h-full rounded-l-lg cursor-pointer ${
             table === "table" ? "bg-[#3367AD]" : "bg-[#2C3140]"
           }`}
         >
@@ -93,20 +94,20 @@ const TableContainer: React.FC = () => {
         </div>
         <div
           onClick={() => setTable("lineGraph")}
-          className={`flex items-center justify-center w-full h-full rounded-r-lg ${
+          className={`cursor-pointer flex items-center justify-center w-full h-full border-r-[1px] border-gray-200 ${
             table === "lineGraph" ? "bg-[#3367AD]" : "bg-[#2C3140]"
           }`}
         >
           Unit History
         </div>
-        {/* <div
-          onClick={() => setTable("barGraph")}
-          className={`flex items-center justify-center w-full h-full rounded-r-lg ${
-            table === "barGraph" ? "bg-[#3367AD]" : "bg-[#2C3140]"
+        <div
+          onClick={() => setTable("calendar")}
+          className={`cursor-pointer flex items-center justify-center w-full h-full rounded-r-lg ${
+            table === "calendar" ? "bg-[#3367AD]" : "bg-[#2C3140]"
           }`}
         >
-          Bar Graph
-        </div> */}
+          Calendar
+        </div>
       </div>
       {!loading && table == "table" && <TableComponent data={data?.getPicks} />}
       {table == "lineGraph" && !unitLoad && (
@@ -115,6 +116,9 @@ const TableContainer: React.FC = () => {
           user={null}
           totalUnits={netUnits.getUnitCount[0].netUnits}
         />
+      )}
+      {!unitLoad && table === "calendar" && (
+        <Calendar dailyUnits={units.getDailyUnits} />
       )}
     </div>
   );

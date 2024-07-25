@@ -18,7 +18,7 @@ const Index: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#FAF8F5] flex flex-col p-4 space-y-2 font-sans md:w-1/2 mx-2 mb-2 h-full">
+    <div className="bg-[#FAF8F5] flex flex-col p-4 space-y-2 font-sans lg:w-2/3 mx-2 mb-2 h-full">
       <div className="flex flex-row items-center space-x-2 pb-1">
         <RiBookReadLine size={32} color={"orange"} />
         <h1 className="text-2xl font-semibold">

@@ -44,8 +44,14 @@ const Carousel: React.FC = () => {
   const [canScrollNext, setCanScrollNext] = useState(false);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
 
-  const handleSelectArticle = (articleId: number) => {
-    setSelectedArticle(articleId);
+  const handleSelectArticle = (id: number) => {
+    setSelectedArticle(id);
+    const index = data.getArticles.findIndex(
+      (article: Article) => article.id === id
+    );
+    if (emblaApi) {
+      emblaApi.scrollTo(index);
+    }
   };
 
   const scrollPrev = useCallback(() => {
@@ -78,7 +84,7 @@ const Carousel: React.FC = () => {
                     <img
                       src={article.imageURL}
                       alt={`Slide ${article.id}`}
-                      className="w-full h-full pt-1 px-2 absolute inset-0 object-cover object-top rounded-[20px] transition-transform duration-[400ms] hover:scale-105 z-[2]"
+                      className="cursor-pointer w-full h-full pt-1 px-2 absolute inset-0 object-cover object-top rounded-[20px] transition-transform duration-[400ms] hover:scale-105 z-[2]"
                     />
                   </div>
 
