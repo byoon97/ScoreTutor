@@ -78,10 +78,10 @@ const Picks: React.FC = () => {
   }, [emblaApi]);
 
   return (
-    <div className="relative">
-      <div className="flex flex-row items-center justify-between pt-4 px-4">
+    <div className="relative pb-8">
+      <div className="flex flex-row items-center justify-between pt-4 px-2">
         {" "}
-        <h1 className="text-black text-3xl font-sans font-bold">
+        <h1 className="text-black text-3xl font-sans font-bold py-4">
           Daily Premium Plays
         </h1>{" "}
         <div className="flex space-x-4">
@@ -105,14 +105,14 @@ const Picks: React.FC = () => {
       <div className="embla" ref={emblaRef}>
         <div className="embla__container">
           {!loading &&
-            data.getPicks.map((game: SinglePickProps) => {
+            data.getPicks.map((game: SinglePickProps, idx: number) => {
               const { day, when } = whenProvider(game.startTime);
               return (
                 <div
-                  className="embla__slide w-full md:w-1/2 lg:w-1/3 p-4"
-                  key={game.id}
+                  className="embla__slide w-full md:w-1/2 lg:w-1/3 p-2"
+                  key={idx}
                 >
-                  <div className="border-[1px] border-[#E2E8F0] my-2 text-sm p-4 rounded-lg shadow-lg hover:border-sky-500 w-full">
+                  <div className="bg-white border-[1px] border-[#E2E8F0] my-2 text-sm p-4 rounded-lg shadow-lg hover:border-sky-500 w-full">
                     <div className="flex flex-row justify-between">
                       {when <= 0 ? (
                         <div className="text-[12px] pb-2 pr-2">In Progress</div>

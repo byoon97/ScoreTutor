@@ -9,7 +9,10 @@ const SinglePick: React.FC<SinglePickProps> = (game) => {
 
   const { isSignedIn, user } = useUser();
   return (
-    <div className="border-[1px] border-[#E2E8F0] my-2 text-sm p-4 rounded-lg shadow-lg hover:border-sky-500 w-full">
+    <div
+      style={{ backgroundColor: "white" }}
+      className="border-[1px] border-[#E2E8F0] bg-white my-2 text-sm p-4 rounded-lg shadow-lg hover:border-sky-500 w-full"
+    >
       <div className="flex flex-row justify-between">
         {when <= 0 ? (
           <div className="text-[12px] pb-2 pr-2">In Progress</div>

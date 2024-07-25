@@ -31,7 +31,16 @@ interface Article {
 const Carousel: React.FC = () => {
   const { loading, error, data } = useQuery(GET_ARTICLES_QUERY);
   const [emblaRef, emblaApi] = useEmblaCarousel();
-  const [selectedArticle, setSelectedArticle] = useState<number>(0);
+  const [selectedArticle, setSelectedArticle] = useState<number | null>(
+    !loading && data.getArticles.length > 0 ? data.getArticles[0].id : null
+  );
+
+  useEffect(() => {
+    if (!loading && data.getArticles.length > 0 && selectedArticle === null) {
+      setSelectedArticle(data.getArticles[0].id);
+    }
+  }, [loading, data, selectedArticle]);
+
   const [canScrollNext, setCanScrollNext] = useState(false);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
 
@@ -58,7 +67,7 @@ const Carousel: React.FC = () => {
   }, [emblaApi]);
 
   return (
-    <div className="relative bg-[#0A0B0D] text-white">
+    <div className="relative bg-[#0A0B0D] text-white flex flex-col justify-center">
       <div className="embla" ref={emblaRef}>
         <div className="embla__container flex">
           {!loading &&
@@ -95,15 +104,15 @@ const Carousel: React.FC = () => {
             ))}
         </div>
       </div>
-      <div className="flex flex-row justify-between bg-[#0A0B0D] pb-20">
+      <div className="flex md:flex-row items-center justify-center md:justify-between bg-[#0A0B0D] pb-20 lg:px-20">
         <div className="hidden md:flex md:flex-row md:space-x-8 md:px-6 ">
           {!loading &&
             data.getArticles.map((article: Article) => (
               <div
                 key={article.id}
-                className={`text-white border-b-[2px] cursor-pointer ${
+                className={`text-white cursor-pointer ${
                   selectedArticle === article.id
-                    ? "text-gray-300 border-b-accent-gold"
+                    ? "text-gray-300 border-b-[2px] border-b-accent-gold"
                     : "border-b-transparent"
                 }`}
                 onClick={() => handleSelectArticle(article.id)}
@@ -112,7 +121,7 @@ const Carousel: React.FC = () => {
               </div>
             ))}
         </div>
-        <div className="right-4 flex space-x-4">
+        <div className="flex space-x-4">
           <button
             className=" text-white px-3 cursor-pointer"
             onClick={scrollPrev}

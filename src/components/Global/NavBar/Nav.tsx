@@ -11,11 +11,12 @@ import { CiBoxList } from "react-icons/ci";
 import { CiCalendar } from "react-icons/ci";
 import { FcAbout } from "react-icons/fc";
 import { useUser } from "@/app/context/UserContext/userStore";
+import "../../../app/css/Nav.css";
 
 const menuItemContainer = "flex flex-row items-center p-4 cursor-pointer";
 const menuItem = "font-thin pl-2";
 const line = "border-b-[1px] border-[#5A5A5A]";
-const navItem = "font-sans text-sm text-white mx-2 lg:mx-4 xl:mx-6";
+const navItem = "underline-effect font-sans text-sm text-white w-18";
 
 export default function Nav() {
   const [openMenu, setOpenMenu] = React.useState(false);
@@ -23,7 +24,7 @@ export default function Nav() {
   const { user, isLoading, error, isSignedIn } = useUser();
 
   return (
-    <div className="sticky top-0 bg-black z-10 text-white px-2 shadow-xl py-2 xl:px-48">
+    <div className="sticky top-0 bg-black z-20 text-white px-2 shadow-xl py-2 xl:px-48">
       <div className="flex flex-row justify-between">
         <div className="flex flex-row items-center">
           <Link href="/">
@@ -50,7 +51,6 @@ export default function Nav() {
             </Link>
           )}
           <div className="md:hidden ml-2">
-            {" "}
             <RxHamburgerMenu
               size={25}
               fontSize={"1.5em"}
@@ -58,8 +58,7 @@ export default function Nav() {
             />
           </div>
         </div>
-        <div className="hidden md:flex md:flex-row md:justify-center md:items-center">
-          {" "}
+        <div className="hidden md:flex md:flex-row md:justify-center md:items-center md:space-x-8">
           <Link href="/history">
             <div className={navItem}>History</div>
           </Link>
@@ -71,9 +70,7 @@ export default function Nav() {
           </Link>
           {user ? (
             <Link href={`/profile/${user?.firstName}_${user?.lastName}`}>
-              {" "}
-              <div className="flex flex-row justify-center items-center">
-                {" "}
+              <div className="flex flex-row justify-center items-center space-x-2">
                 <div className={navItem}>
                   {user?.firstName} {user?.lastName}
                 </div>
@@ -85,95 +82,79 @@ export default function Nav() {
               <Link href="/api/auth/login">
                 <div className={navItem}>Log In</div>
               </Link>
-
               <div className={navItem}>Register</div>
             </>
           )}
         </div>
-      </div>{" "}
-      {openHamMenu && (
-        <div className="absolute w-56 bg-black text-white z-10 -mx-4">
-          {!isSignedIn ? (
-            <Link
-              href="/api/auth/login"
-              onClick={() => setOpenHamMenu(!openHamMenu)}
-            >
-              <div className={menuItemContainer}>
-                <FaSignInAlt size={20} />
-                <div className={menuItem}>Sign In</div>
-              </div>
-            </Link>
-          ) : (
-            <Link
-              href="/api/auth/logout"
-              onClick={() => setOpenHamMenu(!openHamMenu)}
-            >
-              <div className={menuItemContainer}>
-                <FaSignInAlt size={20} />
-                <div className={menuItem}>Sign Out</div>
-              </div>
-            </Link>
-          )}
-
-          {isSignedIn ? (
-            <Link
-              onClick={() => setOpenHamMenu(!openHamMenu)}
-              href={`/profile/${user?.firstName}_${user?.lastName}`}
-            >
-              {" "}
-              <div className={menuItemContainer}>
-                <CgProfile size={20} />
-                <div className={menuItem}>Profile</div>
-              </div>
-            </Link>
-          ) : null}
-
-          <Link href="/join" onClick={() => setOpenHamMenu(!openHamMenu)}>
-            {" "}
+      </div>
+      <div
+        className={`fixed inset-0 bg-black text-white z-30 transform ${
+          openHamMenu ? "translate-x-0" : "translate-x-full"
+        } transition-transform duration-500 ease-in-out flex flex-col p-4 space-y-4`}
+        style={{ top: "60px" }} // Adjust the top value to avoid covering the navbar
+      >
+        {!isSignedIn ? (
+          <Link href="/api/auth/login" onClick={() => setOpenHamMenu(false)}>
             <div className={menuItemContainer}>
-              <MdCardMembership size={20} />
-              <div className={menuItem}>Membership</div>
+              <FaSignInAlt size={20} />
+              <div className={menuItem}>Sign In</div>
             </div>
           </Link>
-
-          <div className={line}></div>
-          <Link href="/picks" onClick={() => setOpenHamMenu(!openHamMenu)}>
-            {" "}
+        ) : (
+          <Link href="/api/auth/logout" onClick={() => setOpenHamMenu(false)}>
             <div className={menuItemContainer}>
-              <CiBoxList size={20} />
-              <div className={menuItem}>Picks</div>
+              <FaSignInAlt size={20} />
+              <div className={menuItem}>Sign Out</div>
             </div>
           </Link>
-
-          <Link href="/history" onClick={() => setOpenHamMenu(!openHamMenu)}>
-            {" "}
+        )}
+        {isSignedIn && (
+          <Link
+            href={`/profile/${user?.firstName}_${user?.lastName}`}
+            onClick={() => setOpenHamMenu(false)}
+          >
             <div className={menuItemContainer}>
-              <CiCalendar size={20} />
-              <div className={menuItem}>Pick History</div>
+              <CgProfile size={20} />
+              <div className={menuItem}>Profile</div>
             </div>
           </Link>
-
-          <div className={line}></div>
-          <Link href="/about" onClick={() => setOpenHamMenu(!openHamMenu)}>
-            {" "}
+        )}
+        <Link href="/join" onClick={() => setOpenHamMenu(false)}>
+          <div className={menuItemContainer}>
+            <MdCardMembership size={20} />
+            <div className={menuItem}>Membership</div>
+          </div>
+        </Link>
+        <div className={line}></div>
+        <Link href="/picks" onClick={() => setOpenHamMenu(false)}>
+          <div className={menuItemContainer}>
+            <CiBoxList size={20} />
+            <div className={menuItem}>Picks</div>
+          </div>
+        </Link>
+        <Link href="/history" onClick={() => setOpenHamMenu(false)}>
+          <div className={menuItemContainer}>
+            <CiCalendar size={20} />
+            <div className={menuItem}>Pick History</div>
+          </div>
+        </Link>
+        <div className={line}></div>
+        <Link href="/about" onClick={() => setOpenHamMenu(false)}>
+          <div className={menuItemContainer}>
+            <FcAbout size={20} />
+            <div className={menuItem}>What we Do</div>
+          </div>
+        </Link>
+        {user?.role === "ADMIN" && (
+          <Link href="/Admin" onClick={() => setOpenHamMenu(false)}>
             <div className={menuItemContainer}>
-              <FcAbout size={20} />
-              <div className={menuItem}>What we Do</div>
+              <FiTool size={20} />
+              <div className={menuItem}>Admin Tools</div>
             </div>
           </Link>
-
-          {user?.role == "ADMIN" && (
-            <Link href="/Admin" onClick={() => setOpenHamMenu(!openHamMenu)}>
-              {" "}
-              <div className={menuItemContainer}>
-                <FiTool size={20} />
-                <div className={menuItem}>Admin Tools</div>
-              </div>
-            </Link>
-          )}
-          <div className={line}></div>
-        </div>
-      )}
+        )}
+        <div className={line}></div>
+      </div>
     </div>
   );
 }
