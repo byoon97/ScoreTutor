@@ -62,3 +62,12 @@ export interface Pick {
     leagueLogo: string
     net: number
 }
+
+export interface Article {
+  id: number;
+  createdAt: Date;
+  title: string;
+  synopsis: string;
+  league: string;
+  imageURL: string;
+}

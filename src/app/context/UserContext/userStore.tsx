@@ -53,9 +53,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<Error | null>(null);
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 
-  useEffect(() => {
-    console.log("Auth0 user:", auth0User);
-  }, [auth0User]);
+  // useEffect(() => {
+  //   console.log("Auth0 user:", auth0User);
+  // }, [auth0User]);
 
   const {
     loading: gqlLoading,

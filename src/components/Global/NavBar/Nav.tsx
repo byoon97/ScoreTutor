@@ -14,7 +14,7 @@ import { useUser } from "@/app/context/UserContext/userStore";
 import "../../../app/css/Nav.css";
 
 const menuItemContainer = "flex flex-row items-center p-4 cursor-pointer";
-const menuItem = "font-thin pl-2";
+const menuItem = "font-sans pl-2";
 const line = "border-b-[1px] border-[#5A5A5A]";
 const navItem = "underline-effect font-sans text-sm text-white w-18";
 
@@ -88,7 +88,7 @@ export default function Nav() {
         </div>
       </div>
       <div
-        className={`fixed inset-0 bg-black text-white z-30 transform ${
+        className={`fixed inset-0 bg-black text-white z-30 transform font-sans ${
           openHamMenu ? "translate-x-0" : "translate-x-full"
         } transition-transform duration-500 ease-in-out flex flex-col p-4 space-y-4`}
         style={{ top: "60px" }} // Adjust the top value to avoid covering the navbar
@@ -142,7 +142,7 @@ export default function Nav() {
         <Link href="/about" onClick={() => setOpenHamMenu(false)}>
           <div className={menuItemContainer}>
             <FcAbout size={20} />
-            <div className={menuItem}>What we Do</div>
+            <div className={menuItem}>What We Do</div>
           </div>
         </Link>
         {user?.role === "ADMIN" && (
