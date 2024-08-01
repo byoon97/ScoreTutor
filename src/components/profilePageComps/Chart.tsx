@@ -11,6 +11,8 @@ import {
   getDataForCurrentYear,
   UnitData,
   calculateROI,
+  getLabelsForYTD,
+  getDataForYTD,
 } from "../../util/chartUtil"; // Adjust the import path as necessary
 import { gql, useQuery } from "@apollo/client";
 
@@ -51,6 +53,13 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
   let netWeek;
   let netMonth;
   let netYear;
+  let weekProfit;
+  let monthProfit;
+  let yearProfit;
+  let YTDROI;
+  let recentData = getDataForMostRecent(units);
+  let monthlyData = getDataForCurrentMonth(units);
+  let yearlyData = getDataForCurrentYear(units);
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -60,12 +69,9 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
   });
 
   if (user) {
-    let weekProfit =
-      user?.unitSize * Number(getDataForMostRecent(units)[units.length - 1]);
-    let monthProfit =
-      user?.unitSize * Number(getDataForCurrentMonth(units)[units.length - 1]);
-    let yearProfit =
-      user?.unitSize * Number(getDataForCurrentYear(units)[units.length - 1]);
+    let weekProfit = user?.unitSize * recentData[recentData.length - 1];
+    let monthProfit = user?.unitSize * monthlyData[monthlyData.length - 1];
+    let yearProfit = user?.unitSize * yearlyData[yearlyData.length - 1];
     let bankroll = user?.bankroll;
 
     weekROI = calculateROI(bankroll, weekProfit).toFixed(2);
@@ -76,13 +82,14 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
     netMonth = formatter.format(monthProfit);
     netYear = formatter.format(yearProfit);
   } else {
-    let weekProfit = Number(getDataForMostRecent(units)[units.length - 1]);
-    let monthProfit = Number(getDataForCurrentMonth(units)[units.length - 1]);
-    let yearProfit = Number(getDataForCurrentYear(units)[units.length - 1]);
+    weekProfit = recentData[recentData.length - 1];
+    monthProfit = monthlyData[monthlyData.length - 1];
+    yearProfit = yearlyData[yearlyData.length - 1];
 
     weekROI = calculateROI(100, weekProfit).toFixed(2);
     monthROI = calculateROI(100, monthProfit).toFixed(2);
     yearROI = calculateROI(100, yearProfit).toFixed(2);
+    YTDROI = calculateROI(100, Number(totalUnits)).toFixed(2);
   }
 
   const getLabels = () => {
@@ -94,6 +101,8 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
         return getLabelsForCurrentMonth();
       case "currentYear":
         return getLabelsForCurrentYear();
+      case "YTD":
+        return getLabelsForYTD(dataSource);
       default:
         return [];
     }
@@ -108,13 +117,14 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
         return getDataForCurrentMonth(dataSource);
       case "currentYear":
         return getDataForCurrentYear(dataSource);
+      case "YTD":
+        return getDataForYTD(dataSource);
       default:
         return [];
     }
   };
 
   useEffect(() => {
-    console.log(getDataForMostRecent(units));
     if (chartRef.current) {
       const canvas = chartRef.current;
       const ctx = canvas.getContext("2d");
@@ -161,16 +171,6 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
                 grid: {
                   display: false,
                 },
-                max: user
-                  ? Math.round((user?.bankroll * 2.5) / 1000) * 1000 - 1000
-                  : totalUnits !== null
-                  ? Math.round((totalUnits * 2) / 10) * 10
-                  : 50,
-                min: 0,
-                ticks: {
-                  stepSize: user ? user?.unitSize * 5 : 5,
-                  autoSkip: true,
-                },
               },
               x: {
                 grid: {
@@ -215,12 +215,24 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
               ) + " USD"}{" "}
             {user == undefined && totalUnits + " Units"}
           </div>
+
           <div className="text-gray-500 font-thin text-[15px]">
             {user == undefined &&
-              getData()[getData().length - 1].toFixed(2) +
-                " Units (" +
-                weekROI +
-                "%)"}
+              labelType == "mostRecent" &&
+              weekProfit + " Units (" + weekROI + "%)"}
+
+            {user == undefined &&
+              labelType == "currentMonth" &&
+              monthProfit + " Units (" + monthROI + "%)"}
+
+            {user == undefined &&
+              labelType == "currentYear" &&
+              yearProfit + " Units (" + yearROI + "%)"}
+
+            {user == undefined &&
+              labelType == "YTD" &&
+              totalUnits + " Units (" + yearROI + "%)"}
+
             {user && labelType === "mostRecent" && (
               <div>
                 {typeof netWeek !== "number"

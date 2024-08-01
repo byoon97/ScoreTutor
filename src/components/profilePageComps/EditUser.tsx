@@ -4,6 +4,7 @@ import { IoIosClose } from "react-icons/io";
 import { UserProps } from "@/types";
 import { gql, useMutation } from "@apollo/client";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const UPDATE_USER_MUTATION = gql`
   mutation UpdateUser(
@@ -66,6 +67,8 @@ const EditUserModal: React.FC<EditUserProps> = ({
     emailNotifs: false,
   });
 
+  const router = useRouter();
+
   const [updateUser, { data, loading, error }] =
     useMutation(UPDATE_USER_MUTATION);
 
@@ -89,6 +92,7 @@ const EditUserModal: React.FC<EditUserProps> = ({
           return `Something went wrong 😥 Please try again - ${error.message}`;
         },
       });
+      router.push(`/profile/${user?.firstName}_${user?.lastName}`);
     } catch (err) {
       console.error(error);
     }

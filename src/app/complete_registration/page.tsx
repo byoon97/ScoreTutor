@@ -112,7 +112,7 @@ const CompleteRegistration: React.FC = () => {
           return `Something went wrong 😥 Please try again - ${error.message}`;
         },
       });
-      router.push("/");
+      router.push("/api/auth/login");
     } catch (err) {
       console.error(error);
     }
