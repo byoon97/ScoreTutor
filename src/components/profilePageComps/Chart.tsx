@@ -71,6 +71,7 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
   if (user) {
     let weekProfit = user?.unitSize * recentData[recentData.length - 1];
     let monthProfit = user?.unitSize * monthlyData[monthlyData.length - 1];
+    console.log(monthProfit);
     let yearProfit = user?.unitSize * yearlyData[yearlyData.length - 1];
     let bankroll = user?.bankroll;
 
@@ -141,6 +142,11 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
         canvas.height = canvas.clientHeight * dpr;
         ctx.scale(dpr, dpr);
 
+        // Create gradient background
+        const gradient = ctx.createLinearGradient(0, 0, 0, canvas.clientHeight);
+        gradient.addColorStop(0, "rgba(75, 192, 192, 0.5)");
+        gradient.addColorStop(1, "rgba(75, 192, 192, 0)");
+
         const config: ChartConfiguration = {
           type: "line",
           data: {
@@ -149,9 +155,10 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
               {
                 label: user ? "USD " : "Units",
                 data: getData(),
-                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                backgroundColor: gradient,
                 borderColor: "rgba(75, 192, 192, 1)",
                 borderWidth: 1,
+                fill: true, // Ensure the area below the line is filled
               },
             ],
           },
@@ -197,7 +204,7 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
         chartInstanceRef.current.destroy();
       }
     };
-  }, [labelType, units]);
+  }, [labelType, units, transformedUnits, getLabels, getData, user]);
 
   return (
     <div className="mb-2">
@@ -234,27 +241,15 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
               totalUnits + " Units (" + yearROI + "%)"}
 
             {user && labelType === "mostRecent" && (
-              <div>
-                {typeof netWeek !== "number"
-                  ? 0 + "USD"
-                  : netWeek + "USD" + weekROI + "%"}
-              </div>
+              <div>{netWeek + " - (" + weekROI + "%) "}</div>
             )}
 
             {user && labelType === "currentMonth" && (
-              <div>
-                {typeof netMonth !== "number"
-                  ? 0 + "USD"
-                  : netMonth + "USD" + monthROI + "%"}
-              </div>
+              <div>{netMonth + " - (" + monthROI + "%)"}</div>
             )}
 
             {user && labelType === "currentYear" && (
-              <div>
-                {typeof netYear !== "number"
-                  ? 0 + "USD"
-                  : netYear + "USD" + yearROI + "%"}
-              </div>
+              <div>{netYear + " - (" + yearROI + "%)"}</div>
             )}
           </div>
         </div>

@@ -21,6 +21,7 @@ import {
 } from "@/util/chartUtil";
 import Link from "next/link";
 import EditUserModal from "@/components/profilePageComps/EditUserDash";
+import Calendar from "@/components/historyComponents/Calendar";
 
 const GET_DAILY_UNITS = gql`
   query GetDailyUnits {
@@ -338,6 +339,11 @@ const Page: React.FC = () => {
                   <div className="bg-white shadow rounded-lg mb-6">
                     <MyChart units={userUnits} user={user} totalUnits={null} />
                   </div>
+                </div>
+              )}
+              {userUnits && !isLoading && (
+                <div className="mb-2">
+                  <Calendar dailyUnits={userUnits} user={user} />
                 </div>
               )}
             </div>

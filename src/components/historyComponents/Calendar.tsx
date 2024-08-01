@@ -12,16 +12,12 @@ import {
   isWithinInterval,
 } from "date-fns";
 import "../../app/css/Calendar.css";
-
-interface DailyUnit {
-  id: number;
-  date: Date;
-  netUnits: number;
-  unitCountId: number;
-}
+import { UserProps } from "@/types";
+import { UnitData } from "@/util/chartUtil";
 
 interface Props {
-  dailyUnits: DailyUnit[];
+  dailyUnits: UnitData[];
+  user: UserProps | null;
 }
 
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -40,7 +36,7 @@ const months = [
   "December",
 ];
 
-const CustomCalendar: React.FC<Props> = ({ dailyUnits }) => {
+const CustomCalendar: React.FC<Props> = ({ dailyUnits, user }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -72,8 +68,13 @@ const CustomCalendar: React.FC<Props> = ({ dailyUnits }) => {
         <div>{getDate(date)}</div>
         {unit && (
           <div className="font-semibold">
-            {unit.netUnits.toFixed(2)}
-            <span>u</span>
+            {user !== null ? (
+              "$" + (user.unitSize * unit.netUnits).toFixed(2)
+            ) : (
+              <span>
+                unit.netUnits.toFixed(2)<span>u</span>
+              </span>
+            )}
           </div>
         )}
       </div>
@@ -113,7 +114,11 @@ const CustomCalendar: React.FC<Props> = ({ dailyUnits }) => {
           <span
             className={totalNetUnits > 0 ? "text-green-400" : "text-red-400"}
           >
-            {totalNetUnits} Units
+            {user !== null ? (
+              <span>${(totalNetUnits * user?.unitSize).toFixed(2)}</span>
+            ) : (
+              <span>{totalNetUnits.toFixed(2)} Units</span>
+            )}
           </span>
         </div>
       </div>
