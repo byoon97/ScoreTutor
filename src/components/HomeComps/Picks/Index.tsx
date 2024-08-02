@@ -105,7 +105,7 @@ const Picks: React.FC = () => {
       <div className="embla" ref={emblaRef}>
         <div className="embla__container">
           {!loading &&
-            data.getPicks.map((game: SinglePickProps, idx: number) => {
+            data?.getPicks.map((game: SinglePickProps, idx: number) => {
               const { day, when } = whenProvider(game.startTime);
               return (
                 <div
@@ -203,7 +203,7 @@ const Picks: React.FC = () => {
       <div className="flex-grow flex justify-center items-center mb-4">
         <div className="flex space-x-2">
           {!loading &&
-            data.getPicks.map((_: any, index: number) => (
+            data?.getPicks.map((_: any, index: number) => (
               <button
                 key={index}
                 className={`w-2 h-2 rounded-full ${
