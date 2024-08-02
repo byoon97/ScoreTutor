@@ -18,9 +18,9 @@ interface UserData {
 interface formProps {
   userData: UserData;
   setUserData: React.Dispatch<React.SetStateAction<UserData>>;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleDiscordConnect: () => void;
-  handleTGConnect: () => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>, email: string) => void;
+  handleDiscordConnect: (email: string) => void;
+  handleTGConnect: (email: string) => void;
 }
 
 const RegistrationForm: React.FC<formProps> = ({
@@ -30,8 +30,8 @@ const RegistrationForm: React.FC<formProps> = ({
   handleDiscordConnect,
   handleTGConnect,
 }) => {
-  const searchParams = useSearchParams();
-  const paramValue = searchParams.get("param");
+    const searchParams = useSearchParams();
+    const email = searchParams.get("email") ?? "";
 
   return (
     <div className="flex flex-col items-center justify-center bg-white pt-6">
@@ -42,7 +42,10 @@ const RegistrationForm: React.FC<formProps> = ({
         </h2>
       </div>
       <div className="flex justify-center my-2 mx-4 md:mx-0">
-        <form className="w-full max-w-xl bg-white p-6" onSubmit={handleSubmit}>
+        <form
+          className="w-full max-w-xl bg-white p-6"
+          onSubmit={(e) => handleSubmit(e, email)}
+        >
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full md:w-full px-3 mb-6">
               <label
@@ -207,7 +210,10 @@ const RegistrationForm: React.FC<formProps> = ({
             <div className="flex items-center w-full mt-2">
               <div className="w-full md:w-1/3 px-3 pt-4 mx-2 border-t border-gray-400">
                 <div className="appearance-none flex items-center justify-center  w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
-                  <FaDiscord size={28} onClick={handleDiscordConnect} />
+                  <FaDiscord
+                    size={28}
+                    onClick={() => handleDiscordConnect(email)}
+                  />
                 </div>
               </div>
               <div className="w-full md:w-1/2 px-3 pt-4 mx-2">
@@ -218,7 +224,7 @@ const RegistrationForm: React.FC<formProps> = ({
               <div className="w-full md:w-1/3 px-3 pt-4 mx-2 border-t border-gray-400">
                 <div
                   className="appearance-none flex items-center justify-center  w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none"
-                  onClick={handleTGConnect}
+                  onClick={() => handleTGConnect(email)}
                 >
                   <FaTelegram size={28} />
                 </div>

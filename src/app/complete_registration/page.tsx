@@ -61,8 +61,6 @@ interface UserData {
 
 const CompleteRegistration: React.FC = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const email = searchParams.get("email") ?? "";
   const [userData, setUserData] = React.useState<UserData>({
     email: "",
     firstName: "",
@@ -87,7 +85,7 @@ const CompleteRegistration: React.FC = () => {
     { data: tgData, loading: tgLoading, error: tgError },
   ] = useMutation(UPDATE_TOKEN_MUTATION);
 
-  async function completeRegistration() {
+  async function completeRegistration(email: string) {
     console.log(user, isSignedIn, email);
     const variables: { [key: string]: any } = {};
 
@@ -117,12 +115,12 @@ const CompleteRegistration: React.FC = () => {
     }
   }
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = (e: { preventDefault: () => void }, email: string) => {
     e.preventDefault();
-    completeRegistration(); // Function to update user data
+    completeRegistration(email); // Function to update user data
   };
 
-  const handleDiscordConnect = () => {
+  const handleDiscordConnect = (email: string) => {
     const data = { email };
     const query = new URLSearchParams(data).toString();
     console.log(data, query);
@@ -130,7 +128,7 @@ const CompleteRegistration: React.FC = () => {
     window.open(`/api/auth/discord?${query}`, "_blank", "noopener,noreferrer");
   };
 
-  const handleTGConnect = async () => {
+  const handleTGConnect = async (email: string) => {
     function generateToken() {
       return Math.random().toString(36).substring(2, 8);
     }
