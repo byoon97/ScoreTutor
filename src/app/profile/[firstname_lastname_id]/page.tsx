@@ -16,10 +16,12 @@ import {
 import {
   UnitData,
   getDataForCurrentMonth,
+  getDataForCurrentYear,
   getDataForMostRecent,
 } from "@/util/chartUtil";
 import Link from "next/link";
 import EditUserModal from "@/components/profilePageComps/EditUserDash";
+import Calendar from "@/components/historyComponents/Calendar";
 
 const GET_DAILY_UNITS = gql`
   query GetDailyUnits {
@@ -53,6 +55,9 @@ const Page: React.FC = () => {
     undefined
   );
   const [currentMonth, setCurrentMonth] = React.useState<number | undefined>(
+    undefined
+  );
+  const [currentYear, setCurrentYear] = React.useState<number | undefined>(
     undefined
   );
   const [currentTotal, setCurrentTotal] = React.useState<number | undefined>(
@@ -104,13 +109,17 @@ const Page: React.FC = () => {
           setCurrentTotal(total);
         }
 
-        const mostRecentValue =
-          getDataForMostRecent(userUnits)[userUnits.length - 1];
-        const currentMonthValue =
-          getDataForCurrentMonth(userUnits)[userUnits.length - 1];
+        let mostRecentArr = getDataForMostRecent(userUnits);
+        let mostRecentMonth = getDataForCurrentMonth(userUnits);
+        let currentYear = getDataForCurrentYear(userUnits);
+
+        const mostRecentValue = mostRecentArr[mostRecentArr.length - 1];
+        const currentMonthValue = mostRecentMonth[mostRecentMonth.length - 1];
+        const currentYearValue = currentYear[currentYear.length - 1];
 
         setCurrentWk(Number(mostRecentValue.toFixed(2)) * user.unitSize);
         setCurrentMonth(Number(currentMonthValue.toFixed(2)) * user.unitSize);
+        setCurrentYear(Number(currentYearValue.toFixed(2)) * user.unitSize);
       }
     }
   }, [netUnits, units, user, userUnits, hasFiltered]);
@@ -330,6 +339,11 @@ const Page: React.FC = () => {
                   <div className="bg-white shadow rounded-lg mb-6">
                     <MyChart units={userUnits} user={user} totalUnits={null} />
                   </div>
+                </div>
+              )}
+              {userUnits && !isLoading && (
+                <div className="mb-2">
+                  <Calendar dailyUnits={userUnits} user={user} />
                 </div>
               )}
             </div>

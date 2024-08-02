@@ -12,16 +12,12 @@ import {
   isWithinInterval,
 } from "date-fns";
 import "../../app/css/Calendar.css";
-
-interface DailyUnit {
-  id: number;
-  date: Date;
-  netUnits: number;
-  unitCountId: number;
-}
+import { UserProps } from "@/types";
+import { UnitData } from "@/util/chartUtil";
 
 interface Props {
-  dailyUnits: DailyUnit[];
+  dailyUnits: UnitData[];
+  user: UserProps | null;
 }
 
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -40,7 +36,7 @@ const months = [
   "December",
 ];
 
-const CustomCalendar: React.FC<Props> = ({ dailyUnits }) => {
+const CustomCalendar: React.FC<Props> = ({ dailyUnits, user }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -58,11 +54,9 @@ const CustomCalendar: React.FC<Props> = ({ dailyUnits }) => {
   const getDayContent = (date: Date) => {
     const unit = dailyUnits.find((d) => isSameDay(d.date, date));
     const isToday = isSameDay(date, new Date());
-    const backgroundColor = unit
-      ? unit.netUnits > 0
-        ? "bg-[#324E1C]"
-        : "bg-[#530D0A]"
-      : "";
+    const green = user !== null ? "bg-green-600" : "bg-[#324E1C]";
+    const red = user !== null ? "bg-red-600" : "bg-[#530D0A]";
+    const backgroundColor = unit ? (unit.netUnits > 0 ? green : red) : "";
     const borderColor = isToday ? "border-blue-500" : "";
 
     return (
@@ -72,8 +66,14 @@ const CustomCalendar: React.FC<Props> = ({ dailyUnits }) => {
         <div>{getDate(date)}</div>
         {unit && (
           <div className="font-semibold">
-            {unit.netUnits.toFixed(2)}
-            <span>u</span>
+            {user !== null ? (
+              "$" + (user.unitSize * unit.netUnits).toFixed(2)
+            ) : (
+              <span>
+                {unit.netUnits.toFixed(2)}
+                <span>u</span>
+              </span>
+            )}
           </div>
         )}
       </div>
@@ -89,14 +89,20 @@ const CustomCalendar: React.FC<Props> = ({ dailyUnits }) => {
     )
     .reduce((acc, curr) => acc + curr.netUnits, 0);
 
+  const bgCalendar = user !== null ? "bg-white" : "bg-[#142230]";
+  const txtCalendar = user !== null ? "text-black" : "text-white";
+  const calendarHeader = user !== null ? "text-gray-500" : "text-gray-300";
+
   return (
-    <div className="flex-1 p-3 md:p-6 bg-[#142230] text-white rounded-lg shadow-lg font-sans">
-      <div className="mb-5 flex flex-row items-center justify-between">
+    <div
+      className={`flex-1 p-3 md:p-6 ${bgCalendar} ${txtCalendar} rounded-lg shadow-lg font-sans border-1-[1px] border-black`}
+    >
+      <div className="mb-5 flex flex-row items-center justify-between ">
         <div className="relative flex items-center">
           <select
             value={format(currentMonth, "MMMM yyyy")}
             onChange={handleMonthChange}
-            className="bg-[#142230] text-white rounded-lg px-4 py-2 font-sans font-semibold text-lg"
+            className={`${bgCalendar} ${txtCalendar} rounded-lg px-4 py-2 font-sans font-semibold text-lg`}
           >
             {months.map((month) => (
               <option
@@ -108,12 +114,16 @@ const CustomCalendar: React.FC<Props> = ({ dailyUnits }) => {
             ))}
           </select>
         </div>
-        <div className="text-base text-brand-gray-9 text-gray-300">
+        <div className={`text-base text-brand-gray-9 ${calendarHeader}`}>
           Monthly Profit:{" "}
           <span
             className={totalNetUnits > 0 ? "text-green-400" : "text-red-400"}
           >
-            {totalNetUnits} Units
+            {user !== null ? (
+              <span>${(totalNetUnits * user?.unitSize).toFixed(2)}</span>
+            ) : (
+              <span>{totalNetUnits.toFixed(2)} Units</span>
+            )}
           </span>
         </div>
       </div>

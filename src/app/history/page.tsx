@@ -118,7 +118,7 @@ const TableContainer: React.FC = () => {
         />
       )}
       {!unitLoad && table === "calendar" && (
-        <Calendar dailyUnits={units.getDailyUnits} />
+        <Calendar dailyUnits={units.getDailyUnits} user={null} />
       )}
     </div>
   );

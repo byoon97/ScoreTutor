@@ -84,13 +84,43 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
     const variables: { [key: string]: any } = {};
 
     if (user?.email) variables.email = user.email;
-    if (userData?.firstName) variables.firstName = userData.firstName;
-    if (userData?.lastName) variables.lastName = userData.lastName;
-    if (userData?.phoneNumber) variables.phoneNumber = userData.phoneNumber;
-    if (userData?.unitSize) variables.unitSize = userData.unitSize;
-    if (userData?.bankroll) variables.bankroll = userData.bankroll;
-    if (userData?.emailNotifs !== undefined)
+
+    if (userData?.firstName == "") {
+      variables.firstName = user?.firstName;
+    } else {
+      variables.firstName = userData?.firstName;
+    }
+
+    if (userData?.lastName == "") {
+      variables.lastName = user?.lastName;
+    } else {
+      variables.lastName = userData?.lastName;
+    }
+
+    if (userData?.phoneNumber == "") {
+      variables.phoneNumber = user?.phoneNumber;
+    } else {
+      variables.phoneNumber = user?.phoneNumber;
+    }
+
+    if (userData?.unitSize == 0) {
+      variables.unitSize = user?.unitSize;
+    } else {
+      variables.unitSize = user?.unitSize;
+    }
+
+    if (userData?.bankroll == 0) {
+      variables.bankroll = user?.bankroll;
+    } else {
+      variables.bankroll = user?.bankroll;
+    }
+
+    if (userData?.emailNotifs !== undefined) {
       variables.emailNotifs = userData.emailNotifs;
+    } else {
+      variables.emailNotifs = user?.emailNotifs;
+    }
+    
     try {
       await toast.promise(updateUser({ variables }), {
         loading: "Updating your Account...",
