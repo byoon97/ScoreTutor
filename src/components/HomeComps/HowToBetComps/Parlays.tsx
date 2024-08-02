@@ -40,7 +40,7 @@ const Parlays = () => {
           </li>
           <div className="w-full h-2"></div>
           <li>
-            Even though parlays can offer higher payouts, the risk doesn't
+            Even though parlays can offer higher payouts, the risk doesn&apos;t
             justify betting more than 1 unit.
           </li>
         </ul>

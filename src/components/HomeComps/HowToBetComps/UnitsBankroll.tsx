@@ -17,8 +17,8 @@ const UnitsAndBankroll = () => {
         <ul>
           <li>
             <strong>Definition:</strong> A unit represents a fixed percentage of
-            a bettor's total bankroll. It standardizes the amount wagered on
-            each bet.
+            a bettor&apos;s total bankroll. It standardizes the amount wagered
+            on each bet.
           </li>
           <li>
             <strong>Percentage:</strong> Typically, one unit is 1-1.5% of the

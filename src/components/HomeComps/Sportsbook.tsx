@@ -27,10 +27,9 @@ const SportsbookCarousel: React.FC = () => {
                   <h3 className="text-lg font-bold">{book.name}</h3>
                   <p className="mt-1 text-sm text-gray-700">{book.promo}</p>
                   <p className="text-[8px]">
-                    Get up to $1,000 Back in Bonus Bets if Your First Bet on
-                    Mets vs. Yankees Doesn't Win! Must be 21+ and Present in New
-                    York. Gambling Problem? Call 1-877-8-HOPENY or Text HOPENY.
-                    New Users Only. T&Cs Apply.
+                    {book.promo} Must be 21+ and Present in New York. Gambling
+                    Problem? Call 1-877-8-HOPENY or Text HOPENY. New Users Only.
+                    T&Cs Apply.
                   </p>
                 </div>
               </div>
