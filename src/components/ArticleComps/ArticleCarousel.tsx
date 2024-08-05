@@ -44,8 +44,8 @@ const ArticleCarousel: React.FC<Props> = ({ articles }) => {
   };
 
   return (
-    <>
-      <div className="flex flex-row justify-between items-center px-4 pb-4 text-[20px] md:text-[30px] lg:text-[35px] xl:text-[40px]">
+    <div className=" lg:mx-24 xl:mx-48 ">
+      <div className="flex flex-row justify-between items-center px-4 pb-4 text-[20px] md:text-[30px] lg:text-[35px] xl:text-[40px] ">
         {" "}
         <h1 className="font-semibold font-sans">Related</h1>
         <div className="flex space-x-4">
@@ -68,13 +68,13 @@ const ArticleCarousel: React.FC<Props> = ({ articles }) => {
 
       <div
         ref={emblaRef}
-        className="embla relative flex flex-col md:flex-row items-center justify-center text-black w-full font-sans"
+        className="embla relative flex flex-col md:flex-row items-center justify-center text-black font-sans"
       >
         <div className="embla__container">
           {articles.map((article) => {
             const title = article.title.split(" ").join("-");
 
-            const link = `news/${article.createdAt}/${title}/?query=${article.id}`;
+            const link = `/news/${article.createdAt}/${title}/?query=${article.id}`;
 
             return (
               <div
@@ -113,7 +113,7 @@ const ArticleCarousel: React.FC<Props> = ({ articles }) => {
           })}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
