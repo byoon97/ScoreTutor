@@ -14,12 +14,12 @@ export default function Page({}: Props) {
     return formattedDate;
   };
   return (
-    <div className="bg-white text-black pt-6 xl:px-80">
-      <h1 className="bg-white text-black text-center font-sans">
+    <div className="bg-[#14222F] text-black pt-6 xl:px-80">
+      <h1 className="bg-[#14222F] text-gray-300 text-center font-sans">
         {getDate()} Picks
       </h1>
       {/* <div className="border-b-[1px] border-black shadow-b-lg mb-6 lg:mx-64 mx-20"></div> */}
-      <div className="border-t-[1px] border-[#595959] my-2 mx-16"></div>
+      <div className="border-t-[1px] border-gray-300 my-2 mx-16"></div>
       <PicksList page={"picks"} />
     </div>
   );

@@ -59,7 +59,7 @@ type Credentials = {
 
 const inputClass =
   "border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500 text-sm";
-const inputLabel = "block text-gray-700";
+const inputLabel = "block";
 
 const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
   const [userData, setUserData] = React.useState<Credentials>({
@@ -120,7 +120,7 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
     } else {
       variables.emailNotifs = user?.emailNotifs;
     }
-    
+
     try {
       await toast.promise(updateUser({ variables }), {
         loading: "Updating your Account...",
@@ -191,18 +191,20 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
   };
 
   return (
-    <div className="w-full rounded-lg p-2 flex flex-col lg:flex-row">
+    <div className="w-full rounded-lg p-2 flex flex-col lg:flex-row  bg-[#14222F]">
       <Toaster />
       <div className="flex flex-col w-full lg:w-2/3 pr-4">
         {" "}
         <div className="py-4 flex flex-col">
-          <div className="font-bold text-[17x]">Your Settings</div>
+          <div className="font-bold text-[17x] text-gray-300">
+            Your Settings
+          </div>
           <div className="text-[10px] text-gray-400">Edit Information</div>
         </div>
-        <div className="card bg-white shadow-sm p-6 rounded-lg mb-2">
+        <div className="card shadow-sm p-6 rounded-lg mb-2 bg-[#1D3041] border-[1px] border-gray-500 text-gray-300">
           <form action={"submit"}>
             <div className="flex flex-wrap -mx-3">
-              <div className="w-full md:w-1/2 px-3 mb-3">
+              <div className="w-full md:w-1/2 px-3 mb-3 text-gray-200">
                 <label htmlFor="first_name" className={inputLabel}>
                   First Name
                 </label>
@@ -216,7 +218,7 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
                   }
                 />
               </div>
-              <div className="w-full md:w-1/2 px-3 mb-3">
+              <div className="w-full md:w-1/2 px-3 mb-3 text-gray-200">
                 <label htmlFor="last_name" className={inputLabel}>
                   Last Name
                 </label>
@@ -233,7 +235,7 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
             </div>
 
             <div className="flex flex-wrap -mx-3">
-              <div className="w-full md:w-1/2 px-3 mb-3">
+              <div className="w-full md:w-1/2 px-3 mb-3 text-gray-200">
                 <label htmlFor="phone" className={inputLabel}>
                   Phone
                 </label>
@@ -247,7 +249,7 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
                   }
                 />
               </div>
-              <div className="w-full md:w-1/2 px-3 mb-3">
+              <div className="w-full md:w-1/2 px-3 mb-3 text-gray-200">
                 <label htmlFor="bankroll" className={inputLabel}>
                   Bankroll
                 </label>
@@ -264,7 +266,7 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
                   }
                 />
               </div>
-              <div className="w-full md:w-1/2 px-3 mb-3">
+              <div className="w-full md:w-1/2 px-3 mb-3 text-gray-200">
                 <label htmlFor="unitsize" className={inputLabel}>
                   unitsize
                 </label>
@@ -282,7 +284,7 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
                 />
               </div>
 
-              <div className="w-full md:w-1/2 px-3 mb-3">
+              <div className="w-full md:w-1/2 px-3 mb-3 text-gray-200">
                 <p className="text-gray-700 pb-1">
                   Receive Email Notifications
                 </p>
@@ -334,13 +336,13 @@ const EditUserModal: React.FC<EditUserProps> = ({ user }) => {
         </div>
       </div>
 
-      <div className="flex flex-col w-full lg:w-1/3 h-full">
+      <div className="flex flex-col w-full lg:w-1/3 h-full text-gray-300">
         {" "}
         <div className="py-4 flex flex-col">
           <div className="font-bold text-[17x]">Connections</div>
           <div className="text-[10px] text-gray-400">Link Your Socials</div>
         </div>
-        <div className="card bg-white shadow-sm py-6 rounded-lg mb-2">
+        <div className="card  py-6 mb-2 bg-[#1D3041] rounded-lg shadow-lg border-[1px] border-gray-500">
           <div className="flex w-full mt-2 flex-col space-y-6">
             <div className="flex flex-row space-apart items-center">
               <div className="w-full  px-3 mx-2 flex flex-row items-center">

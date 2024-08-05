@@ -247,8 +247,8 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
   }, [labelType, units, transformedUnits, getLabels, getData, user]);
 
   return (
-    <div className="mb-2">
-      <div className="flex flex-row justify-between text-black pt-4 px-6">
+    <div className="mb-2 bg-[#1D3041] rounded-lg shadow-lg border-[1px] border-gray-500">
+      <div className="flex flex-row justify-between text-gray-200 pt-4 px-6">
         <div className="flex flex-col">
           <div className="font-bold text-[20px]">
             {user &&
@@ -263,40 +263,40 @@ const MyChart: React.FC<ChartProps> = ({ units, user, totalUnits }) => {
             {user == undefined && totalUnits + " Units"}
           </div>
 
-          <div className="text-gray-500 font-thin text-[15px] w-full">
+          <div className="text-gray-300 font-thin text-[15px] w-full">
             {profitAndROIText && <div>{profitAndROIText}</div>}
           </div>
         </div>
 
-        <div className="flex flex-row h-full">
+        <div className="flex flex-row h-full text-gray-200">
           <button
             onClick={() => setLabelType("mostRecent")}
-            className={`text-black mr-2 px-4 py-2 font-sans text-xs rounded-lg border-[1px] ${
-              labelType == "mostRecent" && "bg-[#DCF2F2]"
+            className={`mr-2 px-4 py-2 font-sans text-xs rounded-lg border-[1px] border-gray-500 ${
+              labelType == "mostRecent" && "bg-[#3367AD]"
             }`}
           >
             1W
           </button>
           <button
             onClick={() => setLabelType("currentMonth")}
-            className={`text-black mr-2 px-4 py-2 font-sans text-xs rounded-lg border-[1px] ${
-              labelType == "currentMonth" && "bg-[#DCF2F2]"
+            className={`mr-2 px-4 py-2 font-sans text-xs rounded-lg border-[1px] border-gray-500 ${
+              labelType == "currentMonth" && "bg-[#3367AD]"
             }`}
           >
             1M
           </button>
           <button
             onClick={() => setLabelType("currentYear")}
-            className={`text-black mr-2 px-4 py-2 font-sans text-xs rounded-lg border-[1px] ${
-              labelType == "currentYear" && "bg-[#DCF2F2]"
+            className={`mr-2 px-4 py-2 font-sans text-xs rounded-lg border-[1px] border-gray-500 ${
+              labelType == "currentYear" && "bg-[#3367AD]"
             }`}
           >
             1Y
           </button>
           <button
             onClick={() => setLabelType("YTD")}
-            className={`text-black mr-2 px-4 py-2 font-sans text-xs rounded-lg border-[1px] ${
-              labelType == "YTD" && "bg-[#DCF2F2]"
+            className={`mr-2 px-4 py-2 font-sans text-xs rounded-lg border-[1px] border-gray-500 ${
+              labelType == "YTD" && "bg-[#3367AD]"
             }`}
           >
             YTD

@@ -69,7 +69,7 @@ export default function Nav() {
             <div className={navItem}>Membership</div>
           </Link>
           {user ? (
-            <Link href={`/profile/${user?.firstName}_${user?.lastName}`}>
+            <Link href={`/profile/${user?.id}`}>
               <div className="flex flex-row justify-center items-center space-x-2">
                 <div className={navItem}>
                   {user?.firstName} {user?.lastName}
@@ -110,7 +110,7 @@ export default function Nav() {
         )}
         {isSignedIn && (
           <Link
-            href={`/profile/${user?.firstName}_${user?.lastName}`}
+            href={`/profile/${user?.id}`}
             onClick={() => setOpenHamMenu(false)}
           >
             <div className={menuItemContainer}>

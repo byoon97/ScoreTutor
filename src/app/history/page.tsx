@@ -55,13 +55,11 @@ const TableContainer: React.FC = () => {
 
   // Render the TableComponent with the fetched data
   return (
-    <div className="bg-white p-2 xl:px-40">
-      <h1 className="bg-white text-black text-center p-4 font-mono">
-        Pick History
-      </h1>
-      <div className="border-b-[1px] border-black shadow-b-lg mb-6 lg:mx-64 mx-20"></div>
-      <div className="%holder text-black text-sm flex flex-row justify-evenly border-[1px] border-black p-2 mb-2 shadow-lg">
-        <div className="">
+    <div className="bg-[#142230] text-white p-2 xl:px-40">
+      <h1 className=" text-white  text-center p-4 font-mono">Pick History</h1>
+      <div className="border-b-[1px] border-gray-500 shadow-b-lg mb-6 lg:mx-64 mx-20"></div>
+      <div className="%holder text-black text-sm flex flex-row justify-evenly border-[1px] border-gray-500 p-2 mb-2 shadow-lg bg-[#1D3041]">
+        <div className="text-white">
           <div>
             Net Units:{" "}
             {!totalLoad && netUnits.getUnitCount[0].netUnits.toFixed(2)}
@@ -76,14 +74,14 @@ const TableContainer: React.FC = () => {
             %
           </div>
         </div>
-        <div className="border-r-[1px]"></div>
+        <div className="border-r-[1px] text-white"></div>
         {/* create util function for week and month */}
-        <div>
+        <div className="text-white">
           <div>This Week: </div>
           <div>This Month: </div>
         </div>
       </div>
-      <div className="flex flex-row my-6 rounded-lg text-[10px] justify-center align-center font-thin h-6 w-full">
+      <div className="flex flex-row my-6 rounded-lg text-[11px] justify-center align-center font-thinner h-6 w-full ">
         <div
           onClick={() => setTable("table")}
           className={`flex items-center justify-center w-full h-full rounded-l-lg cursor-pointer ${
@@ -94,7 +92,7 @@ const TableContainer: React.FC = () => {
         </div>
         <div
           onClick={() => setTable("lineGraph")}
-          className={`cursor-pointer flex items-center justify-center w-full h-full border-r-[1px] border-gray-200 ${
+          className={`cursor-pointer flex items-center justify-center w-full h-full border-x-[1px] border-gray-200 ${
             table === "lineGraph" ? "bg-[#3367AD]" : "bg-[#2C3140]"
           }`}
         >

@@ -9,16 +9,15 @@ const SinglePick: React.FC<SinglePickProps> = (game) => {
 
   const { isSignedIn, user } = useUser();
   return (
-    <div
-      style={{ backgroundColor: "white" }}
-      className="border-[1px] border-[#E2E8F0] bg-white my-2 text-sm p-4 rounded-lg shadow-lg hover:border-sky-500 w-full"
-    >
+    <div className="border-[1px] border-[#E2E8F0] bg-[#1D3041] my-2 text-sm p-4 rounded-lg shadow-lg hover:border-sky-500 w-full">
       <div className="flex flex-row justify-between">
         {when <= 0 ? (
-          <div className="text-[12px] pb-2 pr-2">In Progress</div>
+          <div className="text-[12px] pb-2 pr-2 text-gray-300">In Progress</div>
         ) : (
           <div className="flex flex-row items-center justify-center">
-            <div className="text-[10px] text-center p-1">{day}</div>{" "}
+            <div className="text-[10px] text-center p-1 text-gray-300">
+              {day}
+            </div>{" "}
             {when <= 120 ? (
               <div
                 className={`text-xs ${
@@ -28,7 +27,7 @@ const SinglePick: React.FC<SinglePickProps> = (game) => {
                 {when}
               </div>
             ) : (
-              <span className="text-[10px] pr-2 text-center p-1">
+              <span className="text-[10px] pr-2 text-center p-1 text-gray-300">
                 {game.startTime.split(" ")[1]} EST
               </span>
             )}
@@ -38,7 +37,7 @@ const SinglePick: React.FC<SinglePickProps> = (game) => {
         <img src={game.leagueLogo} alt="" className="w-8 h-6" />
       </div>
 
-      <div className="flex flex-row items-center justify-start pb-2 text-[#212A31]">
+      <div className="flex flex-row items-center justify-start pb-2  text-gray-300">
         <div className="flex flex-row items-center">
           <img src={game.awayTeamLogo} alt="team logo" width={27} height={27} />
           &nbsp;
@@ -56,25 +55,25 @@ const SinglePick: React.FC<SinglePickProps> = (game) => {
         </div>
       </div>
       <div className="py-1 text-xs">
-        <span className="font-bold text-[#144E66]">Our Pick: {game.pick}</span>{" "}
+        <span className="font-bold text-white">Our Pick: {game.pick}</span>{" "}
         &nbsp;
       </div>
       <div className="border-t-[1px] border-[#E2E8F0] my-2"></div>
       <div className="flex flex-row justify-between py-2">
         <div>
-          <div className="text-[12px] font-bold">
+          <div className="text-[12px] font-bold text-gray-200">
             Units Wagered: {game.unit}
           </div>
-          <div className="text-[12px] font-bold">
+          <div className="text-[12px] font-bold text-gray-200">
             Units to Win: {game.toWin}
           </div>
         </div>
         {user && (
-          <div className="flex justify-end flex-col">
+          <div className="flex justify-end flex-col text-gray-200">
             <div className="text-[12px] font-bold">
               Your Wager: ${game.unit * user?.unitSize}
             </div>
-            <div className="text-[12px] font-bold">
+            <div className="text-[12px] font-bold text-gray-200">
               Return: ${game.toWin * user?.unitSize}
             </div>
           </div>

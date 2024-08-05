@@ -135,17 +135,17 @@ useEffect(() => {
   };
 
   return (
-    <div className="flex flex-col p-2 bg-white text-black pt-4">
+    <div className="flex flex-col p-2 bg-[#14222F] text-black pt-4">
       <UpdateModal isOpen={modalOpen} closeModal={closeModal} />
       {page == "update" && <Toaster />}
       {/* SORTER */}
-      <div className="flex flex-row h-8 ">
-        <h4 className="text-black text-sm font-sans font-thin flex items-center justify-center pr-1">
+      <div className="flex flex-row h-8 text-gray-300">
+        <h4 className=" text-sm font-sans font-thin flex items-center justify-center pr-1">
           Sort By :
         </h4>
         <div className="relative flex flex-row space-between w-1/2">
           <div
-            className="h-full border-[1px] bg-white w-full flex flex-row items-center justify-between px-2 text-xs font-medium cursor-pointer"
+            className="h-full border-[1px] bg-[#14222F] w-full flex flex-row items-center justify-between px-2 text-xs font-medium cursor-pointer"
             onClick={() => setDropdownOpen(!isDropdownOpen)}
           >
             <span className="">{selectedOption}</span>
@@ -155,7 +155,7 @@ useEffect(() => {
           </div>
 
           {isDropdownOpen && (
-            <div className="absolute top-full left-0 mt-1 w-full bg-white border-[1px] border-gray-300 font-sans text-sm">
+            <div className="absolute top-full left-0 mt-1 w-full bg-[#14222F] border-[1px] border-gray-300 font-sans text-sm">
               {/* Dropdown options */}
               <div
                 className="p-2 cursor-pointer border-b-[1px] px-2 hover:bg-blue-300"
@@ -180,7 +180,7 @@ useEffect(() => {
         </div>
       </div>
       {/* PICKS LIST */}
-      <div className="flex flex-col md:hidden">
+      <div className="flex flex-col md:hidden bg-[#14222F]">
         {slate.length > 0 &&
           slate.map((pick: SinglePickProps) => {
             console.log(pick, page);
@@ -243,7 +243,7 @@ useEffect(() => {
               }
             })}
         </div>
-        <RightColumn />
+        {/* <RightColumn /> */}
       </div>
       {/* Large view goes here */}
     </div>
