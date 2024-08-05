@@ -8,7 +8,7 @@ import HowToBet from "@/components/HomeComps/HowToBet";
 import NewsLetter from "@/components/HomeComps/NewsLetter";
 import SportsbookCarousel from "@/components/HomeComps/Sportsbook";
 
-const container = "lg:px-20 xl:px-48";
+const container = "xl:px-28";
 
 const Home: FC = () => {
   return (
