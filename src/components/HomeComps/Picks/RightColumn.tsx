@@ -5,7 +5,7 @@ import { FaDiscord } from "react-icons/fa";
 const RightColumn: FC = () => {
   return (
     <div className="w-1/3 ml-4 px-2 flex flex-col font-roboto">
-      <div className="flex flex-col text-[14px] bg-white rounded-lg shadow-lg p-4 mt-6">
+      <div className="flex flex-col text-[14px] bg-white rounded-lg shadow-lg p-4">
         <div className="font-bold  text-center mb-2">
           We are currently 9-1 in our last NBA Plays 🔥🤑💰💸
         </div>
@@ -21,10 +21,7 @@ const RightColumn: FC = () => {
         <div className="font-bold  text-left mb-2">Track how we are doing</div>
         <div className="text-[12px]">
           Click{" "}
-          <a
-            href="https://docs.google.com/spreadsheets/d/1rb1YqlT5f30iefWDUiyLoGrlSNdelwDIUISSZX_8Nk8/edit#gid=1161341563"
-            className="text-[#77D2EF]"
-          >
+          <a href="/history" className="text-[#77D2EF]">
             here
           </a>{" "}
           to view our betting history{" "}

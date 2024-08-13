@@ -95,36 +95,6 @@ useEffect(() => {
 }, [data?.getPicks, loading, page]);
 
 
-
-
-  useEffect(() => {
-    if (slate.length === 0) return;
-
-    let sortedSlate: SinglePickProps[] = [];
-
-    switch (selectedOption) {
-      case SortOptions.UpcomingGames:
-        sortedSlate = [...slate].sort(
-          (a: SinglePickProps, b: SinglePickProps) =>
-            new Date(a.startTime).getTime() - new Date(b.startTime).getTime()
-        );
-        break;
-      case SortOptions.MostUnitsWagered:
-        sortedSlate = [...slate].sort(
-          (a: SinglePickProps, b: SinglePickProps) => b.unit - a.unit
-        );
-        break;
-      case SortOptions.MostRecentPicks:
-        sortedSlate = [...slate].sort(
-          (a: SinglePickProps, b: SinglePickProps) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-        break;
-    }
-
-    setSlate(sortedSlate);
-  }, [slate, selectedOption]);
-
   const openModal = (pick: SinglePickProps) => {
     setOpen(true);
     addGame(pick);
@@ -243,7 +213,7 @@ useEffect(() => {
               }
             })}
         </div>
-        {/* <RightColumn /> */}
+        <RightColumn />
       </div>
       {/* Large view goes here */}
     </div>

@@ -9,7 +9,7 @@ const SinglePick: React.FC<SinglePickProps> = (game) => {
 
   const { isSignedIn, user } = useUser();
   return (
-    <div className="border-[1px] border-[#E2E8F0] bg-[#1D3041] my-2 text-sm p-4 rounded-lg shadow-lg hover:border-sky-500 w-full">
+    <div className="border-[1px] border-[#144E65] bg-[#1D3041] my-2 text-sm p-4 rounded-lg shadow-lg hover:border-sky-500 w-full fo">
       <div className="flex flex-row justify-between">
         {when <= 0 ? (
           <div className="text-[12px] pb-2 pr-2 text-gray-300">In Progress</div>
@@ -55,25 +55,27 @@ const SinglePick: React.FC<SinglePickProps> = (game) => {
         </div>
       </div>
       <div className="py-1 text-xs">
-        <span className="font-bold text-white">Our Pick: {game.pick}</span>{" "}
+        <span className="font-semisemibold text-white">
+          Our Pick: {game.pick}
+        </span>{" "}
         &nbsp;
       </div>
       <div className="border-t-[1px] border-[#E2E8F0] my-2"></div>
       <div className="flex flex-row justify-between py-2">
         <div>
-          <div className="text-[12px] font-bold text-gray-200">
+          <div className="text-[12px] font-semibold text-gray-200">
             Units Wagered: {game.unit}
           </div>
-          <div className="text-[12px] font-bold text-gray-200">
+          <div className="text-[12px] font-semibold text-gray-200">
             Units to Win: {game.toWin}
           </div>
         </div>
         {user && (
           <div className="flex justify-end flex-col text-gray-200">
-            <div className="text-[12px] font-bold">
+            <div className="text-[12px] font-semibold">
               Your Wager: ${game.unit * user?.unitSize}
             </div>
-            <div className="text-[12px] font-bold text-gray-200">
+            <div className="text-[12px] font-semibold text-gray-200">
               Return: ${game.toWin * user?.unitSize}
             </div>
           </div>

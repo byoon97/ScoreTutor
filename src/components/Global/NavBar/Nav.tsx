@@ -27,7 +27,7 @@ export default function Nav() {
     <div className="sticky top-0 bg-black z-20 text-white px-2 shadow-xl py-2 xl:px-48">
       <div className="flex flex-row justify-between">
         <div className="flex flex-row items-center">
-          <Link href="/">
+          <Link href="/" prefetch={false}>
             <Image
               src="/image.png"
               alt="logo"
@@ -42,11 +42,14 @@ export default function Nav() {
             {user?.firstName} {user?.lastName}
           </div>
           {user ? (
-            <Link href={`/profile/${user?.firstName}_${user?.lastName}`}>
+            <Link
+              href={`/profile/${user?.firstName}_${user?.lastName}`}
+              prefetch={false}
+            >
               <CgProfile size={"1em"} fontSize={"1.5em"} />
             </Link>
           ) : (
-            <Link href="/api/auth/login">
+            <Link href="/api/auth/login" prefetch={false}>
               <CgProfile size={"1em"} fontSize={"1.5em"} />
             </Link>
           )}
@@ -58,18 +61,18 @@ export default function Nav() {
             />
           </div>
         </div>
-        <div className="hidden md:flex md:flex-row md:justify-center md:items-center md:space-x-8">
-          <Link href="/history">
+        <div className="hidden md:flex md:flex-row md:justify-center md:items-center md:space-x-6 px-2">
+          <Link href="/history" prefetch={false}>
             <div className={navItem}>History</div>
           </Link>
-          <Link href="/picks">
+          <Link href="/picks" prefetch={false}>
             <div className={navItem}>Picks</div>
           </Link>
-          <Link href="/join">
+          <Link href="/join" prefetch={false}>
             <div className={navItem}>Membership</div>
           </Link>
           {user ? (
-            <Link href={`/profile/${user?.id}`}>
+            <Link href={`/profile/${user?.id}`} prefetch={false}>
               <div className="flex flex-row justify-center items-center space-x-2">
                 <div className={navItem}>
                   {user?.firstName} {user?.lastName}
@@ -79,10 +82,9 @@ export default function Nav() {
             </Link>
           ) : (
             <>
-              <Link href="/api/auth/login">
+              <Link href="/api/auth/login" prefetch={false}>
                 <div className={navItem}>Log In</div>
               </Link>
-              <div className={navItem}>Register</div>
             </>
           )}
         </div>
@@ -94,14 +96,22 @@ export default function Nav() {
         style={{ top: "60px" }} // Adjust the top value to avoid covering the navbar
       >
         {!isSignedIn ? (
-          <Link href="/api/auth/login" onClick={() => setOpenHamMenu(false)}>
+          <Link
+            href="/api/auth/login"
+            onClick={() => setOpenHamMenu(false)}
+            prefetch={false}
+          >
             <div className={menuItemContainer}>
               <FaSignInAlt size={20} />
               <div className={menuItem}>Sign In</div>
             </div>
           </Link>
         ) : (
-          <Link href="/api/auth/logout" onClick={() => setOpenHamMenu(false)}>
+          <Link
+            href="/api/auth/logout"
+            onClick={() => setOpenHamMenu(false)}
+            prefetch={false}
+          >
             <div className={menuItemContainer}>
               <FaSignInAlt size={20} />
               <div className={menuItem}>Sign Out</div>
@@ -112,6 +122,7 @@ export default function Nav() {
           <Link
             href={`/profile/${user?.id}`}
             onClick={() => setOpenHamMenu(false)}
+            prefetch={false}
           >
             <div className={menuItemContainer}>
               <CgProfile size={20} />
@@ -119,34 +130,54 @@ export default function Nav() {
             </div>
           </Link>
         )}
-        <Link href="/join" onClick={() => setOpenHamMenu(false)}>
+        <Link
+          href="/join"
+          onClick={() => setOpenHamMenu(false)}
+          prefetch={false}
+        >
           <div className={menuItemContainer}>
             <MdCardMembership size={20} />
             <div className={menuItem}>Membership</div>
           </div>
         </Link>
         <div className={line}></div>
-        <Link href="/picks" onClick={() => setOpenHamMenu(false)}>
+        <Link
+          href="/picks"
+          onClick={() => setOpenHamMenu(false)}
+          prefetch={false}
+        >
           <div className={menuItemContainer}>
             <CiBoxList size={20} />
             <div className={menuItem}>Picks</div>
           </div>
         </Link>
-        <Link href="/history" onClick={() => setOpenHamMenu(false)}>
+        <Link
+          href="/history"
+          onClick={() => setOpenHamMenu(false)}
+          prefetch={false}
+        >
           <div className={menuItemContainer}>
             <CiCalendar size={20} />
             <div className={menuItem}>Pick History</div>
           </div>
         </Link>
         <div className={line}></div>
-        <Link href="/about" onClick={() => setOpenHamMenu(false)}>
+        <Link
+          href="/about"
+          onClick={() => setOpenHamMenu(false)}
+          prefetch={false}
+        >
           <div className={menuItemContainer}>
             <FcAbout size={20} />
             <div className={menuItem}>What We Do</div>
           </div>
         </Link>
         {user?.role === "ADMIN" && (
-          <Link href="/Admin" onClick={() => setOpenHamMenu(false)}>
+          <Link
+            href="/Admin"
+            onClick={() => setOpenHamMenu(false)}
+            prefetch={false}
+          >
             <div className={menuItemContainer}>
               <FiTool size={20} />
               <div className={menuItem}>Admin Tools</div>

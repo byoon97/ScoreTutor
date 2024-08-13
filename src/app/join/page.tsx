@@ -61,7 +61,7 @@ export default function Page({}: Props) {
             Millions Wagered, Years of Experience
           </div>
           <div className="text-xs lg:text-sm tracking-widest text-[#595959] xl:w-80">
-            For over a decade, the ScoreTutor team has been helping others grow
+            For over a decade, the MKAbets team has been helping others grow
             their bankroll by giving solution based picks. With our deep history
             in sports betting, we have developed ways discover these picks and
             are now able to serve them to you!
@@ -81,7 +81,7 @@ export default function Page({}: Props) {
       <div className="flex flex-col items-center justify-cener text-center mt-6 border-t-[1px] py-4 lg:py-16">
         <div className="px-4 w-full flex items-center flex-col">
           <div className="text-[#77D2EF] text-5xl font-bold mt-4">
-            ScoreTutor VIP
+            MKAbets VIP
           </div>
           <div className="flex flex-row my-6 rounded-lg text-[10px] justify-evenly font-thin h-6 w-full md:w-5/6 xl:w-3/4">
             <div
@@ -137,7 +137,7 @@ export default function Page({}: Props) {
             className="bg-[#3367AD] h-14 mt-4 rounded-lg font-thin w-80"
             onClick={checkout}
           >
-            Get ScoreTutor Premium
+            Get MKAbets Premium
           </button>
         ) : (
           <Link href="/api/auth/login">
