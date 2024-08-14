@@ -8,7 +8,7 @@ import {
 
 export function makeClient() {
   const httpLink = new HttpLink({
-    uri: "https://betterbettor.me/api/graphql",
+    uri: "https://www.betterbettor.me//api/graphql",
     // uri: "http://localhost:3000/api/graphql",
     credentials: "same-origin",
   });
