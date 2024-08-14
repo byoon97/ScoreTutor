@@ -3,19 +3,8 @@ import React from "react";
 
 function Loader() {
   return (
-    <div className="flex justify-center items-center h-screen w-screen">
-      <div className="bg-[#0cbaba] bg-gradient-to-br from-[#0cbaba] to-[#380036] h-screen flex items-center justify-center">
-        <div className="loader">
-          <div className="sk-chase">
-            <div className="sk-chase-dot"></div>
-            <div className="sk-chase-dot"></div>
-            <div className="sk-chase-dot"></div>
-            <div className="sk-chase-dot"></div>
-            <div className="sk-chase-dot"></div>
-            <div className="sk-chase-dot"></div>
-          </div>
-        </div>
-      </div>
+    <div className="flex items-center justify-center py-8 bg-[#0A0B0D] w-screen">
+      <div className="h-20 w-20 rounded-full border-8 border-gray-300 border-t-blue-600 animate-spin"></div>
     </div>
   );
 }

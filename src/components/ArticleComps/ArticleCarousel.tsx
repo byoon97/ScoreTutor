@@ -7,11 +7,12 @@ import {
 } from "react-icons/lia";
 import useEmblaCarousel from "embla-carousel-react";
 
-type Props = {
+interface ArticleCarouselProps {
   articles: Article[];
-};
+}
 
-const ArticleCarousel: React.FC<Props> = ({ articles }) => {
+
+const ArticleCarousel: React.FC<ArticleCarouselProps> = ({ articles }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start" });
   const [canScrollNext, setCanScrollNext] = useState(false);
   const [canScrollPrev, setCanScrollPrev] = useState(false);

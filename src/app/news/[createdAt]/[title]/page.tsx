@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import SportsbookCarousel from "@/components/HomeComps/Sportsbook";
 import { gql, useQuery } from "@apollo/client";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -33,6 +34,8 @@ const GET_ARTICLES_QUERY = gql`
 `;
 
 const ArticlePage: React.FC = () => {
+  const [allArtsLoad, setAllArtsLoad] = React.useState(false);
+
   const searchParams = useSearchParams();
   const currentQuery = searchParams.get("query");
   const url = typeof window !== "undefined" ? window.location.href : ""; // Get the current URL
@@ -41,13 +44,18 @@ const ArticlePage: React.FC = () => {
     variables: { id: Number(currentQuery) },
   });
 
-  const {
-    loading: allArtsLoad,
-    data: allArticles,
-    error: allArtError,
-  } = useQuery(GET_ARTICLES_QUERY);
+  const { data: allArticles, error: allArtError } = useQuery(
+    GET_ARTICLES_QUERY,
+    {
+      skip: !allArtsLoad, // Only load after the main article is fetched
+    }
+  );
 
-  console.log(allArtError, allArticles);
+  React.useEffect(() => {
+    if (!loading) {
+      setAllArtsLoad(true); // Trigger loading of other articles after main article loads
+    }
+  }, [loading]);
 
   function formatDate(dateString: string): string {
     const date = new Date(dateString);
