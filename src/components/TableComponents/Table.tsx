@@ -122,12 +122,9 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
         placeholder="Search by Pick"
         className="mb-4 p-2 border-[1px] border-black text-black font-sans text-sm"
       />
-      <span className="text-xs font-sans mx-6">
-        Click the Table Headers to Sort
-      </span>
       <table
         {...getTableProps()}
-        className="table-auto border-collapse border border-gray-400 w-full bg-white text-black"
+        className="table-auto border-collapse border border-gray-400 w-full bg-[#1D3041] text-gray-300"
       >
         <thead>
           {headerGroups.map((headerGroup: HeaderGroup<Data>) => (
@@ -168,7 +165,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
           })}
         </tbody>
       </table>
-      <div className="pagination p-3 font-sans text-xs items-center justify-center">
+      <div className="pagination p-3 font-sans text-xs items-center justify-center text-gray-300">
         <div>
           <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
             {"<<"}
@@ -194,6 +191,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
           <span>
             | Go to page:{" "}
             <input
+              className="text-black ml-1 px-1"
               type="number"
               defaultValue={pageIndex + 1}
               onChange={(e) => {
@@ -204,6 +202,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
             />
           </span>{" "}
           <select
+            className="text-black ml-2"
             value={pageSize}
             onChange={(e) => {
               setPageSize(Number(e.target.value));

@@ -61,7 +61,7 @@ async function sendGreetingMessage(telegramId: number) {
   const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
   const data = {
     chat_id: telegramId,
-    text: 'Welcome to ScoreTutor Telegram Group 🎉! Your account has been linked.',
+    text: 'Welcome to MKAbets Telegram Group 🎉! Your account has been linked.',
   };
 
   await axios.post(url, data);

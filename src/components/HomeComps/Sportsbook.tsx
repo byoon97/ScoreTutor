@@ -23,8 +23,8 @@ const SportsbookCarousel: React.FC = () => {
                 className="w-16 h-16 object-contain"
               />
               {/* ITEM 1 */}
-              <div className="flex flex-col md:flex-row items-start w-full justify-center md:items-center">
-                <div className="pb-2 lg:w-1/2">
+              <div className="flex flex-col md:flex-row items-start w-full justify-center md:items-center ">
+                <div className="pb-2 md:w-1/2">
                   {" "}
                   <h3 className="text-lg font-bold">{book.name}</h3>
                   <p className="mt-1 text-sm text-gray-700">{book.promo}</p>
@@ -38,9 +38,9 @@ const SportsbookCarousel: React.FC = () => {
                 <div className="flex flex-row space-between lg:w-1/2 md:px-2 items-center justify-center text-[10px] space-x-4">
                   {" "}
                   <div className="text-gray-500">
-                    <strong className="px-4 py-2 bg-gray-200 text-black rounded-lg border-dashed border-[1px] border-black">
+                    <div className="px-4 py-2 bg-gray-200 text-black rounded-lg border-dashed border-[1px] border-black">
                       {book.code === "No Code" ? "No Code Needed" : book.code}
-                    </strong>
+                    </div>
                   </div>
                   <a
                     href={book.link}

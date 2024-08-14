@@ -14,6 +14,7 @@ import {
 import "../../app/css/Calendar.css";
 import { UserProps } from "@/types";
 import { UnitData } from "@/util/chartUtil";
+import { formatter } from "@/util/profileUtil";
 
 interface Props {
   dailyUnits: UnitData[];
@@ -67,7 +68,7 @@ const CustomCalendar: React.FC<Props> = ({ dailyUnits, user }) => {
         {unit && (
           <div className="font-semibold">
             {user !== null ? (
-              "$" + (user.unitSize * unit.netUnits).toFixed(2)
+              formatter.format(user.unitSize * unit.netUnits)
             ) : (
               <span>
                 {unit.netUnits.toFixed(2)}
@@ -89,13 +90,13 @@ const CustomCalendar: React.FC<Props> = ({ dailyUnits, user }) => {
     )
     .reduce((acc, curr) => acc + curr.netUnits, 0);
 
-  const bgCalendar = user !== null ? "bg-white" : "bg-[#142230]";
-  const txtCalendar = user !== null ? "text-black" : "text-white";
-  const calendarHeader = user !== null ? "text-gray-500" : "text-gray-300";
+  const bgCalendar = "bg-[#1D3041]";
+  const txtCalendar = "text-white";
+  const calendarHeader = "text-gray-300";
 
   return (
     <div
-      className={`flex-1 p-3 md:p-6 ${bgCalendar} ${txtCalendar} rounded-lg shadow-lg font-sans border-1-[1px] border-black`}
+      className={`flex-1 p-3 md:p-6 ${bgCalendar} ${txtCalendar} rounded-lg shadow-lg font-sans border-[1px] border-gray-500`}
     >
       <div className="mb-5 flex flex-row items-center justify-between ">
         <div className="relative flex items-center">
@@ -120,7 +121,7 @@ const CustomCalendar: React.FC<Props> = ({ dailyUnits, user }) => {
             className={totalNetUnits > 0 ? "text-green-400" : "text-red-400"}
           >
             {user !== null ? (
-              <span>${(totalNetUnits * user?.unitSize).toFixed(2)}</span>
+              <span>{formatter.format(totalNetUnits * user?.unitSize)}</span>
             ) : (
               <span>{totalNetUnits.toFixed(2)} Units</span>
             )}

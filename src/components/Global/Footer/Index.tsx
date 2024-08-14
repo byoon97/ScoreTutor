@@ -12,11 +12,7 @@ const Footer: React.FC = () => {
         <Image src={"/image.png"} alt="logo" width={150} height={150} />
         <div className="text-xs text-[#595959] text-left flex flex-col mt-4 px-2">
           @ 2024 MKA INC. ALL RIGHTS RESERVED.
-          <div>
-            {" "}
-            Score Tutor and MKA PICKS are registered trademarks of Score
-            Tutor.com, Inc.
-          </div>
+          <div> MKA PICKS are registered trademarks of MKAbets.com, Inc.</div>
         </div>
         <div className="text-[#595959] font-sans mt-4 px-2 flex flex-row justify-center items-center w-full">
           FOLLOW US :

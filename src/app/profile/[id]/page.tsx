@@ -125,7 +125,7 @@ const Page: React.FC = () => {
   }, [netUnits, units, user, userUnits, hasFiltered]);
 
   return (
-    <div className="bg-[#F6F7FB] h-full font-sans leading-tighter">
+    <div className="bg-[#142230] h-full font-sans leading-tighter">
       {isLoading && !user ? (
         <div>Loading...</div>
       ) : (
@@ -165,15 +165,17 @@ const Page: React.FC = () => {
             </nav>
           </div>
           {dashboard == "profile" && (
-            <div className="flex flex-col px-2 w-full">
+            <div className="flex flex-col px-2 w-full bg-[#142230] ">
               <div className="py-4 flex flex-col">
-                <div className="font-bold text-[17x]">Dashboard</div>
+                <div className="font-bold text-[17x] text-gray-300">
+                  Dashboard
+                </div>
                 <div className="text-[10px] text-gray-400">
                   Profile/Units Current
                 </div>
               </div>
-              <div className="flex-1 bg-gray-100 w-full">
-                <div className="bg-white shadow rounded-lg p-6">
+              <div className="flex-1  w-full text-gray-300 border-[1px] border-gray-500 rounded-lg shadow-lg">
+                <div className="bg-[#1D3041] shadow rounded-lg p-6">
                   <div className="flex flex-col space-y-3">
                     <div className="text-2xl font-bold">
                       {user?.firstName} {user?.lastName}
@@ -184,7 +186,9 @@ const Page: React.FC = () => {
                       <div className="flex flex-col space-y-2 items-start text-[12px] pb-2">
                         <div className="flex">
                           <div className="w-32 text-start">
-                            <span className="text-[#151F2B]">Email:</span>
+                            <span className="text-gray-300 font-semibold">
+                              Email:
+                            </span>
                           </div>
                           <div className="w-44 text-[#45A29F]">
                             {user?.email}
@@ -192,7 +196,7 @@ const Page: React.FC = () => {
                         </div>
                         <div className="flex">
                           <div className="w-32">
-                            <span className="text-[#151F2B]">
+                            <span className="text-gray-300 font-semibold">
                               Email Alerts:
                             </span>
                           </div>
@@ -202,7 +206,7 @@ const Page: React.FC = () => {
                         </div>
                         <div className="flex">
                           <div className="w-32">
-                            <span className="text-[#151F2B]">
+                            <span className="text-gray-300 font-semibold">
                               Active Member:{" "}
                             </span>
                           </div>
@@ -222,7 +226,7 @@ const Page: React.FC = () => {
                       <div className="flex flex-col space-y-2 items-start text-[12px]">
                         <div className="flex">
                           <div className="w-32 text-start">
-                            <span className="text-[#151F2B]">
+                            <span className="text-gray-300 font-semibold">
                               Phone Number:
                             </span>
                           </div>
@@ -232,7 +236,7 @@ const Page: React.FC = () => {
                         </div>
                         <div className="flex">
                           <div className="w-32">
-                            <span className="text-[#151F2B]">
+                            <span className="text-gray-300 font-semibold">
                               Member Since:{" "}
                             </span>
                           </div>
@@ -250,7 +254,9 @@ const Page: React.FC = () => {
                 </div>
               </div>
               <div className="pt-4 flex flex-col">
-                <div className="font-bold text-[17x]">Overview</div>
+                <div className="font-bold text-[17x] text-gray-300">
+                  Overview
+                </div>
                 <div className="text-[10px] text-gray-400">
                   Net Units, Unit Flow, Analytics Data Visualization
                 </div>
@@ -335,7 +341,7 @@ const Page: React.FC = () => {
 
               {/* Make sure daily units are from when user joins */}
               {userUnits && !isLoading && (
-                <div className="flex-1 bg-gray-100 w-full">
+                <div className="flex-1  w-full">
                   <div className="bg-white shadow rounded-lg mb-6">
                     <MyChart units={userUnits} user={user} totalUnits={null} />
                   </div>
@@ -356,4 +362,3 @@ const Page: React.FC = () => {
 };
 
 export default Page;
-
