@@ -6,6 +6,7 @@ import { UserProvider as UserState } from "./context/UserContext/userStore";
 import "./globals.css";
 import Nav from "@/components/Global/NavBar/Nav";
 import Footer from "@/components/Global/Footer/Index";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 const merriweatherSans = Merriweather_Sans({
@@ -28,7 +29,8 @@ export default function RootLayout({
                 className={`${inter.className} ${merriweatherSans.variable}`}
               >
                 <Nav />
-                {children} <Footer />
+                {children} <SpeedInsights />
+                <Footer />
               </body>
             </UserState>
           </ApolloWrapper>
