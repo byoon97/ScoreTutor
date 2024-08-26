@@ -129,7 +129,7 @@ const Picks: React.FC = () => {
                                   : ""
                               } p-1 rounded`}
                             >
-                              {when}
+                              {when} <span>Minutes</span>
                             </div>
                           ) : (
                             <span className="text-[10px] pr-2 text-center p-1">
