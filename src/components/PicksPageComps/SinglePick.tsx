@@ -24,7 +24,7 @@ const SinglePick: React.FC<SinglePickProps> = (game) => {
                   when <= 120 ? "bg-red-500 text-white animate-pulse" : ""
                 } p-1 rounded`}
               >
-                {when}
+                {when} <span>Minutes</span>
               </div>
             ) : (
               <span className="text-[10px] pr-2 text-center p-1 text-gray-300">
