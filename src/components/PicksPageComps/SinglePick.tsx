@@ -6,7 +6,7 @@ import { whenProvider } from "@/util/getDate";
 
 const SinglePick: React.FC<SinglePickProps> = (game) => {
   const { day, when } = whenProvider(game.startTime);
-  console.log(game.startTime);
+
   const { isSignedIn, user } = useUser();
   return (
     <div className="border-[1px] border-[#144E65] bg-[#1D3041] my-2 text-sm p-4 rounded-lg shadow-lg hover:border-sky-500 w-full fo">
@@ -24,7 +24,7 @@ const SinglePick: React.FC<SinglePickProps> = (game) => {
                   when <= 120 ? "bg-red-500 text-white animate-pulse" : ""
                 } p-1 rounded`}
               >
-                {when} <span className="text-black">Minutes</span>
+                {when}
               </div>
             ) : (
               <span className="text-[10px] pr-2 text-center p-1 text-gray-300">
@@ -34,7 +34,7 @@ const SinglePick: React.FC<SinglePickProps> = (game) => {
           </div>
         )}
 
-        <img src={game.leagueLogo} alt="" className="w-10 h-6" />
+        <img src={game.leagueLogo} alt="" className="w-8 h-6" />
       </div>
 
       <div className="flex flex-row items-center justify-start pb-2  text-gray-300">
