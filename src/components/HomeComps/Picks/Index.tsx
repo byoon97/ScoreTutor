@@ -44,20 +44,16 @@ const Picks: React.FC = () => {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  // React.useEffect(() => {
-  //   if (!loading) {
-  //     console.log(
-  //       data.getPicks.filter(
-  //         (pick: SinglePickProps) => pick.createdAt == getDate().dateCheck
-  //       )
-  //     );
-  //     // setSlate(
-  //     //   data.getPicks.filter(
-  //     //     (pick: SinglePickProps) => pick.createdAt == getDate().dateCheck
-  //     //   )
-  //     // );
-  //   }
-  // }, [loading, data]);
+  React.useEffect(() => {
+    if (!loading) {
+      setSlate(
+        data.getPicks.filter(
+          (pick: SinglePickProps) => pick.result == "Incomplete"
+        )
+      );
+    }
+  }, [loading, data]);
+
   useEffect(() => {
     if (!emblaApi) return;
     const onSelect = () => {
@@ -105,7 +101,7 @@ const Picks: React.FC = () => {
       <div className="embla" ref={emblaRef}>
         <div className="embla__container">
           {!loading &&
-            data?.getPicks.map((game: SinglePickProps, idx: number) => {
+            slate.map((game: SinglePickProps, idx: number) => {
               const { day, when } = whenProvider(game.startTime);
               return (
                 <div
@@ -203,7 +199,7 @@ const Picks: React.FC = () => {
       <div className="flex-grow flex justify-center items-center mb-4">
         <div className="flex space-x-2">
           {!loading &&
-            data?.getPicks.map((_: any, index: number) => (
+            slate.map((_: any, index: number) => (
               <button
                 key={index}
                 className={`w-2 h-2 rounded-full ${
