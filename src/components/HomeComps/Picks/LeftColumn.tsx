@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, FC } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import SinglePicks from "./SinglePicks";
 
 const LeftColumn: FC = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);

@@ -126,7 +126,7 @@ const ArticlePage: React.FC = () => {
           ))}
         </div>
 
-        {filteredArticles.length > 0 && (
+        {filteredArticles && filteredArticles.length > 0 && (
           <ArticleCarousel articles={filteredArticles} />
         )}
 

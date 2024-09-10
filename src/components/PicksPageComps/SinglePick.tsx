@@ -69,20 +69,19 @@ const SinglePick: React.FC<SinglePickProps> = (game) => {
           <div className="text-[12px] font-semibold text-gray-200">
             Units to Win: {game.toWin}
           </div>
-        </div>
+        </div>{" "}
+        <div className="text-[12px] color-black">Status: {game.createdAt}</div>
         {user && (
           <div className="flex justify-end flex-col text-gray-200">
             <div className="text-[12px] font-semibold">
               Your Wager: ${game.unit * user?.unitSize}
             </div>
             <div className="text-[12px] font-semibold text-gray-200">
-              Return: ${game.toWin * user?.unitSize}
+              Your Return: ${(game.toWin * user?.unitSize).toFixed(2)}
             </div>
           </div>
         )}
       </div>
-
-      {/* <div className="text-[12px]">Status: {game.status}</div> */}
     </div>
   );
 };
