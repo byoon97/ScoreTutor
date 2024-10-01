@@ -32,10 +32,19 @@ const GET_ARTICLES_QUERY = gql`
     }
   }
 `;
+  
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return date.toLocaleDateString("en-US", options);
+}
 
 const ArticlePage: React.FC = () => {
-  const [allArtsLoad, setAllArtsLoad] = React.useState(false);
-
   const searchParams = useSearchParams();
   const currentQuery = searchParams.get("query");
   const url = typeof window !== "undefined" ? window.location.href : ""; // Get the current URL
@@ -44,29 +53,11 @@ const ArticlePage: React.FC = () => {
     variables: { id: Number(currentQuery) },
   });
 
-  const { data: allArticles, error: allArtError } = useQuery(
-    GET_ARTICLES_QUERY,
-    {
-      skip: !allArtsLoad, // Only load after the main article is fetched
-    }
-  );
-
-  React.useEffect(() => {
-    if (!loading) {
-      setAllArtsLoad(true); // Trigger loading of other articles after main article loads
-    }
-  }, [loading]);
-
-  function formatDate(dateString: string): string {
-    const date = new Date(dateString);
-
-    const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    return date.toLocaleDateString("en-US", options);
-  }
+  const {
+    data: allArticles,
+    error: allArtError,
+    loading: allArtsLoad,
+  } = useQuery(GET_ARTICLES_QUERY);
 
   const article = data?.getArticleById;
   const splitText = article?.body.split(" - ");
@@ -81,9 +72,12 @@ const ArticlePage: React.FC = () => {
   let filteredArticles;
 
   if (!allArtsLoad) {
-    filteredArticles = allArticles.getArticles.filter(
+    console.log(allArticles, allArtError);
+    filteredArticles = allArticles?.getArticles.filter(
       (article: Article) => article.id.toString() != currentQuery
     );
+  } else {
+    console.log(allArtsLoad);
   }
 
   return (
@@ -125,14 +119,14 @@ const ArticlePage: React.FC = () => {
         </div>
         <div className="text-sm  leading:4 lg:leading-5 lg:text-[14px] p-4 md:px-20 lg:px-[200px] xl:px-[300px] text-gray-500 border-b-[1px] border-black mb-8">
           {splitText.map((text: string, index: number) => (
-            <>
-              <p key={index}>{text}</p>
+            <div key={index}>
+              <p>{text}</p>
               <br />
-            </>
+            </div>
           ))}
         </div>
 
-        {filteredArticles.length > 0 && (
+        {filteredArticles && filteredArticles.length > 0 && (
           <ArticleCarousel articles={filteredArticles} />
         )}
 

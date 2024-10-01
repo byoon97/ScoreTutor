@@ -87,6 +87,11 @@ export default function Nav() {
               </Link>
             </>
           )}
+          {user && (
+            <Link href="/api/auth/logout" prefetch={false}>
+              <div className={navItem}>Log Out</div>
+            </Link>
+          )}
         </div>
       </div>
       <div
